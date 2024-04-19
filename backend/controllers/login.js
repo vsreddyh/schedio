@@ -506,14 +506,8 @@ const newp = async (req, res) => {
 const departments = async (req, res) => {
     const mail = req.session.loggedInemail; // Get the email from session
     const result = req.body.department;
-    const check = await Department.find({field_name:result})
-    if (check.length===0){
-        res.json({message:"error"})
-    }
-    else{
         req.session.third = result;
         res.json({ message: "user saved", email: mail });
-    }
 }
 
 //department suggestions
