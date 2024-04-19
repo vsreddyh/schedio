@@ -292,7 +292,7 @@ export default function ProjectUploadForm() {
                 alert('profile photo required');
             }
             else {
-                const response = axios.post(`/en/uploadDetails`, {
+                const response = axios.post(/en/uploadDetails, {
                     videoname: videoname,
                     photoname: photoname,
                     filename: filename,
@@ -306,15 +306,25 @@ export default function ProjectUploadForm() {
                     domain: domain,
                     teams: teams,
                 })
-                console.log("successfully uploaded.")
-                setDisplay(2)
-                if(response.data.message==="Project details saved successfully"){
-                    setDisplay(1);
-                }
-            };
+                
+                .then(response => {
+                    console.log(response);
+                    console.log("successfully uploaded.");
+                    setDisplay(2);
+                    console.log("response: ", response.data.message);
+                    if (response.data.message === "Project details saved successfully") {
+                        setDisplay(1);
+                    }
+                })
+                .catch(error => {
+                    console.log("Error uploading details:", error);
+                    alert('File size too large');
+                });
+            }
 
 
         } catch (error) {
+            console.log("hi");
             alert('File size too large');
 
             console.log("Error uploading details:", error);
