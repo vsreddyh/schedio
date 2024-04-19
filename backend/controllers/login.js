@@ -584,8 +584,8 @@ const getCompanyDetails = async (req, res) => {
     try {
         const term1 = req.query.term1;
         const regex1 = new RegExp(term1, 'i');
-        const colleges = await college.find({ company_name: regex1 }).select('company_name').limit(10);
-        const suggestions1 = colleges.map(college => college.company_name);
+        const colleges = await college.find({ college_name: regex1,type:"company" }).select('college_name').limit(10);
+        const suggestions1 = colleges.map(college => college.college_name);
         res.json(suggestions1);
 
     }
@@ -613,7 +613,7 @@ const companyDetails = async (req, res) => {
             versionKey: false
         })
         await course.save();
-        const company = await college.findOne({ company_name: result }).select('company_name')
+        const company = await college.findOne({ college_name: result }).select('college_name')
         if (company) {
             req.session.status = 1;
             res.json({ message: "user saved", email: req.session.loggedInemail });
