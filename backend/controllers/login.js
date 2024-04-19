@@ -15,7 +15,6 @@ app.use(bodyParser.json());
 
 // college suggestions
 const getsignupCollege = async (req, res) => {
-
     try {
         const term1 = req.query.term;
         const regex1 = new RegExp(term1, 'i');
