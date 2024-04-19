@@ -292,7 +292,7 @@ export default function ProjectUploadForm() {
                 alert('profile photo required');
             }
             else {
-                const response = axios.post(/en/uploadDetails, {
+                const response = axios.post(`/en/uploadDetails`, {
                     videoname: videoname,
                     photoname: photoname,
                     filename: filename,
