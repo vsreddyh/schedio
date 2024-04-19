@@ -108,7 +108,7 @@ export default function StudentLogin({ setUserData }) {
                     <form onSubmit={submit}>
 
 
-                        <select id="options" name="options" onChange={() => handleSuggestionClick(value)}>
+                        <select id="options" name="options" onChange={(e) => handleSuggestionClick(e.target.value)}>
                             <option value="option1">Employed</option>
                             <option value="option2">Unemployed</option>
                         </select>
