@@ -121,7 +121,7 @@ hr {
     color: antiquewhite;
 }
 
-button{
+.submit{
     background-color:#004182 ;
     height: 40px;
     width: 250px;
