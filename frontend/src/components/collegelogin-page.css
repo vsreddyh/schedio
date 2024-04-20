@@ -206,6 +206,20 @@ hr {
     font-size: 13px;
     text-align: center;
 }
+
+.options{
+    font-size: 17px;
+    color: white;
+    height: 40px;
+    width: 250px;
+    margin: 7px;
+    background-color: #1c2333;
+    box-sizing: border-box;
+    border: 0.5px solid;
+    border-color: rgb(6, 60, 107);
+    border-radius: 5px;
+    padding: 10px;
+}
 @media(max-width:600px){
     .abc8{
         grid-template-columns: 1fr;
