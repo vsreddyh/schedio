@@ -2,7 +2,7 @@ import React from "react";
 
 import { useState } from "react";
 
-import "./collegelogin-page.css";
+import "./choosecompany.css";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -77,7 +77,7 @@ export default function Company({ setUserData }) {
                 <div className="header-logo">
                     <div className="logo">
                         {/* <FontAwesomeIcon icon={faProductHunt} style={{color: "#0db1f8"}} /> */}
-                        <img src='../Plogo.png' style={{ width: '100px', height: 'auto', paddingTop: '17px' }} onClick={handleLogoClick} />
+                        <img src='../Plogo.png' style={{ width: '35px', height: 'auto', paddingTop: '0px' }} onClick={handleLogoClick} />
                     </div>
                     <div className="title" onClick={handleTitleClick}>
                         <p>Schedio</p>
