@@ -479,7 +479,7 @@ const uploadProfilePhoto = async (req, res) => {
 };
 
 const updateDescription = async (req, res) => {
-  const { studentDescription, userId } = req.body;
+  const { studentDescription,studentorganization,studentfield, userId } = req.body;
   console.log(userId)
 
   // Connect to MongoDB
@@ -502,6 +502,12 @@ const updateDescription = async (req, res) => {
       } else {
         // If description field is present, update its value
         await studentsCollection.updateOne(query, { $set: { Description: studentDescription } });
+      }
+      if(studentorganization!==''){
+        await studentsCollection.updateOne(query, { $set: { college: studentorganization } });
+      }
+      if(studentfield!==''){
+        await studentsCollection.updateOne(query, { $set: { field_name: studentfield } });
       }
       console.log("Description saved succesfully")
       res.status(200).send('Description updated successfully.');

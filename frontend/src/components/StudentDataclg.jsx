@@ -69,6 +69,7 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
                                 <p>{studata.student_name}</p>
                                 <p>{studata.email_address}</p>
                                 <p>{studata.college_name}</p>
+                                <p>{studata.field_name}</p>
                         </div>
                     </div>
                     <div className="sprojects1">

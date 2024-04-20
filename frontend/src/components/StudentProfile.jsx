@@ -8,6 +8,8 @@ import ProjectCard from "./ProjectCard";
 export default function StudentProfile({ studentproj, handlestudentdetail, studentdetail, handleclick }) {
     const [editMode, setEditMode] = useState(false);
     const [studentDescription, setStudentDescription] = useState('');
+    const [studentorganization, setStudentOrganization] = useState('');
+    const [studentfield, setStudentField] = useState('');
 
     const handlePhotoChange = async (event) => {
         const selectedProfilePhoto = event.target.files[0];
@@ -46,7 +48,9 @@ export default function StudentProfile({ studentproj, handlestudentdetail, stude
 
     const handleCancelEdit = () => {
         setEditMode(false);
-        setStudentDescription(''); 
+        setStudentDescription('');
+        setStudentField('');
+        setStudentOrganization('');
     };
 
     const handleStudentDescriptionSave = async () => {
@@ -55,6 +59,8 @@ export default function StudentProfile({ studentproj, handlestudentdetail, stude
         try {
             const response = await axios.post(`/en/uploadDescription`, {
                 studentDescription: studentDescription,
+                studentorganization: studentorganization,
+                studentfield: studentfield,
                 userId: studentdetail._id
             });
         } catch (error) {
@@ -62,7 +68,11 @@ export default function StudentProfile({ studentproj, handlestudentdetail, stude
         }
         handlestudentdetail()
     };
-
+    useEffect(() => {
+        setStudentDescription(studentdetail.student_description);
+        setStudentField(studentdetail.student_field);
+        setStudentOrganization(studentdetail.student_organization);
+    },[studentdetail])
     return (
         <div className="mprofile">
             {studentdetail && (
@@ -85,20 +95,34 @@ export default function StudentProfile({ studentproj, handlestudentdetail, stude
                                     <div className="editoption" onClick={handleEditClick}>Edit <span>&#128393;</span></div>
                                 </div>
                                 <p className="mpgmname">{studentdetail.email_address}</p>
-                                <p className="mpgmname">{studentdetail.field_name}</p>
-                                <p className="mpgmname">{studentdetail.college_name}</p>
                                 <div className="mpgmname">
                                     {editMode ? (
                                         <React.Fragment>
+                                            <select className="shopnm" value={studentfield} onChange={(e)=>setStudentField(e.target.value)}>
+                                                <option value="Employed">Employed</option>
+                                                <option value="Unemployed">Unemployed</option>
+                                            </select>
+                                            <br/>
                                             <input className="shopnm"
                                                 type="text"
+                                                placeholder="Enter your organization name"
+                                                value={studentorganization}
+                                                onChange={(e)=>setStudentOrganization(e.target.value)}
+                                            />
+                                            <br/>
+                                            <input className="shopnm"
+                                                type="text"
+                                                placeholder="Tell something about yourself"
                                                 value={studentDescription}
                                                 onChange={handleStudentDescription}
                                             />
+                                            <br/>
                                             <button className="shopbutton1" onClick={handleCancelEdit}>Cancel</button>
                                         </React.Fragment>
                                     ) : (
                                         <React.Fragment>
+                                            <p className="mpgmname">{studentdetail.field_name}</p>
+                                            <p className="mpgmname">{studentdetail.college_name}</p>
                                             <p className="mpgmname">{studentdetail.Description}</p>
                                         </React.Fragment>
                                     )}

@@ -93,6 +93,7 @@ export default function StudentData({ dis,isSiderVisible,toggleDashboard,openpro
                                 <p>{studata.student_name}</p>
                                 <p>{studata.email_address}</p>
                                 <p>{studata.college_name}</p>
+                                <p>{studata.field_name}</p>
                         </div>
                     </div>
                     <div className="sprojects1">
