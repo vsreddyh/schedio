@@ -559,6 +559,7 @@ const collegeDetails = async (req, res) => {
                 password: req.session.password,
                 field_name: req.session.third,
                 college_name: req.session.fourth,
+                likes:[],
                 photo: new mongoose.Types.ObjectId('65e55060fbd8d3ee2b6f1045'),
                 Description:`Hi I am ${req.session.username} from ${req.session.fourth} ${req.session.third} department`,
                 versionKey: false
