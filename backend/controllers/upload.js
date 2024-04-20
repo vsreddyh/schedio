@@ -20,7 +20,7 @@ const {
 const MODEL_NAME = "gemini-pro";
 
 const mongoURI = url;
-const databaseName = 'projectpalace';
+const databaseName = 'hackathon';
 
 // Create a MongoClient without the poolSize option
 const client = new MongoClient(mongoURI);
@@ -487,7 +487,7 @@ const updateDescription = async (req, res) => {
   await client.connect();
 
   try {
-    const db = client.db('projectpalace');
+    const db = client.db('hackathon');
     const studentsCollection = db.collection('students');
 
     // Find the document with the provided userId

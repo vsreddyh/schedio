@@ -107,30 +107,13 @@ export default function StudentLogin({ setUserData }) {
 
                     <form onSubmit={submit}>
 
-
-                        <select id="options" name="options" onChange={(e) => handleSuggestionClick(e.target.value)}>
+                        <div className="z">
+                           <select id="options" name="options" onChange={(e) => handleSuggestionClick(e.target.value)}>
                             <option value="option1">Employed</option>
                             <option value="option2">Unemployed</option>
                         </select>
                         <br /> 
-
-
-                        {/* <div className="z"
-                        >
-                            <input className="collegename8" type="text" id="collegeInput" placeholder="department" minlength="3" name="department" value={term} onChange={handleInputChange} required />
-                            <br />
-
-
-                            <div id="suggestions8">
-                                {suggestions.map((suggestion, index) =>
-                                (
-                                    <p key={index} className="suggestion8" onClick={() => handleSuggestionClick(suggestion)}>
-                                        {suggestion}
-                                    </p>
-                                ))}
-
-                            </div>
-                        </div>*/}
+                        </div>
                         <button type="submit" value="submit" className="submit8">Next</button>
                     </form>
                 </div>
