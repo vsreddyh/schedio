@@ -30,7 +30,7 @@ export default function HomePage({ handleOptionClick ,handleDomainClick ,handlec
                 <div className="basicgrid">
                     <div className="bgridelements" onClick={() => handleDomainClick("Healthcare")}>
                         <div className="forpic">
-                            <img src="https://imageio.forbes.com/specials-images/imageserve/648bef5a58f8e334fb7d57bb/How-Technology-Is-Transforming-The-Future-Of-Healthcare/960x0.jpg?height=406&width=711&fit=bounds" alt="none" />
+                            <img src="https://www.national.edu/wp-content/uploads/2021/11/Nov_4_iStock-1127069581-scaled.jpeg" alt="none" />
                         </div>
                         <div className="forname">
                             <p>Healthcare</p>
