@@ -121,9 +121,7 @@ const image = async(req, res) => {
         if (!id || id.length !== 24) {
             throw new Error('Invalid ObjectId format');
         }
-        
         const fileId = new mongoose.Types.ObjectId(id);
-        //console.log(fileId);
         await gfs.openDownloadStream(fileId).pipe(res);
     }
     catch(error)
