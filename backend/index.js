@@ -11,7 +11,12 @@ const port = process.env.PORT || 3000;
 
 require('dotenv').config();
 const {SESSION_KEY,url} = require('./settings/env.js');
-app.use(cors())
+app.use(cors({
+  origin: ["https://schedio.vercel.app"],
+  methods:["GET","POST"],
+  credentials: true
+}
+))
 
 app.use(express.static(path.join(__dirname,'./build')));
 app.use(bodyParser.json({ limit: '50mb' })); //limit limits the data which can be uploaded to server.js from frontend
@@ -30,7 +35,7 @@ app.use(session({
   store: store,
   saveUninitialized: false,
   cookie: {
-      secure: false,
+      secure: true,
       maxAge: 6 * 60 * 60 * 1000, //6 hours
       rolling:true //whenever session is modified it resets expirytime
   }
