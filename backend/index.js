@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 require('dotenv').config();
 const {SESSION_KEY,url} = require('./settings/env.js');
 app.use(cors({
-  origin: ["https://schedio.vercel.app"],
+  origin: ["https://schedio-coral.vercel.app"],
   methods:["GET","POST"],
   credentials: true
 }
