@@ -26,7 +26,7 @@ export default function Filters({ sendDataToParent }) {
         const inputdata = event.target.value;
         setTerm(inputdata);
         try {
-            const response = await axios.get(`/en/data?term=${inputdata}`);
+            const response = await axios.get(`https://schedio-coral.vercel.app/en/data?term=${inputdata}`);
             const data = response.data;
             setSuggestions(data);
         } catch (error) {

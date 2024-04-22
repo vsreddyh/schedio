@@ -9,7 +9,7 @@ export default function HomePage({ handleOptionClick ,handleDomainClick ,handlec
     useEffect(() => {
         const getrecentprj = async () => {
           try {
-            const response = await axios.get("/en/getrecentprj");
+            const response = await axios.get("https://schedio-coral.vercel.app/en/getrecentprj");
             const data = response.data;
             console.log("Random Projects Data:", data);
             setRandomprj(data);

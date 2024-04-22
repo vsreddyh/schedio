@@ -18,7 +18,7 @@ const Graph = ({handleclick,  receivedData, selectedYear, handleYearChange }) =>
 
     const getproj = async () => {
         try {
-            const response = await axios.post('/en/collegeprojectsdisplay', {receivedData: receivedData});
+            const response = await axios.post('https://schedio-coral.vercel.app/en/collegeprojectsdisplay', {receivedData: receivedData});
             
             setsuggestions(response.data.list);
             setCollege(response.data.college);
@@ -31,7 +31,7 @@ const Graph = ({handleclick,  receivedData, selectedYear, handleYearChange }) =>
     {
         const getNoofprojects=async(req,res)=>
         {
-            const response=await axios.get(`/en/getnoofprj?term=${selectedYear}`);
+            const response=await axios.get(`https://schedio-coral.vercel.app/en/getnoofprj?term=${selectedYear}`);
             const data=response.data;
             setNoofprj(data);
         };
@@ -44,7 +44,7 @@ const Graph = ({handleclick,  receivedData, selectedYear, handleYearChange }) =>
     useEffect(() => {
         const handlecollegeprojects = async () => {
             try {
-                const response = await axios.get(`/en/getcollegeprojects?term=${selectedYear}`);
+                const response = await axios.get(`https://schedio-coral.vercel.app/en/getcollegeprojects?term=${selectedYear}`);
                 const data = response.data;
                 setCollegePrj(data);
             } catch (error) {
@@ -59,7 +59,7 @@ const Graph = ({handleclick,  receivedData, selectedYear, handleYearChange }) =>
     useEffect(() => {
         const handledomainprojects = async () => {
             try {
-                const response = await axios.get(`/en/getcolldomainprojects?term=${selectedYear}`);
+                const response = await axios.get(`https://schedio-coral.vercel.app/en/getcolldomainprojects?term=${selectedYear}`);
                 const data = response.data;
                 setDomainprj(data);
             } catch (error) {

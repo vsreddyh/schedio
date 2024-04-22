@@ -59,7 +59,7 @@ export default function HomeComponents({ checkSession }) {
         if (inputData !== '') {
             setTerm(inputData);
             try {
-                const response = await axios.get(`/en/getsearchbyclick?term=${inputData}`);
+                const response = await axios.get(`https://schedio-coral.vercel.app/en/getsearchbyclick?term=${inputData}`);
                 const data = response.data
                 setSugesstions(data)
                 setPrevdisplay(display)
@@ -72,7 +72,7 @@ export default function HomeComponents({ checkSession }) {
     const handleDomainClick = async (inputData) => {
         setTerm(inputData);
         try {
-            const response = await axios.get(`/en/getdomainbyclick?term=${inputData}`);
+            const response = await axios.get(`https://schedio-coral.vercel.app/en/getdomainbyclick?term=${inputData}`);
             const data = response.data;
             setSugesstions(data);
             setPrevdisplay(display);
@@ -83,7 +83,7 @@ export default function HomeComponents({ checkSession }) {
     };
     const handlelikeClick = async () => {
         try {
-            const response = await axios.get(`/en/getlikedprojects`);
+            const response = await axios.get(`https://schedio-coral.vercel.app/en/getlikedprojects`);
             const data = response.data;
             setSugesstions(data);
             setPrevdisplay(display);
@@ -116,7 +116,7 @@ export default function HomeComponents({ checkSession }) {
         try {
             console.log('handleprojectprofile function called');
             if (projid) {
-                const response = await axios.get(`/en/validateurl?projid=${projid}`);
+                const response = await axios.get(`https://schedio-coral.vercel.app/en/validateurl?projid=${projid}`);
                 console.log('Response from server:', response.data);
                 if (response.data === 1) {
                     setDisplay(4)
@@ -139,7 +139,7 @@ export default function HomeComponents({ checkSession }) {
     }
     const deletesession = async () => {
         try {
-            const response = await axios.post("/en/deletesession");
+            const response = await axios.post("https://schedio-coral.vercel.app/en/deletesession");
             await checkSession();
         } catch (error) {
             console.error('Error deleting session:', error);
@@ -148,7 +148,7 @@ export default function HomeComponents({ checkSession }) {
     const handlestudentdetail = async () => {
 
         try {
-            const response = await axios.get("/en/getstudentdetails");
+            const response = await axios.get("https://schedio-coral.vercel.app/en/getstudentdetails");
             const data = response.data;
             setStudentdetail(data);
         }
@@ -158,7 +158,7 @@ export default function HomeComponents({ checkSession }) {
     }
     const handlegetproject = async () => {
         try {
-            const response = await axios.get("/en/getstudentproject");
+            const response = await axios.get("https://schedio-coral.vercel.app/en/getstudentproject");
             const data = response.data;
             setStudentproj(data);
 
@@ -170,7 +170,7 @@ export default function HomeComponents({ checkSession }) {
     const handleskillprj = async (skillname) => {
         setSkillprj(skillname);
         try {
-            const response = await axios.get(`/en/getskillprj?term=${skillname}`);
+            const response = await axios.get(`https://schedio-coral.vercel.app/en/getskillprj?term=${skillname}`);
             const data = response.data;
             setSugesstions(data);
             setPrevdisplay(display)
@@ -183,7 +183,7 @@ export default function HomeComponents({ checkSession }) {
 
     const handleskillList = async (skillList) => {
         try {
-            const response = await axios.get(`/en/getskillList?term=${skillList}`);
+            const response = await axios.get(`https://schedio-coral.vercel.app/en/getskillList?term=${skillList}`);
             const data = response.data;
             setSugesstions(data);
             setPrevdisplay(display)
@@ -215,7 +215,7 @@ export default function HomeComponents({ checkSession }) {
     useEffect(() => {
         const intervalId = setInterval(async () => {
             try {
-                const response = await axios.get("/checksessionexpiry");
+                const response = await axios.get("https://schedio-coral.vercel.app/checksessionexpiry");
                 if (response.data === 0) {
                     try {
                         clearInterval(intervalId);

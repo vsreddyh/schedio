@@ -34,7 +34,7 @@ export default function ProjectPortfolio({ dis,openstuinfo, ...props }) {
     }
     const AddComment = async (event) => {
         event.preventDefault();
-        const response = await axios.post('/en/addcomment',{commentdata,projid})
+        const response = await axios.post('https://schedio-coral.vercel.app/en/addcomment',{commentdata,projid})
         setcommentdata('')
         fetchData()
     }
@@ -70,11 +70,11 @@ export default function ProjectPortfolio({ dis,openstuinfo, ...props }) {
         window.open(`/showFiles/${data}`, '_blank');
     }
     const getstudentdetails = async() => {
-        const response=await axios.get("/en/gethrdetails");
+        const response=await axios.get("https://schedio-coral.vercel.app/en/gethrdetails");
         setstudname(response.data.hr_name)
     }
     const deletecomment=async(index,id)=>{
-        const response = await axios.post('/en/delcomment',{index,id})
+        const response = await axios.post('https://schedio-coral.vercel.app/en/delcomment',{index,id})
         if (response.data==='success'){
             fetchData()
         }
@@ -90,7 +90,7 @@ export default function ProjectPortfolio({ dis,openstuinfo, ...props }) {
         }
     }
     const fetchData = async () => {
-        const response = await axios.post('/en/getprojectdata', { data: projid });
+        const response = await axios.post('https://schedio-coral.vercel.app/en/getprojectdata', { data: projid });
         setprojdata(response.data);
         setphotolist(response.data.photos)
         setcomments(response.data.Comments)

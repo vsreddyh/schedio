@@ -23,7 +23,7 @@ export default function StudentProfile({ studentproj, handlestudentdetail, stude
                 const profilePhotoName = temp.replace("C:\\fakepath\\", "");
 
                 try {
-                    const response = await axios.post(`/en/uploadProfilePhoto`, {
+                    const response = await axios.post(`https://schedio-coral.vercel.app/en/uploadProfilePhoto`, {
                         profilePhoto: base64data, 
                         pphotoname: profilePhotoName, 
                         userId: studentdetail._id,
@@ -57,7 +57,7 @@ export default function StudentProfile({ studentproj, handlestudentdetail, stude
         console.log("Edited College Name:", studentDescription);
         setEditMode(false);
         try {
-            const response = await axios.post(`/en/uploadDescription`, {
+            const response = await axios.post(`https://schedio-coral.vercel.app/en/uploadDescription`, {
                 studentDescription: studentDescription,
                 studentorganization: studentorganization,
                 studentfield: studentfield,

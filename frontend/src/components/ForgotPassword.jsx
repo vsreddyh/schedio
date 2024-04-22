@@ -18,7 +18,7 @@ export default function ForgotPassword(){
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log('form succesful',formData)
-        const response = await axios.post('/en/fpassword',formData);
+        const response = await axios.post('https://schedio-coral.vercel.app/en/fpassword',formData);
         console.log('response is',response)
         if (response.data.message==='User does not exist'){
             setErrorMessage('User does not exist')

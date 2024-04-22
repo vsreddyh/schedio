@@ -14,7 +14,7 @@ export default function NewUser({ setUserData }){
     const [email, setemail]=useState('');
     useEffect(() => {
         const validateToken = async () => {
-            const response = await axios.post(`/en/validate-token/${token}`);
+            const response = await axios.post(`https://schedio-coral.vercel.app/en/validate-token/${token}`);
             if (response.data.message==='Invalid token'){
                 setErrorMessage(encodeURIComponent('Invalid Token'))
             } else if(response.data.message==='Token expired'){
@@ -41,7 +41,7 @@ export default function NewUser({ setUserData }){
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log("i am here");
-        const response = await axios.post('/en/newuser',formData);
+        const response = await axios.post('https://schedio-coral.vercel.app/en/newuser',formData);
         if (response.data.message==='Mail already registered'){
             setErrorMessage('Mail already registered')
         }else if (response.data.message==='Passwords are not same'){

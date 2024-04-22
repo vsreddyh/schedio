@@ -66,7 +66,7 @@ export default function StudentProjectProfile({ dis, studata , handlestuclick })
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post('/en/getprojectdata', { data: projid });
+                const response = await axios.post('https://schedio-coral.vercel.app/en/getprojectdata', { data: projid });
                 setProjdata(response.data);
                 setPhotolist(response.data.photos);
             } catch (error) {
@@ -77,7 +77,7 @@ export default function StudentProjectProfile({ dis, studata , handlestuclick })
         fetchData();
     }, [projid]);
     const fetchData = async () => {
-        const response = await axios.post('/en/getprojectdata', { data: projid });
+        const response = await axios.post('https://schedio-coral.vercel.app/en/getprojectdata', { data: projid });
         setProjdata(response.data);
         setPhotolist(response.data.photos)
         

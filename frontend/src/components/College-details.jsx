@@ -24,7 +24,7 @@ export default function CollegeDetails({ setUserData }) {
         }
 
         try {
-            const response = await axios.get(`/en/college-details?term1=${term1}`);
+            const response = await axios.get(`https://schedio-coral.vercel.app/en/college-details?term1=${term1}`);
             const data = response.data; 
             setSuggestions1(data);
 
@@ -37,7 +37,7 @@ export default function CollegeDetails({ setUserData }) {
 
         try {
             const collegevalue = term1;
-            const response = await axios.post("/en/college-details", { college: collegevalue });
+            const response = await axios.post("https://schedio-coral.vercel.app/en/college-details", { college: collegevalue });
             if (response.data.message === "user saved") {
                 setUserData([response.data.email, 0, 1])
                 navigate("/main");

@@ -70,7 +70,7 @@ export default function ProjectUploadForm() {
         }
         else {
             try {
-                const response = await axios.get(`/en/getskills?term=${encodeURIComponent(inputValue)}&languages=${languages}`);
+                const response = await axios.get(`https://schedio-coral.vercel.app/en/getskills?term=${encodeURIComponent(inputValue)}&languages=${languages}`);
                 const data = response.data;
                 setSugesstions2(data);
                 console.log(data);
@@ -92,7 +92,7 @@ export default function ProjectUploadForm() {
         else {
             try {
                 console.log(teamInputValue,teams)
-                const response = await axios.get(`/en/getteam?term=${encodeURIComponent(teamInputValue)}&teams=${teams}`);
+                const response = await axios.get(`https://schedio-coral.vercel.app/en/getteam?term=${encodeURIComponent(teamInputValue)}&teams=${teams}`);
                 const data = response.data;
                 setSugesstions3(data);
             } catch (error) {
@@ -244,7 +244,7 @@ export default function ProjectUploadForm() {
         setPercent(100);
         if (description.length !== 0) {
 
-            const response = await axios.post('/en/checkPlagiarism', { textToCheck: description });
+            const response = await axios.post('https://schedio-coral.vercel.app/en/checkPlagiarism', { textToCheck: description });
             console.log(response);
             setPercent(response.data);
         }
@@ -261,7 +261,7 @@ export default function ProjectUploadForm() {
     };
 
 
-    function saveDetails() {
+    async function saveDetails() {
         console.log(photos.length);
         try {
             if ((fileSize + videoSize + profilePhotoSize) > 40) {
@@ -292,7 +292,7 @@ export default function ProjectUploadForm() {
                 alert('profile photo required');
             }
             else {
-                const response = axios.post(`/en/uploadDetails`, {
+                const response = await axios.post(`https://schedio-coral.vercel.app/en/uploadDetails`, {
                     videoname: videoname,
                     photoname: photoname,
                     filename: filename,

@@ -13,7 +13,7 @@ export default function ProjectDisplay({ handleskillprj, handleclick, handleskil
 
         const inputValue = event.target.value;
 
-        const response = axios.get(`/en/getskills?term=${encodeURIComponent(inputValue)}&languages=${tags}`)
+        const response = axios.get(`https://schedio-coral.vercel.app/en/getskills?term=${encodeURIComponent(inputValue)}&languages=${tags}`)
         response.then(function (result) {
             console.log(result.data);
             setSuggestions(result.data)
@@ -28,7 +28,7 @@ export default function ProjectDisplay({ handleskillprj, handleclick, handleskil
     useEffect(() => {
         const getmostlikedprj = async () => {
             try {
-                const response = await axios.get("/en/getmostlikedprj");
+                const response = await axios.get("https://schedio-coral.vercel.app/en/getmostlikedprj");
                 const data = response.data;
                 console.log("Random Projects Data:", data);
                 setRandomprj(data);

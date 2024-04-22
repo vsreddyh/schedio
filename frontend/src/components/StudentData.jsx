@@ -32,13 +32,13 @@ export default function StudentData({ dis,isSiderVisible,toggleDashboard,openpro
     }
     const togglebookmark = async () => {
         if (bookmark === 1) {
-            const response = await axios.post('/en/removebookmark', { data: projid })
+            const response = await axios.post('https://schedio-coral.vercel.app/en/removebookmark', { data: projid })
             if (response.data === "success") {
                 setbookmark(0)
             }
         }
         else {
-            const response = await axios.post('/en/addbookmark', { data: projid })
+            const response = await axios.post('https://schedio-coral.vercel.app/en/addbookmark', { data: projid })
             if (response.data === "success") {
                 setbookmark(1)
             }
@@ -46,7 +46,7 @@ export default function StudentData({ dis,isSiderVisible,toggleDashboard,openpro
     }
     useEffect(() => {
         const checkbookmark = async () => {
-            const response = await axios.post('/en/checkbookmark', { data: projid })
+            const response = await axios.post('https://schedio-coral.vercel.app/en/checkbookmark', { data: projid })
             setbookmark(response.data)
         }
         checkbookmark();
@@ -55,7 +55,7 @@ export default function StudentData({ dis,isSiderVisible,toggleDashboard,openpro
     let [projects, setprojects] = useState([])
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.post('/en/getstudendata', { data: projid });
+            const response = await axios.post('https://schedio-coral.vercel.app/en/getstudendata', { data: projid });
             setstudata(response.data);
         };
 
@@ -63,7 +63,7 @@ export default function StudentData({ dis,isSiderVisible,toggleDashboard,openpro
     }, [projid]);
     useEffect(() => {
         const fetchprojdata = async () => {
-            const response = await axios.post('/en/fetchprojdata', { data: studata.projects })
+            const response = await axios.post('https://schedio-coral.vercel.app/en/fetchprojdata', { data: studata.projects })
             setprojects(response.data)
         }
         fetchprojdata();

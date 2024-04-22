@@ -22,7 +22,7 @@ export default function StudentLogin({ setUserData }) {
             return;
         }
         try {
-            const response = await axios.get(`/en/departments?term=${term}`);
+            const response = await axios.get(`https://schedio-coral.vercel.app/en/departments?term=${term}`);
             const data = response.data;
             setSuggestions(data);
         } catch (error) {
@@ -33,7 +33,7 @@ export default function StudentLogin({ setUserData }) {
         event.preventDefault();
         try {
             const departmentvalue = term;
-            const response = await axios.post("/en/departments", { department: departmentvalue });
+            const response = await axios.post("https://schedio-coral.vercel.app/en/departments", { department: departmentvalue });
             console.log(response)
             if (response.data.message === "user saved") {
                 setUserData([response.data.email, 0, 0, departmentvalue])
