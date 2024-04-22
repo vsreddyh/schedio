@@ -22,7 +22,8 @@ app.use(express.static(path.join(__dirname,'./build')));
 app.use(bodyParser.json({ limit: '50mb' })); //limit limits the data which can be uploaded to server.js from frontend
 app.get("/",cors(),(req,res)=>
 {
-  res.sendFile(path.resolve(__dirname,'./build', 'index.html'));
+  res.json("hello world")
+  // res.sendFile(path.resolve(__dirname,'./build', 'index.html'));
 })
 var store = new MongoDBStore({
   uri: url,
