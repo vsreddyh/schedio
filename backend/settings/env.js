@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Types.ObjectId;
-url='mongodb+srv://Project:Florencemidhebaramvesam@project.tbx2krn.mongodb.net/hackathon'
+url='mongodb+srv://Project:Florencemidhebaramvesam@project.tbx2krn.mongodb.net/hackathon?retryWrites=true&w=majority'
 mongoose.connect(url);
 
 const loginSchema = new mongoose.Schema({
