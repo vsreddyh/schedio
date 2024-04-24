@@ -84,7 +84,7 @@ const signup_college = async (req, res) => {
                         button: {
                             color: "#22BC66",
                             text: "Set your password",
-                            link: `http://localhost:3000/set-password/ne/${token}`
+                            link: `https://schedio-coral.vercel.app/set-password/ne/${token}`
                         }
                     },
                     outro: "If you did not request to set a password, no further action is required on your part.",
@@ -164,7 +164,7 @@ const signup = async (req, res) => {
                         button: {
                             color: "#22BC66",
                             text: "Set your password",
-                            link: `http://localhost:3000/set-password/nu/${token}` //change link
+                            link: `https://schedio-coral.vercel.app/set-password/nu/${token}` //change link
                         }
                     },
                     outro: "If you did not request to set a password, no further action is required on your part.",
@@ -233,7 +233,7 @@ const hrsignup = async (req, res) => {
                         button: {
                             color: "#22BC66",
                             text: "Set your password",
-                            link: `http://localhost:3000/set-password/nh/${token}`
+                            link: `https://schedio-coral.vercel.app/set-password/nh/${token}`
                         }
                     },
                     outro: "If you did not request to set a password, no further action is required on your part.",
@@ -449,7 +449,7 @@ const fpassword = async (req, res) => {
                         button: {
                             color: "#22BC66",
                             text: "Set your new password",
-                            link: `http://localhost:3000/set-password/np/${token}`
+                            link: `https://schedio-coral.vercel.app/set-password/np/${token}`
                         }
                     },
                     outro: "If you did not request to set a new password, no further action is required on your part.",
