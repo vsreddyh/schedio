@@ -13,7 +13,7 @@ const FrontPage = () => {
   }
   useEffect(() => {
     getdata()
-  })
+  },[])
   const navigate = useNavigate()
   useEffect(() => {
 
