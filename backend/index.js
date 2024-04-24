@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 require('dotenv').config();
 const {SESSION_KEY,url} = require('./settings/env.js');
 app.use(cors({
-  origin: ["https://scheedio.vercel.app/"],
+  origin: ["https://schedio-coral.vercel.app/"],
   methods:["GET","POST"],
   credentials: true
 }
@@ -22,8 +22,7 @@ app.use(express.static(path.join(__dirname,'./build')));
 app.use(bodyParser.json({ limit: '50mb' })); //limit limits the data which can be uploaded to server.js from frontend
 app.get("/",cors(),(req,res)=>
 {
-  res.json("hello world")
-  // res.sendFile(path.resolve(__dirname,'./build', 'index.html'));
+  res.sendFile(path.resolve(__dirname,'./build', 'index.html'));
 })
 var store = new MongoDBStore({
   uri: url,
