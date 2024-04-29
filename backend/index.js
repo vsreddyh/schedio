@@ -32,7 +32,7 @@ var store = new MongoDBStore({
 app.use(session({
   secret: SESSION_KEY,
   resave: false,
-  store: store,
+  // store: store,
   saveUninitialized: false,
   cookie: {
       httpOnly: false,
