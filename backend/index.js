@@ -52,7 +52,7 @@ app.get("/checksessionexpiry",async(req,res)=>{
       res.json(1)
   }
   else{
-      res.json(req)
+      res.json(req.session)
   }
 })
 

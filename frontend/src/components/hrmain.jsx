@@ -238,7 +238,6 @@ function HRMAIN({ checkSession }) {
     useEffect(() => {
         const intervalId = setInterval(async () => {
             try {
-                console.log("3457777777777777777775ty")
                 const response = await axios.get("https://schedio-coral.vercel.app/checksessionexpiry");
                 console.log("345678998765ty",response.data);
                 if (response.data === 0) {
