@@ -2,6 +2,7 @@ import axios from 'axios';
 
 // Create an instance of Axios with custom configuration
 const axiosInstance = axios.create({
+    withCredentials: true,
     baseURL: 'https://schedio-coral.vercel.app/', // Your backend server URL
     timeout: 10000, // Request timeout in milliseconds
     headers: {
