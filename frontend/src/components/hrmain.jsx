@@ -1,17 +1,21 @@
-import React, { useState, useEffect, useCallback } from "react";
-import "./hr-page.css";
-import Header from "./hrheader";
-import Filters from "./filters";
-import "./studentcard.css";
-import axios from "axios";
-import StudentData from "./StudentData";
-import ProjectPortfolio from "./ProjectPortfolio";
+import React, { useState, useEffect, useCallback } from 'react';
+import './hr-page.css';
+import Header from './hrheader';
+import Filters from './filters';
+import './studentcard.css';
+import axios from 'axios';
+import StudentData from './StudentData';
+import ProjectPortfolio from './ProjectPortfolio';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faArrowRight, faUser } from '@fortawesome/free-solid-svg-icons';
-import { useParams, useNavigate } from "react-router-dom";
-import HomePage from "./HomePage";
-import NothingHere from "./nothinghere";
-import ProjectCard from "./ProjectCard";
+import {
+    faArrowLeft,
+    faArrowRight,
+    faUser,
+} from '@fortawesome/free-solid-svg-icons';
+import { useParams, useNavigate } from 'react-router-dom';
+import HomePage from './HomePage';
+import NothingHere from './nothinghere';
+import ProjectCard from './ProjectCard';
 
 function HRMAIN({ checkSession }) {
     const navigate = useNavigate();
@@ -21,7 +25,7 @@ function HRMAIN({ checkSession }) {
         category: 'Any',
         college_name: 'Any',
         sort_by: 'Upload Date',
-        order: false
+        order: false,
     });
     const [searchData, setSearchData] = useState({
         type: 'Project Search',
@@ -35,9 +39,9 @@ function HRMAIN({ checkSession }) {
     const [hrdetails, setHrdetails] = useState([]);
     const [isSiderVisible, setIsSiderVisible] = useState(false);
     const [bodyGridColumn, setBodyGridColumn] = useState('span 2');
-    const [stack,setstack]=useState([[0]])
+    const [stack, setstack] = useState([[0]]);
     const toggleDashboard1 = () => {
-        setIsProfileVisible(prevState => !prevState);
+        setIsProfileVisible((prevState) => !prevState);
     };
 
     const FilterData = useCallback((data) => {
@@ -46,15 +50,17 @@ function HRMAIN({ checkSession }) {
     }, []);
 
     const handleDomainClick = async (data) => {
-        const response = await axios.get(`https://schedio-coral.vercel.app/en/getdomainbyclick?term=${data}`);
+        const response = await axios.get(
+            `https://schedio-coral.vercel.app/en/getdomainbyclick?term=${data}`
+        );
         setProjects(response.data);
         console.log('got filter data');
         setDisplay(6);
-        setstack(prevStack => {
+        setstack((prevStack) => {
             const newStack = [...prevStack];
-            newStack.push([6,data])
+            newStack.push([6, data]);
             return newStack;
-            });
+        });
     };
 
     const CategoryData = useCallback((data) => {
@@ -70,29 +76,31 @@ function HRMAIN({ checkSession }) {
                 handlestusearch(data.search);
             }
         }
-        setSearchData(prevData => ({ ...prevData, ...data }));
+        setSearchData((prevData) => ({ ...prevData, ...data }));
     };
 
     const handlestusearch = async (data) => {
-        console.log("clicked");
+        console.log('clicked');
         try {
             const queryString = `?type=${'Student Search'}&search=${data}`;
-            const response = await axios.get(`https://schedio-coral.vercel.app/en/hrmainsearch${queryString}`);
+            const response = await axios.get(
+                `https://schedio-coral.vercel.app/en/hrmainsearch${queryString}`
+            );
             setDisplay(3);
-            setstack(prevStack => {
+            setstack((prevStack) => {
                 const newStack = [...prevStack];
-                newStack.push([3,data])
+                newStack.push([3, data]);
                 return newStack;
-                });
+            });
             console.log(response.data);
             setStudents(response.data);
         } catch (error) {
-            console.error("Error fetching data:", error);
+            console.error('Error fetching data:', error);
         }
     };
 
     const updateReceivedData = (data) => {
-        setReceivedData(prevData => ({ ...prevData, ...data }));
+        setReceivedData((prevData) => ({ ...prevData, ...data }));
     };
 
     let { projid } = useParams();
@@ -100,27 +108,29 @@ function HRMAIN({ checkSession }) {
     const openproject = async (data) => {
         setDisplay(1);
         setSendDataToStudent(data);
-        setstack(prevStack => {
+        setstack((prevStack) => {
             const newStack = [...prevStack];
-            newStack.push([1,data])
+            newStack.push([1, data]);
             return newStack;
-            });
+        });
     };
 
     const openstuinfo = async (data) => {
         setDisplay(4);
         setSendDataToStudent(data);
-        setstack(prevStack => {
+        setstack((prevStack) => {
             const newStack = [...prevStack];
-            newStack.push([4,data])
+            newStack.push([4, data]);
             return newStack;
-            });
+        });
     };
 
     const fetchData = async () => {
         try {
             if (projid) {
-                const response = await axios.get(`https://schedio-coral.vercel.app/en/validateurl?projid=${projid}`);
+                const response = await axios.get(
+                    `https://schedio-coral.vercel.app/en/validateurl?projid=${projid}`
+                );
                 if (response.data === 1) {
                     openproject(projid);
                 } else if (response.data === 2) {
@@ -131,17 +141,19 @@ function HRMAIN({ checkSession }) {
             } else {
                 const queryParams = new URLSearchParams({
                     ...receivedData,
-                    page: currentPage
+                    page: currentPage,
                 });
-                const response = await axios.get(`https://schedio-coral.vercel.app/en/projects?${queryParams}`);
+                const response = await axios.get(
+                    `https://schedio-coral.vercel.app/en/projects?${queryParams}`
+                );
                 setProjects(response.data.list);
                 setTotalPages(response.data.total_pages);
                 setDisplay(response.data.display);
-                setstack(prevStack => {
+                setstack((prevStack) => {
                     const newStack = [...prevStack];
-                    newStack.push([2,queryParams])
+                    newStack.push([2, queryParams]);
                     return newStack;
-                    });
+                });
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -150,18 +162,20 @@ function HRMAIN({ checkSession }) {
 
     const handlesearch = async (inputData) => {
         try {
-            const response = await axios.get(`https://schedio-coral.vercel.app/en/getsearchbyclick?term=${inputData}`);
+            const response = await axios.get(
+                `https://schedio-coral.vercel.app/en/getsearchbyclick?term=${inputData}`
+            );
             const data = response.data;
             setDisplay(6);
-            setstack(prevStack => {
+            setstack((prevStack) => {
                 const newStack = [...prevStack];
-                newStack.push([6,inputData])
+                newStack.push([6, inputData]);
                 return newStack;
-                });
+            });
             console.log(data);
             setProjects(data);
         } catch (error) {
-            console.error("Error fetching suggestions:", error);
+            console.error('Error fetching suggestions:', error);
         }
     };
 
@@ -171,13 +185,13 @@ function HRMAIN({ checkSession }) {
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
-            setCurrentPage(prevPage => prevPage + 1);
+            setCurrentPage((prevPage) => prevPage + 1);
         }
     };
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
-            setCurrentPage(prevPage => prevPage - 1);
+            setCurrentPage((prevPage) => prevPage - 1);
         }
     };
 
@@ -191,31 +205,37 @@ function HRMAIN({ checkSession }) {
     };
 
     const ShowBookmarks = async () => {
-        const response = await axios.get("https://schedio-coral.vercel.app/en/getbookmarks");
+        const response = await axios.get(
+            'https://schedio-coral.vercel.app/en/getbookmarks'
+        );
         setDisplay(3);
-        setstack(prevStack => {
+        setstack((prevStack) => {
             const newStack = [...prevStack];
-            newStack.push([3,1,"bookmark"])
+            newStack.push([3, 1, 'bookmark']);
             return newStack;
-            });
+        });
         console.log(response.data);
         setStudents(response.data);
     };
 
     const handlehrdetail = async () => {
         try {
-            const response = await axios.get("https://schedio-coral.vercel.app/en/gethrdetails");
+            const response = await axios.get(
+                'https://schedio-coral.vercel.app/en/gethrdetails'
+            );
             const data = response.data;
             console.log(data);
             setHrdetails(data);
         } catch (error) {
-            console.error("error occurred:", error);
+            console.error('error occurred:', error);
         }
     };
 
     const deletesession = async () => {
         try {
-            const response = await axios.post("https://schedio-coral.vercel.app/en/deletesession");
+            const response = await axios.post(
+                'https://schedio-coral.vercel.app/en/deletesession'
+            );
             await checkSession();
         } catch (error) {
             console.error('Error deleting session:', error);
@@ -238,8 +258,10 @@ function HRMAIN({ checkSession }) {
     useEffect(() => {
         const intervalId = setInterval(async () => {
             try {
-                const response = await axios.get("https://schedio-coral.vercel.app/checksessionexpiry");
-                console.log("345678998765ty",response.data);
+                const response = await axios.get(
+                    'https://schedio-coral.vercel.app/checksessionexpiry'
+                );
+                console.log('345678998765ty', response.data);
                 if (response.data === 0) {
                     try {
                         clearInterval(intervalId);
@@ -258,94 +280,195 @@ function HRMAIN({ checkSession }) {
     }, [checkSession]);
 
     const toggleDashboard = () => {
-        setIsSiderVisible(prevState => !prevState);
-        setBodyGridColumn(prevState => prevState === 'span 1' ? 'span 2' : 'span 1');
+        setIsSiderVisible((prevState) => !prevState);
+        setBodyGridColumn((prevState) =>
+            prevState === 'span 1' ? 'span 2' : 'span 1'
+        );
     };
-    const stackclear = () =>{
-        setDisplay(0)
-        setstack([[0]])
-    }
-    const stackexplore = ()=>{
-        fetchData()
-    }
-    console.log('Stack is',stack)
+    const stackclear = () => {
+        setDisplay(0);
+        setstack([[0]]);
+    };
+    const stackexplore = () => {
+        fetchData();
+    };
+    console.log('Stack is', stack);
     return (
-        <div className="body19">
-            <Header takedata={CategoryData} handlehrdetail={handlehrdetail} toggleDashboard1={toggleDashboard1} toggleDashboard={toggleDashboard} />
-            <div className="content14 no-print" id="sider4" style={{ display: isSiderVisible ? 'block' : 'none' }} >
-                <div className="option1" id="option" onClick={() => stackclear()}>
+        <div className='body19'>
+            <Header
+                takedata={CategoryData}
+                handlehrdetail={handlehrdetail}
+                toggleDashboard1={toggleDashboard1}
+                toggleDashboard={toggleDashboard}
+            />
+            <div
+                className='content14 no-print'
+                id='sider4'
+                style={{ display: isSiderVisible ? 'block' : 'none' }}
+            >
+                <div
+                    className='option1'
+                    id='option'
+                    onClick={() => stackclear()}
+                >
                     <p>Home</p>
                 </div>
-                <div className="option2" id="option" onClick={() => stackexplore()}>
+                <div
+                    className='option2'
+                    id='option'
+                    onClick={() => stackexplore()}
+                >
                     <p>Explore</p>
                 </div>
-                <div className="option3" id="option" onClick={()=>ShowBookmarks()}>
+                <div
+                    className='option3'
+                    id='option'
+                    onClick={() => ShowBookmarks()}
+                >
                     <p>Bookmarks</p>
                 </div>
             </div>
 
-            <div className={`pbox no-print ${isProfileVisible ? 'unblurred-content' : ''}`} style={{ display: isProfileVisible ? 'block' : 'none' }}>
-                <div className="two">
-                    <div className="pp">
-                        <div className="pphoto">
-                            <FontAwesomeIcon icon={faUser} className="profileset-icon1" />
+            <div
+                className={`pbox no-print ${
+                    isProfileVisible ? 'unblurred-content' : ''
+                }`}
+                style={{ display: isProfileVisible ? 'block' : 'none' }}
+            >
+                <div className='two'>
+                    <div className='pp'>
+                        <div className='pphoto'>
+                            <FontAwesomeIcon
+                                icon={faUser}
+                                className='profileset-icon1'
+                            />
                         </div>
                     </div>
                     <p>{hrdetails.hr_name}</p>
                 </div>
-                <div className="pelement">
-                    <div className="para"><p>{hrdetails.email_address}</p></div>
-                    <div className="para"><p>{hrdetails.company_name}</p></div>
+                <div className='pelement'>
+                    <div className='para'>
+                        <p>{hrdetails.email_address}</p>
+                    </div>
+                    <div className='para'>
+                        <p>{hrdetails.company_name}</p>
+                    </div>
                     <hr />
-                    <div className="logout" onClick={()=>deletesession()}>
-                        <p>LogOut<span><i className='fas fa-sign-out-alt'></i></span></p>
+                    <div className='logout' onClick={() => deletesession()}>
+                        <p>
+                            LogOut
+                            <span>
+                                <i className='fas fa-sign-out-alt'></i>
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
-            <div className={`bodyy121 ${isProfileVisible ? 'blur-background' : ''}`} style={{ gridColumn: bodyGridColumn }}>
+            <div
+                className={`bodyy121 ${
+                    isProfileVisible ? 'blur-background' : ''
+                }`}
+                style={{ gridColumn: bodyGridColumn }}
+            >
                 {display === 0 ? (
-                    <HomePage handleOptionClick={handleOptionClick} handleDomainClick={handleDomainClick} handleclick={openproject} />
+                    <HomePage
+                        handleOptionClick={handleOptionClick}
+                        handleDomainClick={handleDomainClick}
+                        handleclick={openproject}
+                    />
                 ) : (
                     <>
                         {display === 1 ? (
-                            <ProjectPortfolio studata={sendDataToStudent} dis={killpage} openstuinfo={openstuinfo} />
+                            <ProjectPortfolio
+                                studata={sendDataToStudent}
+                                dis={killpage}
+                                openstuinfo={openstuinfo}
+                            />
                         ) : display === 6 ? (
                             <div>
-                                <div className="sbackbutton">
-                                    <p onClick={() => setDisplay(0)}><span>&#8592;</span>Go Back</p>
+                                <div className='sbackbutton'>
+                                    <p onClick={() => setDisplay(0)}>
+                                        <span>&#8592;</span>Go Back
+                                    </p>
                                 </div>
-                                
-                                    {projects.map((suggestion, index) => (
-                                        <div key={index} className="grid-item1">
-                                            <div>
-                                            <div onClick={()=>openproject(suggestion._id)}>
 
-                                            <ProjectCard projinfo={suggestion} index={index}/>
-                                       </div>
+                                {projects.map((suggestion, index) => (
+                                    <div key={index} className='grid-item1'>
+                                        <div>
+                                            <div
+                                                onClick={() =>
+                                                    openproject(suggestion._id)
+                                                }
+                                            >
+                                                <ProjectCard
+                                                    projinfo={suggestion}
+                                                    index={index}
+                                                />
                                             </div>
                                         </div>
-                                    ))}
-                                
+                                    </div>
+                                ))}
                             </div>
                         ) : display === 3 ? (
                             <div>
-                                <div className="sbackbutton">
-                                    <p onClick={() => setDisplay(0)}><span>&#8592;</span>Go Back</p>
+                                <div className='sbackbutton'>
+                                    <p onClick={() => setDisplay(0)}>
+                                        <span>&#8592;</span>Go Back
+                                    </p>
                                 </div>
-                                <div className="grid-container1">
+                                <div className='grid-container1'>
                                     {students.map((student, index) => (
-                                        <div key={index} className="grid-item1">
+                                        <div key={index} className='grid-item1'>
                                             <div>
-                                                <div className="user-cardSC">
-                                                    <div className="user-card-imgSC">
-                                                        <img src={`/en/image/${student.photo}`} alt="" />
+                                                <div className='user-cardSC'>
+                                                    <div className='user-card-imgSC'>
+                                                        <img
+                                                            src={`/en/image/${student.photo}`}
+                                                            alt=''
+                                                        />
                                                     </div>
-                                                    <div className="user-card-infoSC" onClick={() => openstuinfo(student._id)}>
-                                                        <h2>{student.student_name}</h2>
-                                                        <p><span>Email:</span>{student.email_address}</p>
-                                                        <p><span>college:</span>{student.college_name}</p>
-                                                        <p><span>Languages known:</span>{student.skills ? student.skills.toString() : 'None'}</p>
-                                                        <p><span>project count:</span>{student.projects?.length || 0}</p>
+                                                    <div
+                                                        className='user-card-infoSC'
+                                                        onClick={() =>
+                                                            openstuinfo(
+                                                                student._id
+                                                            )
+                                                        }
+                                                    >
+                                                        <h2>
+                                                            {
+                                                                student.student_name
+                                                            }
+                                                        </h2>
+                                                        <p>
+                                                            <span>Email:</span>
+                                                            {
+                                                                student.email_address
+                                                            }
+                                                        </p>
+                                                        <p>
+                                                            <span>
+                                                                college:
+                                                            </span>
+                                                            {
+                                                                student.college_name
+                                                            }
+                                                        </p>
+                                                        <p>
+                                                            <span>
+                                                                Languages known:
+                                                            </span>
+                                                            {student.skills
+                                                                ? student.skills.toString()
+                                                                : 'None'}
+                                                        </p>
+                                                        <p>
+                                                            <span>
+                                                                project count:
+                                                            </span>
+                                                            {student.projects
+                                                                ?.length || 0}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -354,29 +477,57 @@ function HRMAIN({ checkSession }) {
                                 </div>
                             </div>
                         ) : display === 4 ? (
-                            <StudentData studata={sendDataToStudent} dis={killpage} openproject={openproject} isSiderVisible={isSiderVisible} toggleDashboard={toggleDashboard}/>
+                            <StudentData
+                                studata={sendDataToStudent}
+                                dis={killpage}
+                                openproject={openproject}
+                                isSiderVisible={isSiderVisible}
+                                toggleDashboard={toggleDashboard}
+                            />
                         ) : display === 2 ? (
                             <div>
                                 <Filters sendDataToParent={FilterData} />
-                                <div className="sbackbutton">
-                                    <p onClick={() => setDisplay(0)}><span>&#8592;</span>Go Back</p>
+                                <div className='sbackbutton'>
+                                    <p onClick={() => setDisplay(0)}>
+                                        <span>&#8592;</span>Go Back
+                                    </p>
                                 </div>
-                                
-                                    {projects.map((suggestion, index) => (
-                                        <div key={index} className="grid-item1">
-                                            <div onClick={()=>{openproject(suggestion._id)}}>
 
-                                            <ProjectCard projinfo={suggestion} index={index}/>
+                                {projects.map((suggestion, index) => (
+                                    <div key={index} className='grid-item1'>
+                                        <div
+                                            onClick={() => {
+                                                openproject(suggestion._id);
+                                            }}
+                                        >
+                                            <ProjectCard
+                                                projinfo={suggestion}
+                                                index={index}
+                                            />
                                         </div>
-                                        </div>
-                                    ))}
-                               
-                                <div className="navbuttons1">
+                                    </div>
+                                ))}
+
+                                <div className='navbuttons1'>
                                     {currentPage > 1 && (
-                                        <button className="prevbutton1" onClick={handlePreviousPage}><FontAwesomeIcon icon={faArrowLeft} /></button>
+                                        <button
+                                            className='prevbutton1'
+                                            onClick={handlePreviousPage}
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faArrowLeft}
+                                            />
+                                        </button>
                                     )}
                                     {currentPage < totalPages && (
-                                        <button className="nextbutton1" onClick={handleNextPage}><FontAwesomeIcon icon={faArrowRight} /></button>
+                                        <button
+                                            className='nextbutton1'
+                                            onClick={handleNextPage}
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faArrowRight}
+                                            />
+                                        </button>
                                     )}
                                 </div>
                             </div>

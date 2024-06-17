@@ -26,7 +26,12 @@ const FileExplorer = () => {
     const fetchFolderStructure = async (data) => {
         try {
             setFileId(data);
-            const response = await axios.post('https://schedio-coral.vercel.app/en/fexp', { data });
+            const response = await axios.post(
+                'https://schedio-coral.vercel.app/en/fexp',
+                {
+                    data,
+                }
+            );
             console.log(response.data.filename);
             setFolderStructure(response.data.folderStructure);
             setFileContents(response.data.fileContents);
@@ -41,7 +46,12 @@ const FileExplorer = () => {
     const handleCodeExplain = () => {
         setCodeExplain('');
         setsider(false);
-        const response = axios.post('https://schedio-coral.vercel.app/en/explainCode', { data: cde });
+        const response = axios.post(
+            'https://schedio-coral.vercel.app/en/explainCode',
+            {
+                data: cde,
+            }
+        );
         response
             .then(function (result) {
                 console.log(result);
@@ -70,8 +80,8 @@ const FileExplorer = () => {
                             setopenforpath={setopenforpath}
                             openforpath={openforpath}
                         />
-                    ):(
-                        <Loading/>
+                    ) : (
+                        <Loading />
                     )}
                 </div>
             )}
