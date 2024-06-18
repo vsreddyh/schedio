@@ -31,11 +31,11 @@ app.use(cookieParser(SESSION_KEY));
 app.use(
     session({
         secret: SESSION_KEY,
-        resave: false,
+        resave: true,
         store: store,
         saveUninitialized: false,
         cookie: {
-            httpOnly: false,
+            httpOnly: true,
             secure: true,
             maxAge: 6 * 60 * 60 * 1000, //6 hours
             rolling: true, //whenever session is modified it resets expirytime
