@@ -13,7 +13,7 @@ require('dotenv').config();
 const { SESSION_KEY, url } = require('./settings/env.js');
 app.use(
     cors({
-        origin: ['https://schedio-coral.vercel.app'],
+        origin: process.env.NODE_ENV === 'production' ? 'https://schedio-coral.vercel.app' : 'http://localhost:3000',
         credentials: true,
     })
 );
@@ -27,17 +27,18 @@ var store = new MongoDBStore({
     uri: url,
     collection: 'mySessions',
 });
+app.set("trust proxy", 1);
 app.use(cookieParser(SESSION_KEY));
 app.use(
     session({
         secret: SESSION_KEY,
-        resave: true,
+        resave: false,
         store: store,
         saveUninitialized: false,
         cookie: {
             sameSite:"strict",
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === 'production',
             maxAge: 6 * 60 * 60 * 1000, //6 hours
             rolling: true, //whenever session is modified it resets expirytime
         },
