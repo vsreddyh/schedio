@@ -197,7 +197,7 @@ const signup = async (req, res) => {
                 subject: 'Your OTP for Verification',
                 html: mail,
             };
-            transporter.sendMail(message); //sending mail
+            await transporter.sendMail(message); //sending mail
             res.json({ message: 'Mail Sent', mail: username });
         }
     }
