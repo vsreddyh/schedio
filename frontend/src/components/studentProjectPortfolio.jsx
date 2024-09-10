@@ -23,7 +23,7 @@ export default function StudentProjectProfile({ dis, ...props }) {
     };
     const share = async () => {
         navigator.clipboard
-            .writeText(`https://schedio-coral.vercel.app/main/${projid}`)
+            .writeText(`/main/${projid}`)
             .then(() => {
                 setShowCopyMessage(true);
             })
@@ -37,24 +37,19 @@ export default function StudentProjectProfile({ dis, ...props }) {
     };
     const AddComment = async (event) => {
         event.preventDefault();
-        const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/addcomment',
-            { commentdata, projid }
-        );
+        const response = await axios.post('/en/addcomment', {
+            commentdata,
+            projid,
+        });
         setcommentdata('');
         fetchData();
     };
     const getstudentdetails = async () => {
-        const response = await axios.get(
-            'https://schedio-coral.vercel.app/en/getstudentdetails'
-        );
+        const response = await axios.get('/en/getstudentdetails');
         setstudname(response.data.student_name);
     };
     const deletecomment = async (index, id) => {
-        const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/delcomment',
-            { index, id }
-        );
+        const response = await axios.post('/en/delcomment', { index, id });
         if (response.data === 'success') {
             fetchData();
         }
@@ -112,19 +107,17 @@ export default function StudentProjectProfile({ dis, ...props }) {
     const handlelike = async () => {
         try {
             if (like === 1) {
-                const response = await axios.post(
-                    'https://schedio-coral.vercel.app/en/removelike',
-                    { data: projid }
-                );
+                const response = await axios.post('/en/removelike', {
+                    data: projid,
+                });
                 if (response.data === 'success') {
                     setLike(0);
                     setKey((prevKey) => prevKey - 1);
                 }
             } else {
-                const response = await axios.post(
-                    'https://schedio-coral.vercel.app/en/addlike',
-                    { data: projid }
-                );
+                const response = await axios.post('/en/addlike', {
+                    data: projid,
+                });
                 if (response.data === 'success') {
                     setLike(1);
                     setKey((prevKey) => prevKey + 1);
@@ -138,10 +131,9 @@ export default function StudentProjectProfile({ dis, ...props }) {
     useEffect(() => {
         const checklike = async () => {
             try {
-                const response = await axios.post(
-                    'https://schedio-coral.vercel.app/en/checklike',
-                    { data: projid }
-                );
+                const response = await axios.post('/en/checklike', {
+                    data: projid,
+                });
                 setLike(response.data);
             } catch (error) {
                 console.error('Error fetching like count:', error);
@@ -154,10 +146,9 @@ export default function StudentProjectProfile({ dis, ...props }) {
     };
 
     const fetchData = async () => {
-        const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/getprojectdata',
-            { data: projid }
-        );
+        const response = await axios.post('/en/getprojectdata', {
+            data: projid,
+        });
         setprojdata(response.data);
         setphotolist(response.data.photos);
         setcomments(response.data.Comments);

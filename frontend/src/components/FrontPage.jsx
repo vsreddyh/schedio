@@ -8,9 +8,7 @@ import { useNavigate, Link } from 'react-router-dom';
 const FrontPage = () => {
     const [data, setdata] = useState([]);
     const getdata = async () => {
-        const response = await axios.get(
-            'https://schedio-coral.vercel.app/en/count'
-        );
+        const response = await axios.get('/en/count');
         setdata(response.data);
     };
     useEffect(() => {

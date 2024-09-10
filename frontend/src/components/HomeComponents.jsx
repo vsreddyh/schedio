@@ -62,7 +62,7 @@ export default function HomeComponents({ checkSession }) {
             setTerm(inputData);
             try {
                 const response = await axios.get(
-                    `https://schedio-coral.vercel.app/en/getsearchbyclick?term=${inputData}`
+                    `/en/getsearchbyclick?term=${inputData}`
                 );
                 const data = response.data;
                 setSugesstions(data);
@@ -77,7 +77,7 @@ export default function HomeComponents({ checkSession }) {
         setTerm(inputData);
         try {
             const response = await axios.get(
-                `https://schedio-coral.vercel.app/en/getdomainbyclick?term=${inputData}`
+                `/en/getdomainbyclick?term=${inputData}`
             );
             const data = response.data;
             setSugesstions(data);
@@ -89,9 +89,7 @@ export default function HomeComponents({ checkSession }) {
     };
     const handlelikeClick = async () => {
         try {
-            const response = await axios.get(
-                `https://schedio-coral.vercel.app/en/getlikedprojects`
-            );
+            const response = await axios.get(`/en/getlikedprojects`);
             const data = response.data;
             setSugesstions(data);
             setPrevdisplay(display);
@@ -122,7 +120,7 @@ export default function HomeComponents({ checkSession }) {
             console.log('handleprojectprofile function called');
             if (projid) {
                 const response = await axios.get(
-                    `https://schedio-coral.vercel.app/en/validateurl?projid=${projid}`
+                    `/en/validateurl?projid=${projid}`
                 );
                 console.log('Response from server:', response.data);
                 if (response.data === 1) {
@@ -145,9 +143,7 @@ export default function HomeComponents({ checkSession }) {
     };
     const deletesession = async () => {
         try {
-            const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/deletesession'
-            );
+            const response = await axios.post('/en/deletesession');
             await checkSession();
         } catch (error) {
             console.error('Error deleting session:', error);
@@ -155,9 +151,7 @@ export default function HomeComponents({ checkSession }) {
     };
     const handlestudentdetail = async () => {
         try {
-            const response = await axios.get(
-                'https://schedio-coral.vercel.app/en/getstudentdetails'
-            );
+            const response = await axios.get('/en/getstudentdetails');
             const data = response.data;
             setStudentdetail(data);
         } catch (error) {
@@ -166,9 +160,7 @@ export default function HomeComponents({ checkSession }) {
     };
     const handlegetproject = async () => {
         try {
-            const response = await axios.get(
-                'https://schedio-coral.vercel.app/en/getstudentproject'
-            );
+            const response = await axios.get('/en/getstudentproject');
             const data = response.data;
             setStudentproj(data);
         } catch (error) {
@@ -179,7 +171,7 @@ export default function HomeComponents({ checkSession }) {
         setSkillprj(skillname);
         try {
             const response = await axios.get(
-                `https://schedio-coral.vercel.app/en/getskillprj?term=${skillname}`
+                `/en/getskillprj?term=${skillname}`
             );
             const data = response.data;
             setSugesstions(data);
@@ -193,7 +185,7 @@ export default function HomeComponents({ checkSession }) {
     const handleskillList = async (skillList) => {
         try {
             const response = await axios.get(
-                `https://schedio-coral.vercel.app/en/getskillList?term=${skillList}`
+                `/en/getskillList?term=${skillList}`
             );
             const data = response.data;
             setSugesstions(data);
@@ -224,9 +216,7 @@ export default function HomeComponents({ checkSession }) {
     useEffect(() => {
         const intervalId = setInterval(async () => {
             try {
-                const response = await axios.get(
-                    'https://schedio-coral.vercel.app/checksessionexpiry'
-                );
+                const response = await axios.get('/checksessionexpiry');
                 if (response.data === 0) {
                     try {
                         clearInterval(intervalId);

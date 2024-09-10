@@ -29,7 +29,7 @@ export default function StudentProfile({
 
                 try {
                     const response = await axios.post(
-                        `https://schedio-coral.vercel.app/en/uploadProfilePhoto`,
+                        `/en/uploadProfilePhoto`,
                         {
                             profilePhoto: base64data,
                             pphotoname: profilePhotoName,
@@ -65,15 +65,12 @@ export default function StudentProfile({
         console.log('Edited College Name:', studentDescription);
         setEditMode(false);
         try {
-            const response = await axios.post(
-                `https://schedio-coral.vercel.app/en/uploadDescription`,
-                {
-                    studentDescription: studentDescription,
-                    studentorganization: studentorganization,
-                    studentfield: studentfield,
-                    userId: studentdetail._id,
-                }
-            );
+            const response = await axios.post(`/en/uploadDescription`, {
+                studentDescription: studentDescription,
+                studentorganization: studentorganization,
+                studentfield: studentfield,
+                userId: studentdetail._id,
+            });
         } catch (error) {
             console.error('Error uploading photo:', error);
         }

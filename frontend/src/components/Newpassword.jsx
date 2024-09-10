@@ -16,9 +16,7 @@ export default function Newpasword() {
     const [email, setemail] = useState('');
     useEffect(() => {
         const validateToken = async () => {
-            const response = await axios.post(
-                `https://schedio-coral.vercel.app/en/validate-token/${token}`
-            );
+            const response = await axios.post(`/en/validate-token/${token}`);
             if (response.data.message === 'Invalid token') {
                 setErrorMessage(encodeURIComponent('Invalid Token'));
             } else if (response.data.message === 'Token expired') {
@@ -43,10 +41,7 @@ export default function Newpasword() {
     }, [email]);
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/newp',
-            formData
-        );
+        const response = await axios.post('/en/newp', formData);
         if (response.data.message === 'Passwords are not same') {
             seterror('Passwords are not same');
         } else {

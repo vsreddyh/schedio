@@ -25,7 +25,7 @@ export default function CollegeLogin() {
         } else {
             try {
                 const response = await axios.get(
-                    `https://schedio-coral.vercel.app/en/signup_college?term=${inputValue}`
+                    `/en/signup_college?term=${inputValue}`
                 );
                 const data = response.data;
                 setSuggestions1(data);
@@ -44,10 +44,9 @@ export default function CollegeLogin() {
         event.preventDefault();
         try {
             const CollegeName = term;
-            const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/signup_college',
-                { serverCollegeName: CollegeName }
-            );
+            const response = await axios.post('/en/signup_college', {
+                serverCollegeName: CollegeName,
+            });
 
             if (response.data.message === 'User already registered') {
                 setErrorMessage('User Already Exists');

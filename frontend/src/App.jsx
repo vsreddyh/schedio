@@ -33,9 +33,7 @@ export default function App() {
     }, []);
     const checkSession = async () => {
         try {
-            const response = await axios.get(
-                'https://schedio-coral.vercel.app/en/checkSessionEndpoint'
-            );
+            const response = await axios.get('/en/checkSessionEndpoint');
             if (response.data) {
                 setUserData(response.data);
             } else {

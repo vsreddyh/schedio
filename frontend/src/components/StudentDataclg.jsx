@@ -22,7 +22,7 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
     };
     const share = async () => {
         navigator.clipboard
-            .writeText(`https://schedio-coral.vercel.app/clgmain/${projid}`)
+            .writeText(`/clgmain/${projid}`)
             .then(() => {
                 setShowCopyMessage(true);
             })
@@ -35,10 +35,9 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
     let [projects, setprojects] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/getstudendata',
-                { data: projid }
-            );
+            const response = await axios.post('/en/getstudendata', {
+                data: projid,
+            });
             setstudata(response.data);
         };
 
@@ -46,10 +45,9 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
     }, [projid]);
     useEffect(() => {
         const fetchprojdata = async () => {
-            const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/fetchprojdata',
-                { data: studata.projects }
-            );
+            const response = await axios.post('/en/fetchprojdata', {
+                data: studata.projects,
+            });
             setprojects(response.data);
         };
         fetchprojdata();

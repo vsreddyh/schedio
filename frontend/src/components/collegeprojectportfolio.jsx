@@ -26,9 +26,7 @@ export default function StudentProjectProfile({
 
     const share = async () => {
         try {
-            await navigator.clipboard.writeText(
-                `https://schedio-coral.vercel.app/clgmain/${projid}`
-            );
+            await navigator.clipboard.writeText(`/clgmain/${projid}`);
             setShowCopyMessage(true);
         } catch (err) {
             console.error('Failed to copy: ', err);
@@ -83,10 +81,9 @@ export default function StudentProjectProfile({
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post(
-                    'https://schedio-coral.vercel.app/en/getprojectdata',
-                    { data: projid }
-                );
+                const response = await axios.post('/en/getprojectdata', {
+                    data: projid,
+                });
                 setProjdata(response.data);
                 setPhotolist(response.data.photos);
             } catch (error) {
@@ -97,10 +94,9 @@ export default function StudentProjectProfile({
         fetchData();
     }, [projid]);
     const fetchData = async () => {
-        const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/getprojectdata',
-            { data: projid }
-        );
+        const response = await axios.post('/en/getprojectdata', {
+            data: projid,
+        });
         setProjdata(response.data);
         setPhotolist(response.data.photos);
 

@@ -23,10 +23,9 @@ const Graph = ({
 
     const getproj = async () => {
         try {
-            const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/collegeprojectsdisplay',
-                { receivedData: receivedData }
-            );
+            const response = await axios.post('/en/collegeprojectsdisplay', {
+                receivedData: receivedData,
+            });
 
             setsuggestions(response.data.list);
             setCollege(response.data.college);
@@ -37,7 +36,7 @@ const Graph = ({
     useEffect(() => {
         const getNoofprojects = async (req, res) => {
             const response = await axios.get(
-                `https://schedio-coral.vercel.app/en/getnoofprj?term=${selectedYear}`
+                `/en/getnoofprj?term=${selectedYear}`
             );
             const data = response.data;
             setNoofprj(data);
@@ -49,7 +48,7 @@ const Graph = ({
         const handlecollegeprojects = async () => {
             try {
                 const response = await axios.get(
-                    `https://schedio-coral.vercel.app/en/getcollegeprojects?term=${selectedYear}`
+                    `/en/getcollegeprojects?term=${selectedYear}`
                 );
                 const data = response.data;
                 setCollegePrj(data);
@@ -65,7 +64,7 @@ const Graph = ({
         const handledomainprojects = async () => {
             try {
                 const response = await axios.get(
-                    `https://schedio-coral.vercel.app/en/getcolldomainprojects?term=${selectedYear}`
+                    `/en/getcolldomainprojects?term=${selectedYear}`
                 );
                 const data = response.data;
                 setDomainprj(data);
