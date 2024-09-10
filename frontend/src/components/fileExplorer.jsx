@@ -53,20 +53,12 @@ const FileExplorer = () => {
                 data: cde,
             }
         );
-        response
-            .then(function (result) {
                 console.log("hiiiiiii");
-                console.log(result);
-                console.log(result.data.ans);
+                console.log(response.data.ans);
                 let codeExplainString = result.data.ans;
-                codeExplainString = codeExplainString.replace(/\n/g, '<br/>');
+                codeExplainString = codeExplainString//.replace(/\n/g, '<br/>');
                 setCodeExplain(codeExplainString);
-            })
-            .catch(function (error) {
-                console.log("errrroorr")
-                console.error('Error: ', error);
-            });
-        console.log('reponse is ', response);
+            
     };
     console.log('a', data);
     return (
