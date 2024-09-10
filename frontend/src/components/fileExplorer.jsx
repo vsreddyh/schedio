@@ -55,7 +55,7 @@ const FileExplorer = () => {
         );
                 console.log("hiiiiiii");
                 console.log(response.data.ans);
-                let codeExplainString = result.data.ans;
+                let codeExplainString = response.data.ans;
                 codeExplainString = codeExplainString//.replace(/\n/g, '<br/>');
                 setCodeExplain(codeExplainString);
             
