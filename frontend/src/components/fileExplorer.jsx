@@ -46,19 +46,24 @@ const FileExplorer = () => {
     const handleCodeExplain = () => {
         setCodeExplain('');
         setsider(false);
-        console.log(cde);
         const response = axios.post(
             'https://schedio-coral.vercel.app/en/explainCode',
             {
                 data: cde,
             }
         );
-                console.log("hiiiiiii");
-                console.log(response.data.ans);
-                let codeExplainString = response.data.ans;
-                codeExplainString = codeExplainString//.replace(/\n/g, '<br/>');
+        response
+            .then(function (result) {
+                console.log(result);
+                console.log(result.data.ans);
+                let codeExplainString = result.data.ans;
+                codeExplainString = codeExplainString.replace(/\n/g, '<br/>');
                 setCodeExplain(codeExplainString);
-            
+            })
+            .catch(function (error) {
+                console.error('Error: ', error);
+            });
+        console.log('reponse is ', response);
     };
     console.log('a', data);
     return (
