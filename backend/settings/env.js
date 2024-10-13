@@ -67,7 +67,7 @@ module.exports = {
     SESSION_KEY : '9a3jKL$#3jfk4kljg%2f7sJ@*Lmn2J7H',
     Course:Course,
     plagarismapi:'6ac8aba9fcmsh58413014b14e402p1d6408jsn839d018b7b26',
-    geminiapi:'AIzaSyD4MBRVZSfaXvrvsji4Z_LRrgtPztIcOk4',
+    geminiapi:'AIzaSyBhLEKrevEbmMs1DwguA6alZqHX2MJGx6U',
     college:college,
     Department:Department,
     projects:projects,

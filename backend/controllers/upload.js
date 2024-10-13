@@ -375,7 +375,7 @@ function getFolderStructure(zipEntries) {
 }
 
 const explainCode = async (req, res) => {
-    console.log(req.body.data);
+    console.log(req.body.data,"hello");
     const code = req.body.data;
     // console.log(req.body.data);
     // node --version # Should be >= 18
