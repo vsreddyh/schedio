@@ -46,7 +46,6 @@ const FileExplorer = () => {
     const handleCodeExplain = () => {
         setCodeExplain('');
         setsider(false);
-        console.log(cde);
         const response = axios.post(
             'https://schedio-coral.vercel.app/en/explainCode',
             {
@@ -55,7 +54,6 @@ const FileExplorer = () => {
         );
         response
             .then(function (result) {
-                console.log("hiiiiiii");
                 console.log(result);
                 console.log(result.data.ans);
                 let codeExplainString = result.data.ans;
@@ -63,7 +61,6 @@ const FileExplorer = () => {
                 setCodeExplain(codeExplainString);
             })
             .catch(function (error) {
-                console.log("errrroorr")
                 console.error('Error: ', error);
             });
         console.log('reponse is ', response);
