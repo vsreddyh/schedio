@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Types.ObjectId;
-url='mongodb+srv://Project:Florencemidhebaramvesam@project.tbx2krn.mongodb.net/hackathon?retryWrites=true&w=majority'
+url=process.env.url
 mongoose.connect(url);
 
 const loginSchema = new mongoose.Schema({
@@ -61,13 +61,13 @@ const projects = mongoose.model('project',projectschema);
 const skills=mongoose.model('skill',skillSchema);
 
 module.exports = {
-    EMAIL : 'freemovies5247@gmail.com',
-    PASSWORD : 'btjqbzhxpulroavl',
-    JWT_SECRET :  'bV5zN2xZ4vU9nW6xZ7aB1vD3kF6gH8jK',
-    SESSION_KEY : '9a3jKL$#3jfk4kljg%2f7sJ@*Lmn2J7H',
+    EMAIL : process.env.EMAIL,
+    PASSWORD : process.env.PASSWORD,
+    JWT_SECRET :  process.env.JWT_SECRET,
+    SESSION_KEY : process.env.SESSION_KEY,
     Course:Course,
-    plagarismapi:'6ac8aba9fcmsh58413014b14e402p1d6408jsn839d018b7b26',
-    geminiapi:'AIzaSyBhLEKrevEbmMs1DwguA6alZqHX2MJGx6U',
+    plagarismapi: process.env.plagarismapi,
+    geminiapi: process.env.geminiapi,
     college:college,
     Department:Department,
     projects:projects,
