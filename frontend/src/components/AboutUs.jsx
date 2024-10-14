@@ -12,7 +12,7 @@ const AboutUs=()=>{
                 <div className="Ausection">
                   <h3>Our Mission</h3>
                   <p>
-                    At Project Platform, we are on a mission to revolutionize project collaboration. We strive to empower
+                    At Schedio, we are on a mission to revolutionize project collaboration. We strive to empower
                     individuals and teams to unleash their creativity by providing a user-friendly and efficient platform for
                     uploading, managing, and collaborating on projects.
                   </p>
@@ -21,7 +21,7 @@ const AboutUs=()=>{
                 <div className="Ausection">
                   <h3>How It Works</h3>
                   <p>
-                    Project Platform simplifies the project management process. Upload your projects, collaborate with team
+                    Schedio simplifies the project management process. Upload your projects, collaborate with team
                     members, and achieve your goals seamlessly. Our platform offers advanced tools and features designed to
                     enhance your project management experience.
                   </p>
@@ -68,7 +68,7 @@ const AboutUs=()=>{
                   <h3>Contact Us</h3>
                   <p>
                     If you have any questions or feedback, we'd love to hear from you. Contact us at
-                    <a href="mailto:info@projectplatform.com">info@projectplatform.com</a> or give us a call at (123) 456-7890.
+                    <a href="teamschedio@gmail.com">teamschedio@gmail.com</a>
                   </p>
                 </div>
               </div>
