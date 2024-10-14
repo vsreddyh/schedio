@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const path = require('path');
 const app = express();
 const cors = require('cors');
@@ -8,8 +9,6 @@ const approute = require('./route.js');
 const cookieParser = require('cookie-parser');
 var MongoDBStore = require('connect-mongodb-session')(session);
 const port = process.env.PORT || 3000;
-
-require('dotenv').config();
 const { SESSION_KEY, url } = require('./settings/env.js');
 app.use(
     cors({
