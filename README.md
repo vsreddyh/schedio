@@ -38,9 +38,9 @@
 					<li><a href="#features">Features</a></li>
 					<ul>
 						<li><a href="#general-features">General Features</a></li>
-						<li><a href="#t1-user-features">T1 Users (Student/Employee)</a></li>
-						<li><a href="#t2-user-features">T2 Users (College/Organization)</a></li>
-						<li><a href="#t3-user-features">T3 Users (Recruiter)</a></li>
+						<li><a href="#t1-user-features- (student/employee)">T1 Users (Student/Employee)</a></li>
+						<li><a href="#t2-user-features-(college/organization)">T2 Users (College/Organization)</a></li>
+						<li><a href="#t3-user-features-(recruiter)">T3 Users (Recruiter)</a></li>
 					</ul>
 					<li><a href="#screenshots">Screenshots</a></li>    
 				</ul>
@@ -94,7 +94,7 @@ Schedio provides a platform for students/employees, colleges/organizations, and 
 6. Add/Edit profile picture and custom Student Description
 7. Auto generates Description on Signing up
 
-### T2 User Features (College/Organization)
+### T2 User Features (College/ Organisation)
 1. View only their T1 users' projects.
 2. Yearly analytics on uploads by month and domain.
 3. Upload projects for T1 users.
