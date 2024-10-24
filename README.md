@@ -96,7 +96,7 @@ Schedio provides a platform for students/employees, colleges/organizations, and 
 
 ### T2 User Features (College/ Organisation)
 1. View only their T1 users' projects.
-2. Yearly analytics on uploads by month and domain.
+2. Monthly Analytics.
 3. Upload projects for T1 users.
 4. Auto-sync skills and projects with T1 profiles.
 5. View and download T1 user profiles as PDFs.
