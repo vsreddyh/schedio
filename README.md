@@ -41,12 +41,12 @@
 						<li><a href="#t1-user-features- (student/employee)">T1 Users (Student/Employee)</a></li>
 						<li><a href="#t2-user-features-(college/organization)">T2 Users (College/Organization)</a></li>
 						<li><a href="#t3-user-features-(recruiter)">T3 Users (Recruiter)</a></li>
-					</ul>
-					<li><a href="#screenshots">Screenshots</a></li>    
+					</ul>   
 				</ul>
 		</li>
 		<li><a href="#getting-started">Getting Started</a></li>
 		<li><a href="#contributing">Contributing</a></li>
+		<li><a href="#screenshots">Screenshots</a></li> 
 		<li><a href="#license">License</a></li>
 		<li><a href="#contact">Contact</a></li>
 	</ol>
@@ -112,36 +112,6 @@ Schedio provides a platform for students/employees, colleges/organizations, and 
 
 ---
 
-## Screenshots
-
-![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Project.png?raw=true)<p style="text-align: center;">Project Page</p>
-
-![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Explorer.png?raw=true)<p style="text-align: center;">Opening a File in Project's Code files</p>
-
-![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Gemini.png?raw=true)<p style="text-align: center;">Using Gemini to explain code files</p>
-
-![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Language%20Search.png?raw=true)<p style="text-align: center;">Suggestions for language filters</p>
-
-![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/LikedProjects.png?raw=true)<p style="text-align: center;">Liked Projects in T1 users page</p>
-
-![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/My%20profile.png?raw=true)<p style="text-align: center;">T1 user Profile Page</p>
-
-![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Status.png?raw=true)<p style="text-align: center;">Log out option in T1 users</p>
-
-![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/college.png?raw=true)
-<p style="text-align: center;">Organization HomePage</p>
-
-
-![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/student_profile.png?raw=true)<p style="text-align: center;">Student Page viewed by T3,T2 users</p>
-
-![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/college_search.png?raw=true)
-<p style="text-align: center;">Filtering by college in Recruiter page</p>
-
-
-![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Bookmark.png?raw=true)
-<p style="text-align: center;">Bookmarks in recruiter page</p>
-
----
 ## Getting Started
 
 To run the project locally, follow these steps.
@@ -255,6 +225,37 @@ Make sure to:
 ### Thank You for Contributing! 🎉
 
 Your effort makes a huge difference! Every bug report, feature request, and pull request helps us improve and grow this project.
+
+---
+
+## Screenshots
+
+![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Project.png?raw=true)<p style="text-align: center;">Project Page</p>
+
+![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Explorer.png?raw=true)<p style="text-align: center;">Opening a File in Project's Code files</p>
+
+![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Gemini.png?raw=true)<p style="text-align: center;">Using Gemini to explain code files</p>
+
+![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Language%20Search.png?raw=true)<p style="text-align: center;">Suggestions for language filters</p>
+
+![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/LikedProjects.png?raw=true)<p style="text-align: center;">Liked Projects in T1 users page</p>
+
+![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/My%20profile.png?raw=true)<p style="text-align: center;">T1 user Profile Page</p>
+
+![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Status.png?raw=true)<p style="text-align: center;">Log out option in T1 users</p>
+
+![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/college.png?raw=true)
+<p style="text-align: center;">Organization HomePage</p>
+
+
+![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/student_profile.png?raw=true)<p style="text-align: center;">Student Page viewed by T3,T2 users</p>
+
+![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/college_search.png?raw=true)
+<p style="text-align: center;">Filtering by college in Recruiter page</p>
+
+
+![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Bookmark.png?raw=true)
+<p style="text-align: center;">Bookmarks in recruiter page</p>
 
 ---
 
