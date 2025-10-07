@@ -53,7 +53,7 @@ const skillSchema=new mongoose.Schema({
     skill_name:String,
 },{ versionKey: false });
 
-const Course = mongoose.model('student', loginSchema);
+const Student = mongoose.model('student', loginSchema);
 const recruiter = mongoose.model('head_recruiter', hrSchema);
 const college=mongoose.model('college',collegeSchema);
 const Department =mongoose.model('feild',departmentSchema);
@@ -65,7 +65,8 @@ module.exports = {
     PASSWORD : process.env.PASSWORD,
     JWT_SECRET :  process.env.JWT_SECRET,
     SESSION_KEY : process.env.SESSION_KEY,
-    Course:Course,
+    FRONTEND_URL : process.env.FRONTEND_URL,
+    Student:Student,
     plagarismapi: process.env.plagarismapi,
     geminiapi: process.env.geminiapi,
     college:college,

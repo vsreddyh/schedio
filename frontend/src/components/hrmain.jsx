@@ -51,7 +51,7 @@ function HRMAIN({ checkSession }) {
 
     const handleDomainClick = async (data) => {
         const response = await axios.get(
-            `https://schedio-coral.vercel.app/en/getdomainbyclick?term=${data}`
+            `${process.env.REACT_APP_BACKEND_URL}/en/getdomainbyclick?term=${data}`
         );
         setProjects(response.data);
         console.log('got filter data');
@@ -84,7 +84,7 @@ function HRMAIN({ checkSession }) {
         try {
             const queryString = `?type=${'Student Search'}&search=${data}`;
             const response = await axios.get(
-                `https://schedio-coral.vercel.app/en/hrmainsearch${queryString}`
+                `${process.env.REACT_APP_BACKEND_URL}/en/hrmainsearch${queryString}`
             );
             setDisplay(3);
             setstack((prevStack) => {
@@ -129,7 +129,7 @@ function HRMAIN({ checkSession }) {
         try {
             if (projid) {
                 const response = await axios.get(
-                    `https://schedio-coral.vercel.app/en/validateurl?projid=${projid}`
+                    `${process.env.REACT_APP_BACKEND_URL}/en/validateurl?projid=${projid}`
                 );
                 if (response.data === 1) {
                     openproject(projid);
@@ -144,7 +144,7 @@ function HRMAIN({ checkSession }) {
                     page: currentPage,
                 });
                 const response = await axios.get(
-                    `https://schedio-coral.vercel.app/en/projects?${queryParams}`
+                    `${process.env.REACT_APP_BACKEND_URL}/en/projects?${queryParams}`
                 );
                 setProjects(response.data.list);
                 setTotalPages(response.data.total_pages);
@@ -163,7 +163,7 @@ function HRMAIN({ checkSession }) {
     const handlesearch = async (inputData) => {
         try {
             const response = await axios.get(
-                `https://schedio-coral.vercel.app/en/getsearchbyclick?term=${inputData}`
+                `${process.env.REACT_APP_BACKEND_URL}/en/getsearchbyclick?term=${inputData}`
             );
             const data = response.data;
             setDisplay(6);
@@ -206,7 +206,7 @@ function HRMAIN({ checkSession }) {
 
     const ShowBookmarks = async () => {
         const response = await axios.get(
-            'https://schedio-coral.vercel.app/en/getbookmarks'
+            `${process.env.REACT_APP_BACKEND_URL}/en/getbookmarks`
         );
         setDisplay(3);
         setstack((prevStack) => {
@@ -221,7 +221,7 @@ function HRMAIN({ checkSession }) {
     const handlehrdetail = async () => {
         try {
             const response = await axios.get(
-                'https://schedio-coral.vercel.app/en/gethrdetails'
+                `${process.env.REACT_APP_BACKEND_URL}/en/gethrdetails`
             );
             const data = response.data;
             console.log(data);
@@ -234,7 +234,7 @@ function HRMAIN({ checkSession }) {
     const deletesession = async () => {
         try {
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/deletesession'
+                `${process.env.REACT_APP_BACKEND_URL}/en/deletesession`
             );
             await checkSession();
         } catch (error) {
@@ -259,7 +259,7 @@ function HRMAIN({ checkSession }) {
         const intervalId = setInterval(async () => {
             try {
                 const response = await axios.get(
-                    'https://schedio-coral.vercel.app/checksessionexpiry'
+                    `${process.env.REACT_APP_BACKEND_URL}/checksessionexpiry`
                 );
                 console.log('345678998765ty', response.data);
                 if (response.data === 0) {

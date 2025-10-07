@@ -26,7 +26,7 @@ export default function CollegeHeader({
 
     const projectadd = async () => {
         window.open(
-            'https://schedio-coral.vercel.app/ProjectUploadForm',
+            `${process.env.REACT_APP_BACKEND_URL}/ProjectUploadForm`,
             '_blank'
         );
     };

@@ -31,7 +31,7 @@ export default function StudentData({
     };
     const share = async () => {
         navigator.clipboard
-            .writeText(`https://schedio-coral.vercel.app/hrmain/${projid}`)
+            .writeText(`${process.env.REACT_APP_BACKEND_URL}/hrmain/${projid}`)
             .then(() => {
                 setShowCopyMessage(true);
             })
@@ -42,7 +42,7 @@ export default function StudentData({
     const togglebookmark = async () => {
         if (bookmark === 1) {
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/removebookmark',
+                `${process.env.REACT_APP_BACKEND_URL}/en/removebookmark`,
                 { data: projid }
             );
             if (response.data === 'success') {
@@ -50,7 +50,7 @@ export default function StudentData({
             }
         } else {
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/addbookmark',
+                `${process.env.REACT_APP_BACKEND_URL}/en/addbookmark`,
                 { data: projid }
             );
             if (response.data === 'success') {
@@ -61,7 +61,7 @@ export default function StudentData({
     useEffect(() => {
         const checkbookmark = async () => {
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/checkbookmark',
+                `${process.env.REACT_APP_BACKEND_URL}/en/checkbookmark`,
                 { data: projid }
             );
             setbookmark(response.data);
@@ -73,7 +73,7 @@ export default function StudentData({
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/getstudendata',
+                `${process.env.REACT_APP_BACKEND_URL}/en/getstudendata`,
                 { data: projid }
             );
             setstudata(response.data);
@@ -84,7 +84,7 @@ export default function StudentData({
     useEffect(() => {
         const fetchprojdata = async () => {
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/fetchprojdata',
+                `${process.env.REACT_APP_BACKEND_URL}/en/fetchprojdata`,
                 { data: studata.projects }
             );
             setprojects(response.data);

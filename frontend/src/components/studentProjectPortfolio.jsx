@@ -23,7 +23,7 @@ export default function StudentProjectProfile({ dis, ...props }) {
     };
     const share = async () => {
         navigator.clipboard
-            .writeText(`https://schedio-coral.vercel.app/main/${projid}`)
+            .writeText(`${process.env.REACT_APP_BACKEND_URL}/main/${projid}`)
             .then(() => {
                 setShowCopyMessage(true);
             })
@@ -38,7 +38,7 @@ export default function StudentProjectProfile({ dis, ...props }) {
     const AddComment = async (event) => {
         event.preventDefault();
         const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/addcomment',
+            `${process.env.REACT_APP_BACKEND_URL}/en/addcomment`,
             { commentdata, projid }
         );
         setcommentdata('');
@@ -46,13 +46,13 @@ export default function StudentProjectProfile({ dis, ...props }) {
     };
     const getstudentdetails = async () => {
         const response = await axios.get(
-            'https://schedio-coral.vercel.app/en/getstudentdetails'
+            `${process.env.REACT_APP_BACKEND_URL}/en/getstudentdetails`
         );
         setstudname(response.data.student_name);
     };
     const deletecomment = async (index, id) => {
         const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/delcomment',
+            `${process.env.REACT_APP_BACKEND_URL}/en/delcomment`,
             { index, id }
         );
         if (response.data === 'success') {
@@ -113,7 +113,7 @@ export default function StudentProjectProfile({ dis, ...props }) {
         try {
             if (like === 1) {
                 const response = await axios.post(
-                    'https://schedio-coral.vercel.app/en/removelike',
+                    `${process.env.REACT_APP_BACKEND_URL}/en/removelike`,
                     { data: projid }
                 );
                 if (response.data === 'success') {
@@ -122,7 +122,7 @@ export default function StudentProjectProfile({ dis, ...props }) {
                 }
             } else {
                 const response = await axios.post(
-                    'https://schedio-coral.vercel.app/en/addlike',
+                    `${process.env.REACT_APP_BACKEND_URL}/en/addlike`,
                     { data: projid }
                 );
                 if (response.data === 'success') {
@@ -139,7 +139,7 @@ export default function StudentProjectProfile({ dis, ...props }) {
         const checklike = async () => {
             try {
                 const response = await axios.post(
-                    'https://schedio-coral.vercel.app/en/checklike',
+                    `${process.env.REACT_APP_BACKEND_URL}/en/checklike`,
                     { data: projid }
                 );
                 setLike(response.data);
@@ -155,7 +155,7 @@ export default function StudentProjectProfile({ dis, ...props }) {
 
     const fetchData = async () => {
         const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/getprojectdata',
+            `${process.env.REACT_APP_BACKEND_URL}/en/getprojectdata`,
             { data: projid }
         );
         setprojdata(response.data);

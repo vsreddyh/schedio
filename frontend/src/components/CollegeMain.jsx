@@ -18,7 +18,7 @@ const CollegeMain = ({ checkSession }) => {
         const intervalId = setInterval(async () => {
             try {
                 const response = await axios.get(
-                    'https://schedio-coral.vercel.app/checksessionexpiry'
+                    `${process.env.REACT_APP_BACKEND_URL}/checksessionexpiry`
                 );
                 if (response.data === 0) {
                     try {
@@ -52,7 +52,7 @@ const CollegeMain = ({ checkSession }) => {
         try {
             if (inputData !== '') {
                 const response = await axios.get(
-                    `https://schedio-coral.vercel.app/en/getsearchbycollege?term=${inputData}`
+                    `${process.env.REACT_APP_BACKEND_URL}/en/getsearchbycollege?term=${inputData}`
                 );
                 const data = response.data;
                 setSugesstions(data);
@@ -70,7 +70,7 @@ const CollegeMain = ({ checkSession }) => {
     const deletesession = async () => {
         try {
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/deletesession'
+                `${process.env.REACT_APP_BACKEND_URL}/en/deletesession`
             );
             await checkSession();
         } catch (error) {
@@ -126,7 +126,7 @@ const CollegeMain = ({ checkSession }) => {
             setSelectedYear(stack[len - 2][3]);
         } else if (stack[len - 2][0] === 1) {
             const response = await axios.get(
-                `https://schedio-coral.vercel.app/en/getsearchbycollege?term=${
+                `${process.env.REACT_APP_BACKEND_URL}/en/getsearchbycollege?term=${
                     stack[len - 2][1]
                 }`
             );
@@ -149,7 +149,7 @@ const CollegeMain = ({ checkSession }) => {
     const handlecollegedetail = async () => {
         try {
             const response = await axios.get(
-                'https://schedio-coral.vercel.app/en/getcollegedetails'
+                `${process.env.REACT_APP_BACKEND_URL}/en/getcollegedetails`
             );
             const data = response.data;
             setCollegedetail(data);
@@ -161,7 +161,7 @@ const CollegeMain = ({ checkSession }) => {
         try {
             if (projid) {
                 const response = await axios.get(
-                    `https://schedio-coral.vercel.app/en/validateurl?projid=${projid}`
+                    `${process.env.REACT_APP_BACKEND_URL}/en/validateurl?projid=${projid}`
                 );
                 if (response.data === 1) {
                     handleclick(projid);

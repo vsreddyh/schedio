@@ -21,7 +21,7 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
     };
     const share = async () => {
         navigator.clipboard
-            .writeText(`https://schedio-coral.vercel.app/hrmain/${projid}`)
+            .writeText(`${process.env.REACT_APP_BACKEND_URL}/hrmain/${projid}`)
             .then(() => {
                 setShowCopyMessage(true);
             })
@@ -36,7 +36,7 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
     const AddComment = async (event) => {
         event.preventDefault();
         const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/addcomment',
+            `${process.env.REACT_APP_BACKEND_URL}/en/addcomment`,
             { commentdata, projid }
         );
         setcommentdata('');
@@ -88,13 +88,13 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
     };
     const getstudentdetails = async () => {
         const response = await axios.get(
-            'https://schedio-coral.vercel.app/en/gethrdetails'
+            `${process.env.REACT_APP_BACKEND_URL}/en/gethrdetails`
         );
         setstudname(response.data.hr_name);
     };
     const deletecomment = async (index, id) => {
         const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/delcomment',
+            `${process.env.REACT_APP_BACKEND_URL}/en/delcomment`,
             { index, id }
         );
         if (response.data === 'success') {
@@ -112,7 +112,7 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
     };
     const fetchData = async () => {
         const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/getprojectdata',
+            `${process.env.REACT_APP_BACKEND_URL}/en/getprojectdata`,
             { data: projid }
         );
         setprojdata(response.data);

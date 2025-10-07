@@ -27,7 +27,7 @@ export default function Company({ setUserData }) {
 
         try {
             const response = await axios.get(
-                `https://schedio-coral.vercel.app/en/company-details?term1=${term1}`
+                `${process.env.REACT_APP_BACKEND_URL}/en/company-details?term1=${term1}`
             );
             const data = response.data;
             setSuggestions1(data);
@@ -39,7 +39,7 @@ export default function Company({ setUserData }) {
         try {
             const collegevalue = term1;
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/company-details',
+                `${process.env.REACT_APP_BACKEND_URL}/en/company-details`,
                 { college: collegevalue }
             );
             if (response.data.message === 'user saved') {

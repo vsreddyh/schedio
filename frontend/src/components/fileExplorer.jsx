@@ -27,7 +27,7 @@ const FileExplorer = () => {
         try {
             setFileId(data);
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/fexp',
+                `${process.env.REACT_APP_BACKEND_URL}/en/fexp`,
                 {
                     data,
                 }
@@ -47,7 +47,7 @@ const FileExplorer = () => {
         setCodeExplain('');
         setsider(false);
         const response = axios.post(
-            'https://schedio-coral.vercel.app/en/explainCode',
+            `${process.env.REACT_APP_BACKEND_URL}/en/explainCode`,
             {
                 data: cde,
             }
