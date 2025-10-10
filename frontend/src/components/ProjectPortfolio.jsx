@@ -163,7 +163,7 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
                                 <video
                                     height='500px'
                                     width='600px'
-                                    src={`/en/image/${projdata.Video}`}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.Video}`}
                                     type='video/mp4'
                                     controls
                                 />
@@ -172,7 +172,7 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
                         {photolist.length !== 0 &&
                             photolist.map((photo, index) => (
                                 <img
-                                    src={`/en/image/${photo}`}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${photo}`}
                                     key={index}
                                     alt='VS'
                                     className='slectimage2'
@@ -185,7 +185,7 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
                                 <div className='oppic'>
                                     {projdata && (
                                         <img
-                                            src={`/en/image/${projdata.photo}`}
+                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.photo}`}
                                             alt='VS'
                                             className='slectimage'
                                         />
@@ -286,7 +286,7 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
                                                 <div className='letcomdetails'>
                                                     <div className='commentpic'>
                                                         <img
-                                                            src={`/en/commentimage/${comment.id}`}
+                                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/commentimage/${comment.id}`}
                                                             alt='VS'
                                                             className='slectimage5'
                                                         />

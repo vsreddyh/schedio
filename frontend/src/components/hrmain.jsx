@@ -423,7 +423,7 @@ function HRMAIN({ checkSession }) {
                                                 <div className='user-cardSC'>
                                                     <div className='user-card-imgSC'>
                                                         <img
-                                                            src={`/en/image/${student.photo}`}
+                                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${student.photo}`}
                                                             alt=''
                                                         />
                                                     </div>

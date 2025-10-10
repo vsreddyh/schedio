@@ -107,7 +107,7 @@ export default function StudentProfile({
                         <div className='mpphoto'>
                             <img
                                 className='profile-picture'
-                                src={`/en/image/${studentdetail.photo}`}
+                                src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studentdetail.photo}`}
                                 alt='Profile Picture'
                             />
                         </div>

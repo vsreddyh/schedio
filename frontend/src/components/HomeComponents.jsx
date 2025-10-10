@@ -394,7 +394,7 @@ export default function HomeComponents({ checkSession }) {
                                 className='profileset-icon1'
                             />
 
-                            {/* <img src={`/en/image/${studentdetail.photo}`} alt="" className="profileset-icon1" /> */}
+                            {/* <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studentdetail.photo}`} alt="" className="profileset-icon1" /> */}
                         </div>
                     </div>
                     <p>{studentdetail.student_name}</p>

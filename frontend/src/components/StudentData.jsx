@@ -150,7 +150,7 @@ export default function StudentData({
                     <div className='sphoto'>
                         {studata.photo && (
                             <img
-                                src={`/en/image/${studata.photo}`}
+                                src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studata.photo}`}
                                 alt='Profile Picture'
                             />
                         )}
@@ -216,7 +216,7 @@ export default function StudentData({
                         <div className='cardpart1'>
                             <img
                                 className='profile-picture1'
-                                src={`/en/image/${project.photo}`}
+                                src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${project.photo}`}
                                 alt='Profile Picture1'
                             />
                             <div className='pdiscript1'>
