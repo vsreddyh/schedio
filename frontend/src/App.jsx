@@ -24,6 +24,8 @@ import HomeComponents from "./components/HomeComponents";
 import TermsAndConditions from "./components/TermsAndConditions";
 import Instructions from "./components/Instructions";
 
+axios.defaults.withCredentials = true; 
+
 export default function App() {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);

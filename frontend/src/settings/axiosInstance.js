@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+axios.defaults.withCredentials = true; 
 // Create an instance of Axios with custom configuration
 const axiosInstance = axios.create({
     baseURL: process.env.REACT_APP_BACKEND_URL, // Use environment variable for backend server URL

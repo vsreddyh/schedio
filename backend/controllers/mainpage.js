@@ -271,7 +271,6 @@ const getlikedprojects = async (req, res) => {
 //return student details
 const getstudentdetails = async (req, res) => {
   const user = req.session.loggedInemail;
-  console.log(user);
   const search = await Student.findOne({ email_address: user });
   res.json(search);
 };

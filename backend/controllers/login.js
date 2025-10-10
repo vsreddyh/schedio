@@ -564,7 +564,7 @@ const collegeDetails = async (req, res) => {
     } else {
         req.session.fourth = result;
         try {
-            const Student = new Student({
+            const student = new Student({
                 student_name: req.session.username,
                 email_address: req.session.loggedInemail,
                 password: req.session.password,
@@ -575,7 +575,7 @@ const collegeDetails = async (req, res) => {
                 Description: `Hi I am ${req.session.username} from ${req.session.fourth} ${req.session.third} department`,
                 versionKey: false,
             });
-            await Student.save();
+            await student.save();
             req.session.status = 1;
             res.json({
                 message: 'user saved',
@@ -612,7 +612,7 @@ const companyDetails = async (req, res) => {
     req.session.third = result;
 
     try {
-        const Student = new recruiter({
+        const Recruiter = new recruiter({
             hr_name: req.session.username,
             email_address: req.session.loggedInemail,
             password: req.session.password,
@@ -620,7 +620,7 @@ const companyDetails = async (req, res) => {
             photo: new mongoose.Types.ObjectId('65e55060fbd8d3ee2b6f1045'),
             versionKey: false,
         });
-        await Student.save();
+        await Recruiter.save();
         const company = await college
             .findOne({ college_name: result })
             .select('college_name');

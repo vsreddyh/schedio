@@ -134,7 +134,7 @@ const details = async (req, res) => {
         fileId = filename ? await uploadFile(file, filename) : null;
 
         // Save project details to MongoDB
-        const Student = new projects({
+        const newproj = new projects({
             Domain: domain,
             Skills: languages,
             College: req.session.loggedInCollege,
@@ -150,7 +150,7 @@ const details = async (req, res) => {
             versionkey: false,
         });
 
-        await Student.save();
+        await newproj.save();
         console.log('Project details saved successfully');
         const updateStudentSkills = async (
             studentId,
@@ -206,7 +206,7 @@ const details = async (req, res) => {
             console.error('MongoDB connection error:', error);
         });
 
-        const projectId = new mongoose.Types.ObjectId(Student._id);
+        const projectId = new mongoose.Types.ObjectId(newproj._id);
 
         // Update skills for students
         for (const studentId of studentIds) {
