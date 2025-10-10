@@ -23,7 +23,7 @@ export default function StudentLogin({ setUserData }) {
         }
         try {
             const response = await axios.get(
-                `https://schedio-coral.vercel.app/en/departments?term=${term}`
+                `${process.env.REACT_APP_BACKEND_URL}/en/departments?term=${term}`
             );
             const data = response.data;
             setSuggestions(data);
@@ -36,7 +36,7 @@ export default function StudentLogin({ setUserData }) {
         try {
             const departmentvalue = term;
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/departments',
+                `${process.env.REACT_APP_BACKEND_URL}/en/departments`,
                 { department: departmentvalue }
             );
             console.log(response);

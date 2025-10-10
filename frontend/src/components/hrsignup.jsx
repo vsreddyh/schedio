@@ -20,7 +20,7 @@ export default function HrSignUp() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/hrsignup',
+            `${process.env.REACT_APP_BACKEND_URL}/en/hrsignup`,
             formData
         );
         if (response.data.message === 'User Already Exists') {

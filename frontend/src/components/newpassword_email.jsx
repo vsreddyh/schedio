@@ -17,7 +17,7 @@ export default function Newpasword_email({ setUserData }) {
         const validateToken = async () => {
             const response = await axios
                 .post(
-                    `https://schedio-coral.vercel.app/en/validate-token/${token}`
+                    `${process.env.REACT_APP_BACKEND_URL}/en/validate-token/${token}`
                 )
                 .catch((error) => console.log(error));
 
@@ -47,7 +47,7 @@ export default function Newpasword_email({ setUserData }) {
         event.preventDefault();
         console.log('input data is', formData);
         const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/mailpass',
+            `${process.env.REACT_APP_BACKEND_URL}/en/mailpass`,
             formData
         );
         console.log('output is', response.data);

@@ -15,7 +15,7 @@ export default function Newhr({ setUserData }) {
     useEffect(() => {
         const validateToken = async () => {
             const response = await axios.post(
-                `https://schedio-coral.vercel.app/en/validate-token/${token}`
+                `${process.env.REACT_APP_BACKEND_URL}/en/validate-token/${token}`
             );
             if (response.data.message === 'Invalid token') {
                 setErrorMessage(encodeURIComponent('Invalid Token'));
@@ -44,7 +44,7 @@ export default function Newhr({ setUserData }) {
         event.preventDefault();
         console.log('i am here');
         const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/newhr',
+            `${process.env.REACT_APP_BACKEND_URL}/en/newhr`,
             formData
         );
         if (response.data.message === 'Mail already registered') {

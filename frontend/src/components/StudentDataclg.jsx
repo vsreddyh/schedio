@@ -22,7 +22,7 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
     };
     const share = async () => {
         navigator.clipboard
-            .writeText(`https://schedio-coral.vercel.app/clgmain/${projid}`)
+            .writeText(`${process.env.REACT_APP_BACKEND_URL}/clgmain/${projid}`)
             .then(() => {
                 setShowCopyMessage(true);
             })
@@ -36,7 +36,7 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
     useEffect(() => {
         const fetchData = async () => {
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/getstudendata',
+                `${process.env.REACT_APP_BACKEND_URL}/en/getstudendata`,
                 { data: projid }
             );
             setstudata(response.data);
@@ -47,7 +47,7 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
     useEffect(() => {
         const fetchprojdata = async () => {
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/fetchprojdata',
+                `${process.env.REACT_APP_BACKEND_URL}/en/fetchprojdata`,
                 { data: studata.projects }
             );
             setprojects(response.data);
@@ -101,7 +101,7 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
                     <div className='sphoto'>
                         {studata.photo && (
                             <img
-                                src={`/en/image/${studata.photo}`}
+                                src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studata.photo}`}
                                 alt='Profile Picture'
                             />
                         )}
@@ -167,7 +167,7 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
                         <div className='cardpart1'>
                             <img
                                 className='profile-picture1'
-                                src={`/en/image/${project.photo}`}
+                                src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${project.photo}`}
                                 alt='Profile Picture1'
                             />
                             <div className='pdiscript1'>

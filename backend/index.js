@@ -1,66 +1,77 @@
-const express = require('express');
-const path = require('path');
-require('dotenv').config();
+const express = require("express");
+const path = require("path");
+require("dotenv").config();
 const app = express();
-const cors = require('cors');
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const approute = require('./route.js');
-const cookieParser = require('cookie-parser');
-var MongoDBStore = require('connect-mongodb-session')(session);
-const port = process.env.PORT || 3000;
+const cors = require("cors");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+const approute = require("./route.js");
+var MongoDBStore = require("connect-mongodb-session")(session);
+const port = process.env.PORT || 3001;
 
-const { SESSION_KEY, url } = require('./settings/env.js');
+const { SESSION_KEY, url, FRONTEND_URL } = require("./settings/env.js");
 app.use(
-    cors({
-        origin: process.env.NODE_ENV === 'production' ? 'https://schedio-coral.vercel.app' : '*',
-        credentials: true,
-    })
+  cors({
+    origin: process.env.NODE_ENV === 'production' ? 'https://schedio-coral.vercel.app' : 'http://localhost:3000',
+    credentials: true,
+  }),
 );
 
 app.use(express.static(path.join(__dirname, './build')));
-app.use(bodyParser.json({ limit: '50mb' })); //limit limits the data which can be uploaded to server.js from frontend
-app.get('/', cors(), (req, res) => {
-    res.sendFile(path.resolve(__dirname, './build', 'index.html'));
+
+app.use(bodyParser.json({ limit: "50mb" })); //limit limits the data which can be uploaded to server.js from frontend
+const store = new MongoDBStore({
+  uri: url,
+  collection: "mySessions",
 });
-var store = new MongoDBStore({
-    uri: url,
-    collection: 'mySessions',
-});
-app.set("trust proxy", 1);
-app.use(cookieParser(SESSION_KEY));
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
 app.use(
-    session({
-        secret: SESSION_KEY,
-        resave: false,
-        store: store,
-        saveUninitialized: false,
-        cookie: {
-            sameSite:"strict",
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: 6 * 60 * 60 * 1000, //6 hours
-            rolling: true, //whenever session is modified it resets expirytime
-        },
-    })
+  session({
+    secret: SESSION_KEY,
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+    cookie: {
+      maxAge: 6 * 60 * 60 * 1000, //6 hours
+      sameSite: process.env.NODE_ENV === 'production'?"strict":"lax",
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      rolling: true,
+    },
+  }),
 );
 
-app.use('/en', approute); //routing to all functions
+app.get('/', cors(), (req, res) => {
+  res.sendFile(path.join(__dirname, './build', 'index.html'));
+})
+
+
+app.use("/en", approute); //routing to all functions
 
 //checks if session is expired
-app.get('/checksessionexpiry', async (req, res) => {
-    a = req.session.loggedInemail;
-    if (a !== undefined) {
-        res.json(1);
-    } else {
-        res.json(req.session);
-    }
+app.get("/checksessionexpiry", async (req, res) => {
+  a = req.session.loggedInemail;
+  if (a !== undefined) {
+    res.json(1);
+  } else {
+    res.json(req.session);
+  }
 });
 
-app.get('*', function (req, res) {
+app.get("*", function (req, res) {
+  if(process.env.NODE_ENV){
     res.sendFile(path.resolve(__dirname, './build', 'index.html'));
+  } else {
+    console.log(req.path);
+    res.status(404).send("This route does not exist");
+  }
 });
 
 app.listen(port, function (req, res) {
-    console.log('server is running');
+  console.log(
+    "server is running on Production:-",
+    process.env.NODE_ENV ? "false" : "true",
+  );
 });
