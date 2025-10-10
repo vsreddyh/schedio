@@ -17,7 +17,7 @@ export default function Newpasword() {
     useEffect(() => {
         const validateToken = async () => {
             const response = await axios.post(
-                `https://schedio-coral.vercel.app/en/validate-token/${token}`
+                `${process.env.REACT_APP_BACKEND_URL}/en/validate-token/${token}`
             );
             if (response.data.message === 'Invalid token') {
                 setErrorMessage(encodeURIComponent('Invalid Token'));
@@ -44,7 +44,7 @@ export default function Newpasword() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/newp',
+            `${process.env.REACT_APP_BACKEND_URL}/en/newp`,
             formData
         );
         if (response.data.message === 'Passwords are not same') {

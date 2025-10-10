@@ -29,7 +29,7 @@ export default function StudentProfile({
 
                 try {
                     const response = await axios.post(
-                        `https://schedio-coral.vercel.app/en/uploadProfilePhoto`,
+                        `${process.env.REACT_APP_BACKEND_URL}/en/uploadProfilePhoto`,
                         {
                             profilePhoto: base64data,
                             pphotoname: profilePhotoName,
@@ -66,7 +66,7 @@ export default function StudentProfile({
         setEditMode(false);
         try {
             const response = await axios.post(
-                `https://schedio-coral.vercel.app/en/uploadDescription`,
+                `${process.env.REACT_APP_BACKEND_URL}/en/uploadDescription`,
                 {
                     studentDescription: studentDescription,
                     studentorganization: studentorganization,
@@ -107,7 +107,7 @@ export default function StudentProfile({
                         <div className='mpphoto'>
                             <img
                                 className='profile-picture'
-                                src={`/en/image/${studentdetail.photo}`}
+                                src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studentdetail.photo}`}
                                 alt='Profile Picture'
                             />
                         </div>

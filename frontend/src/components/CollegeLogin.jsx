@@ -25,7 +25,7 @@ export default function CollegeLogin() {
         } else {
             try {
                 const response = await axios.get(
-                    `https://schedio-coral.vercel.app/en/signup_college?term=${inputValue}`
+                    `${process.env.REACT_APP_BACKEND_URL}/en/signup_college?term=${inputValue}`
                 );
                 const data = response.data;
                 setSuggestions1(data);
@@ -45,7 +45,7 @@ export default function CollegeLogin() {
         try {
             const CollegeName = term;
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/signup_college',
+                `${process.env.REACT_APP_BACKEND_URL}/en/signup_college`,
                 { serverCollegeName: CollegeName }
             );
 

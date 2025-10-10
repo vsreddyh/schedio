@@ -21,7 +21,7 @@ export default function ForgotPassword() {
         event.preventDefault();
         console.log('form succesful', formData);
         const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/fpassword',
+            `${process.env.REACT_APP_BACKEND_URL}/en/fpassword`,
             formData
         );
         console.log('response is', response);

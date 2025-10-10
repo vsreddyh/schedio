@@ -13,11 +13,12 @@ const {
     PASSWORD,
     JWT_SECRET,
     SESSION_KEY,
-    Course,
+    Student,
     college,
     Department,
     recruiter,
     skills,
+    FRONTEND_URL,
 } = require('../settings/env.js');
 require('dotenv').config();
 
@@ -105,7 +106,7 @@ const signup_college = async (req, res) => {
                         button: {
                             color: '#22BC66',
                             text: 'Set your password',
-                            link: `https://schedio-coral.vercel.app/set-password/ne/${token}`,
+                            link: `${FRONTEND_URL}/set-password/ne/${token}`,
                         },
                     },
                     outro: 'If you did not request to set a password, no further action is required on your part.',
@@ -135,10 +136,10 @@ const signup = async (req, res) => {
 
     //checks if user exists already
     async function checkStudent(mail) {
-        const courses = await Course.find({ email_address: mail }); //represents students
+        const Students = await Student.find({ email_address: mail }); //represents students
         const result = await college.find({ email_address: mail });
         const recruiters = await recruiter.find({ email_address: mail });
-        if (courses.length !== 0) {
+        if (Students.length !== 0) {
             return null; // User found
         } else if (recruiters.length !== 0) {
             return null;
@@ -183,7 +184,7 @@ const signup = async (req, res) => {
                         button: {
                             color: '#22BC66',
                             text: 'Set your password',
-                            link: `https://schedio-coral.vercel.app/set-password/nu/${token}`, //change link
+                            link: `${FRONTEND_URL}/set-password/nu/${token}`, //change link
                         },
                     },
                     outro: 'If you did not request to set a password, no further action is required on your part.',
@@ -208,10 +209,10 @@ const signup = async (req, res) => {
 const hrsignup = async (req, res) => {
     const { username } = req.body;
     async function checkStudent(mail) {
-        const courses = await Course.find({ email_address: mail });
+        const Students = await Student.find({ email_address: mail });
         const result = await college.find({ email_address: mail });
         const recruiters = await recruiter.find({ email_address: mail });
-        if (courses.length !== 0) {
+        if (Students.length !== 0) {
             return null; // User found
         } else if (recruiters.length !== 0) {
             return null;
@@ -253,7 +254,7 @@ const hrsignup = async (req, res) => {
                         button: {
                             color: '#22BC66',
                             text: 'Set your password',
-                            link: `https://schedio-coral.vercel.app/set-password/nh/${token}`,
+                            link: `${FRONTEND_URL}/set-password/nh/${token}`,
                         },
                     },
                     outro: 'If you did not request to set a password, no further action is required on your part.',
@@ -276,11 +277,11 @@ const hrsignup = async (req, res) => {
 //LOGIN
 const signin = async (req, res) => {
     async function checkStudent(mail) {
-        const courses = await Course.find({ email_address: mail });
+        const Students = await Student.find({ email_address: mail });
         const result = await college.find({ email_address: mail });
         const recruiters = await recruiter.find({ email_address: mail });
-        if (courses.length !== 0) {
-            return [courses[0].password, 0];
+        if (Students.length !== 0) {
+            return [Students[0].password, 0];
         }
         if (result.length !== 0) {
             return [result[0].password, 1];
@@ -357,14 +358,14 @@ const mailpass = async (req, res) => {
 //NEW-USER
 const newuser = async (req, res) => {
     const { mail, username, password, cpassword } = req.body;
-    const mails = await Course.find({ email_address: mail });
-    const courses = await Course.find({ student_name: username });
+    const mails = await Student.find({ email_address: mail });
+    const Students = await Student.find({ student_name: username });
     const recruiters = await recruiter.find({ hr_name: username });
     if (mails.length !== 0) {
         res.json({ message: 'Mail already registered' });
     } else if (password !== cpassword) {
         res.json({ message: 'Passwords are not same' });
-    } else if (courses.length !== 0) {
+    } else if (Students.length !== 0) {
         res.json({ message: 'Username Taken' });
     } else if (recruiters.length !== 0) {
         res.json({ message: 'Username Taken' });
@@ -384,13 +385,13 @@ const newuser = async (req, res) => {
 const newhr = async (req, res) => {
     const { mail, username, password, cpassword } = req.body;
     const mails = await recruiter.find({ email_address: mail });
-    const courses = await Course.find({ student_name: username });
+    const Students = await Student.find({ student_name: username });
     const recruiters = await recruiter.find({ hr_name: username });
     if (mails.length !== 0) {
         res.json({ message: 'Mail already registered' });
     } else if (password !== cpassword) {
         res.json({ message: 'Passwords are not same' });
-    } else if (courses.length !== 0) {
+    } else if (Students.length !== 0) {
         res.json({ message: 'Username Taken' });
     } else if (recruiters.length !== 0) {
         res.json({ message: 'Username Taken' });
@@ -410,11 +411,11 @@ const newhr = async (req, res) => {
 const fpassword = async (req, res) => {
     const { username } = req.body;
     async function checkStudent(mail) {
-        const courses = await Course.find({ email_address: mail });
+        const Students = await Student.find({ email_address: mail });
         const result = await college.find({ email_address: mail });
         const recruiters = await recruiter.find({ email_address: mail });
-        if (courses.length !== 0) {
-            return courses[0].password;
+        if (Students.length !== 0) {
+            return Students[0].password;
         }
         if (result.length !== 0) {
             return result[0].password;
@@ -459,7 +460,7 @@ const fpassword = async (req, res) => {
                         button: {
                             color: '#22BC66',
                             text: 'Set your new password',
-                            link: `https://schedio-coral.vercel.app/set-password/np/${token}`,
+                            link: `${FRONTEND_URL}/set-password/np/${token}`,
                         },
                     },
                     outro: 'If you did not request to set a new password, no further action is required on your part.',
@@ -485,11 +486,11 @@ const fpassword = async (req, res) => {
 const newp = async (req, res) => {
     const { mail, password, cpassword } = req.body;
     async function checkStudent(mail) {
-        const courses = await Course.find({ email_address: mail });
+        const Students = await Student.find({ email_address: mail });
         const result = await college.find({ email_address: mail });
         const recruiters = await recruiter.find({ email_address: mail });
-        if (courses.length !== 0) {
-            return courses[0];
+        if (Students.length !== 0) {
+            return Students[0];
         }
         if (result.length !== 0) {
             return result[0];
@@ -563,7 +564,7 @@ const collegeDetails = async (req, res) => {
     } else {
         req.session.fourth = result;
         try {
-            const course = new Course({
+            const student = new Student({
                 student_name: req.session.username,
                 email_address: req.session.loggedInemail,
                 password: req.session.password,
@@ -574,7 +575,7 @@ const collegeDetails = async (req, res) => {
                 Description: `Hi I am ${req.session.username} from ${req.session.fourth} ${req.session.third} department`,
                 versionKey: false,
             });
-            await course.save();
+            await student.save();
             req.session.status = 1;
             res.json({
                 message: 'user saved',
@@ -611,7 +612,7 @@ const companyDetails = async (req, res) => {
     req.session.third = result;
 
     try {
-        const course = new recruiter({
+        const Recruiter = new recruiter({
             hr_name: req.session.username,
             email_address: req.session.loggedInemail,
             password: req.session.password,
@@ -619,7 +620,7 @@ const companyDetails = async (req, res) => {
             photo: new mongoose.Types.ObjectId('65e55060fbd8d3ee2b6f1045'),
             versionKey: false,
         });
-        await course.save();
+        await Recruiter.save();
         const company = await college
             .findOne({ college_name: result })
             .select('college_name');
@@ -690,7 +691,7 @@ const getteam = async (req, res) => {
             res.json([]);
         } else {
             const regex1 = new RegExp(term1, 'i');
-            const teams = await Course.find({
+            const teams = await Student.find({
                 college_name: req.session.loggedInCollege,
                 student_name: regex1,
             })
@@ -710,7 +711,7 @@ const deletesession = async (req, res) => {
 };
 
 const getcount = async (req, res) => {
-    const a = await Course.countDocuments();
+    const a = await Student.countDocuments();
     const b = await college.countDocuments();
     const c = await recruiter.countDocuments();
     res.json([a, b, c]);
