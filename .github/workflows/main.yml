@@ -26,3 +26,13 @@ jobs:
           REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
           CI: false
         run: npm run build
+        
+      - name: Commit frontend build into backend
+        if: success()
+        working-directory: .
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add backend/build
+          git commit -m "CI: update frontend build [skip ci]" || echo "Nothing to commit"
+          git push
