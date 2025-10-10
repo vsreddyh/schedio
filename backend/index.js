@@ -17,6 +17,8 @@ app.use(
   }),
 );
 
+app.use(express.static(path.join(__dirname, './build')));
+
 app.use(bodyParser.json({ limit: "50mb" })); //limit limits the data which can be uploaded to server.js from frontend
 const store = new MongoDBStore({
   uri: url,
@@ -41,6 +43,11 @@ app.use(
   }),
 );
 
+app.get('/', cors(), (req, res) => {
+  res.sendFile(path.join(__dirname, './build', 'index.html'));
+})
+
+
 app.use("/en", approute); //routing to all functions
 
 //checks if session is expired
@@ -54,7 +61,12 @@ app.get("/checksessionexpiry", async (req, res) => {
 });
 
 app.get("*", function (req, res) {
-  console.log(req.path);
+  if(process.env.NODE_ENV){
+    res.sendFile(path.resolve(__dirname, './build', 'index.html'));
+  } else {
+    console.log(req.path);
+    res.status(404).send("This route does not exist");
+  }
 });
 
 app.listen(port, function (req, res) {
