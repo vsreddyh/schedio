@@ -27,7 +27,7 @@ export default function StudentProjectProfile({
     const share = async () => {
         try {
             await navigator.clipboard.writeText(
-                `https://schedio-coral.vercel.app/clgmain/${projid}`
+                `${process.env.REACT_APP_BACKEND_URL}/clgmain/${projid}`
             );
             setShowCopyMessage(true);
         } catch (err) {
@@ -84,7 +84,7 @@ export default function StudentProjectProfile({
         const fetchData = async () => {
             try {
                 const response = await axios.post(
-                    'https://schedio-coral.vercel.app/en/getprojectdata',
+                    `${process.env.REACT_APP_BACKEND_URL}/en/getprojectdata`,
                     { data: projid }
                 );
                 setProjdata(response.data);
@@ -98,7 +98,7 @@ export default function StudentProjectProfile({
     }, [projid]);
     const fetchData = async () => {
         const response = await axios.post(
-            'https://schedio-coral.vercel.app/en/getprojectdata',
+            `${process.env.REACT_APP_BACKEND_URL}/en/getprojectdata`,
             { data: projid }
         );
         setProjdata(response.data);
@@ -149,7 +149,7 @@ export default function StudentProjectProfile({
                                 <video
                                     height='500px'
                                     width='600px'
-                                    src={`/en/image/${projdata.Video}`}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.Video}`}
                                     type='video/mp4'
                                     controls
                                 />
@@ -159,7 +159,7 @@ export default function StudentProjectProfile({
                             photolist.map((photo, index) => (
                                 <img
                                     key={index}
-                                    src={`/en/image/${photo}`}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${photo}`}
                                     alt='VS'
                                     className='clphimg'
                                 />
@@ -171,7 +171,7 @@ export default function StudentProjectProfile({
                                 <div className='oppic1'>
                                     {projdata && (
                                         <img
-                                            src={`/en/image/${projdata.photo}`}
+                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.photo}`}
                                             alt='VS'
                                             className='cldpimg'
                                         />

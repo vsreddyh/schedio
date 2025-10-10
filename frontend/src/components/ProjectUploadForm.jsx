@@ -66,7 +66,7 @@ export default function ProjectUploadForm() {
         } else {
             try {
                 const response = await axios.get(
-                    `https://schedio-coral.vercel.app/en/getskills?term=${encodeURIComponent(
+                    `${process.env.REACT_APP_BACKEND_URL}/en/getskills?term=${encodeURIComponent(
                         inputValue
                     )}&languages=${languages}`
                 );
@@ -90,7 +90,7 @@ export default function ProjectUploadForm() {
             try {
                 console.log(teamInputValue, teams);
                 const response = await axios.get(
-                    `https://schedio-coral.vercel.app/en/getteam?term=${encodeURIComponent(
+                    `${process.env.REACT_APP_BACKEND_URL}/en/getteam?term=${encodeURIComponent(
                         teamInputValue
                     )}&teams=${teams}`
                 );
@@ -242,7 +242,7 @@ export default function ProjectUploadForm() {
         setPercent(100);
         if (description.length !== 0) {
             const response = await axios.post(
-                'https://schedio-coral.vercel.app/en/checkPlagiarism',
+                `${process.env.REACT_APP_BACKEND_URL}/en/checkPlagiarism`,
                 { textToCheck: description }
             );
             console.log(response);
@@ -282,7 +282,7 @@ export default function ProjectUploadForm() {
                 alert('profile photo required');
             } else {
                 const response = await axios
-                    .post(`https://schedio-coral.vercel.app/en/uploadDetails`, {
+                    .post(`${process.env.REACT_APP_BACKEND_URL}/en/uploadDetails`, {
                         videoname: videoname,
                         photoname: photoname,
                         filename: filename,

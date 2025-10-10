@@ -14,7 +14,7 @@ export default function HomePage({
         const getrecentprj = async () => {
             try {
                 const response = await axios.get(
-                    'https://schedio-coral.vercel.app/en/getrecentprj'
+                    `${process.env.REACT_APP_BACKEND_URL}/en/getrecentprj`
                 );
                 const data = response.data;
                 console.log('Random Projects Data:', data);

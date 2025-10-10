@@ -11,7 +11,7 @@ export default function ProjectCard({ projinfo, index }) {
         <div key={index} className="project-cardPC">
             <div className="cardpartPC">
                 <div className="profile-sectionPC">
-                    <img className="profile-picturePC" src={`/en/image/${projinfo.photo}`} alt="Profile Picture" />
+                    <img className="profile-picturePC" src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projinfo.photo}`} alt="Profile Picture" />
                     <div className="getlifedude">
                         {<div><FontAwesomeIcon icon={faHeart} style={{ color: "#436f91" }} /></div>}
                         {<div><FontAwesomeIcon icon={faComment} style={{ color: "#436f91" }} /></div>}

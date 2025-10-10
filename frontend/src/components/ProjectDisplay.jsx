@@ -18,7 +18,7 @@ export default function ProjectDisplay({
         const inputValue = event.target.value;
 
         const response = axios.get(
-            `https://schedio-coral.vercel.app/en/getskills?term=${encodeURIComponent(
+            `${process.env.REACT_APP_BACKEND_URL}/en/getskills?term=${encodeURIComponent(
                 inputValue
             )}&languages=${tags}`
         );
@@ -37,7 +37,7 @@ export default function ProjectDisplay({
         const getmostlikedprj = async () => {
             try {
                 const response = await axios.get(
-                    'https://schedio-coral.vercel.app/en/getmostlikedprj'
+                    `${process.env.REACT_APP_BACKEND_URL}/en/getmostlikedprj`
                 );
                 const data = response.data;
                 console.log('Random Projects Data:', data);

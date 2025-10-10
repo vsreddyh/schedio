@@ -9,7 +9,7 @@ const FrontPage = () => {
     const [data, setdata] = useState([]);
     const getdata = async () => {
         const response = await axios.get(
-            'https://schedio-coral.vercel.app/en/count'
+            `${process.env.REACT_APP_BACKEND_URL}/en/count`
         );
         setdata(response.data);
     };
