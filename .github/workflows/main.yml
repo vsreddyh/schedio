@@ -24,4 +24,5 @@ jobs:
         env:
           BUILD_PATH: ../backend/build
           REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
+          CI: false
         run: npm run build
