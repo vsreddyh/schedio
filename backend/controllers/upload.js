@@ -370,8 +370,7 @@ function getFolderStructure(zipEntries) {
 }
 
 const explainCode = async (req, res) => {
-    console.log(req.body.data);
-    const code = "Explain the following code:-  " + req.body.data;
+    const code = "Use only normal text. Don't use markdown. Explain the following code:-  " + req.body.data;
 
     const ai = new GoogleGenAI({ apiKey: geminiapi });
     const model = 'gemini-2.5-flash';
@@ -401,6 +400,7 @@ const explainCode = async (req, res) => {
         topK: 1,
         topP: 1,
         maxOutputTokens: 2048,
+        response_mime_type: 'text/plain'
       },
       safetySettings: [
         { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_ONLY_HIGH' },
