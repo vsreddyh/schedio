@@ -16,9 +16,7 @@ app.use(
     credentials: true,
   }),
 );
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "./build")));
-}
+app.use(express.static(path.join(__dirname, "./build")));
 
 app.use(bodyParser.json({ limit: "50mb" })); //limit limits the data which can be uploaded to server.js from frontend
 const store = new MongoDBStore({
@@ -45,9 +43,7 @@ app.use(
 );
 
 app.get("/", cors(), (req, res) => {
-  if (process.env.NODE_ENV === "production") {
-    res.sendFile(path.join(__dirname, "./build", "index.html"));
-  }
+  res.sendFile(path.join(__dirname, "./build", "index.html"));
 });
 
 app.use("/en", approute); //routing to all functions
