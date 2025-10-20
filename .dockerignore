@@ -1,0 +1,6 @@
+backend/.env
+backend/node_modules
+backend/build
+backend/vercel.json
+frontend/.env
+frontend/node_modules

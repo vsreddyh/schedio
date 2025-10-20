@@ -77,24 +77,29 @@ Schedio provides a platform for students/employees, colleges/organizations, and 
 ## Features
 
 ### General Features
-1. User Authentication with email (forgot password support)  
-2. Comprehensive skill dataset  
-3. Plagiarism check using RapidAPI  
-4. Upload support for videos, code files, and images  
-5. Tree-like code structure viewer  
-6. Code explanation powered by Gemini  
+
+1. User Authentication with email (forgot password support)
+2. Comprehensive skill dataset
+3. Plagiarism check using RapidAPI
+4. Upload support for videos, code files, and images
+5. Tree-like code structure viewer
+6. Code explanation powered by Gemini
 7. Session persistence for seamless user experience
+
 ###### Note:- T stands for Type
+
 ### T1 User Features (Student/Employee)
-1. View all projects  
-2. Search projects by programming language  
+
+1. View all projects
+2. Search projects by programming language
 3. Tokenized search across projects
-4. Comment/Like functionality on projects  
+4. Comment/Like functionality on projects
 5. Can be added as contributors by T2 users on project uploads.
 6. Add/Edit profile picture and custom Student Description
 7. Auto generates Description on Signing up
 
 ### T2 User Features (College/ Organisation)
+
 1. View only their T1 users' projects.
 2. Monthly Analytics.
 3. Upload projects for T1 users.
@@ -102,6 +107,7 @@ Schedio provides a platform for students/employees, colleges/organizations, and 
 5. View and download T1 user profiles as PDFs.
 
 ### T3 User Features (Recruiter)
+
 1. Access to all projects.
 2. Comment on any project.
 3. Filter by Institute or Domain.
@@ -117,6 +123,7 @@ Schedio provides a platform for students/employees, colleges/organizations, and 
 To run the project locally, follow these steps.
 
 ### Prerequisites
+
 - Node.js & npm
 - MongoDB Database
 - Git
@@ -126,17 +133,20 @@ To run the project locally, follow these steps.
 ### Installation
 
 1. Clone the repository:
+
    ```sh
    git clone https://github.com/vsreddyh/schedio.git
    ```
 
 2. Install dependencies:
+
    ```sh
    cd frontend && npm install
    cd ../backend && npm install
    ```
 
 3. Create a `.env` file in the `./backend` folder with the following structure:
+
    ```env
    EMAIL=your-email@example.com
    PASSWORD=your-app-password
@@ -152,6 +162,66 @@ To run the project locally, follow these steps.
    npm run build && node index.js
    ```
 
+### Installation using Docker
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/vsreddyh/schedio.git
+   ```
+
+#### For Development
+
+2. Create a `.env.development` file in the root folder with the following structure:
+
+   ```env
+   EMAIL=your-email@example.com
+   PASSWORD=your-app-password
+   JWT_SECRET=random-32-characters
+   SESSION_KEY=random-32-characters
+   plagarismapi=your-rapidapi-key
+   geminiapi=your-gemini-api-key
+   url=mongodb://your-connection-url/database-name?retryWrites=true&w=majority
+   FRONTEND_URL=http://localhost:3000
+   REACT_APP_BACKEND_URL=http://localhost:3001
+   ```
+
+3. Build the image:
+
+   ```sh
+   docker build -f development.Dockerfile -t app-dev .
+   ```
+
+4. Run the container:
+   ```sh
+   docker run --env-file .env.development -p 3000:3000 -p 3001:3001 app-dev
+   ```
+
+#### For Production
+
+2. Create a `.env.production` file in the root folder with the following structure:
+
+   ```env
+   EMAIL=your-email@example.com
+   PASSWORD=your-app-password
+   JWT_SECRET=random-32-characters
+   SESSION_KEY=random-32-characters
+   plagarismapi=your-rapidapi-key
+   geminiapi=your-gemini-api-key
+   url=mongodb://your-connection-url/database-name?retryWrites=true&w=majority
+   FRONTEND_URL=website-url
+   ```
+
+3. Build the image:
+
+   ```sh
+   docker build -f production.Dockerfile --build-arg REACT_APP_BACKEND_URL="website-url" -t app-prod .
+   ```
+
+4. Run the container:
+   ```sh
+   docker run --env-file .env.production -p 3001:3001 app-prod
+   ```
+
 ---
 
 ## Contributing
@@ -165,6 +235,7 @@ We welcome contributions of all kinds! Whether it's bug reports, feature suggest
 
 2. **Clone the Repository**
    Clone your forked repository locally to make changes:
+
    ```sh
    git clone https://github.com/your-username/schedio.git
    cd schedio
@@ -172,9 +243,11 @@ We welcome contributions of all kinds! Whether it's bug reports, feature suggest
 
 3. **Create a New Branch**
    Use meaningful branch names to reflect the type of changes you are making:
+
    ```sh
    git checkout -b feature/your-feature-name
    ```
+
    _Example:_  
    `feature/user-authentication` or `feature/fix-login-issue`
 
@@ -183,12 +256,14 @@ We welcome contributions of all kinds! Whether it's bug reports, feature suggest
 
 5. **Commit Your Changes**
    Write clear, concise commit messages to describe the changes you made:
+
    ```sh
    git commit -m "clear and concise commit name"
    ```
 
 6. **Push Your Branch to GitHub**
    Push the branch to your forked repository:
+
    ```sh
    git push origin feature/your-feature-name
    ```
@@ -213,10 +288,12 @@ We welcome contributions of all kinds! Whether it's bug reports, feature suggest
 ### Reporting Issues and Suggesting Features
 
 If you encounter bugs or have ideas for new features, please open an issue:
-- **Report Bugs**: [Create a Bug Report](https://github.com/vsreddyh/schedio/issues/new?labels=bug)  
-- **Request Features**: [Suggest a Feature](https://github.com/vsreddyh/schedio/issues/new?labels=enhancement)  
+
+- **Report Bugs**: [Create a Bug Report](https://github.com/vsreddyh/schedio/issues/new?labels=bug)
+- **Request Features**: [Suggest a Feature](https://github.com/vsreddyh/schedio/issues/new?labels=enhancement)
 
 Make sure to:
+
 - Provide as much detail as possible.
 - Include steps to reproduce bugs, if applicable.
 
@@ -245,16 +322,17 @@ Your effort makes a huge difference! Every bug report, feature request, and pull
 ![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Status.png?raw=true)<p style="text-align: center;">Log out option in T1 users</p>
 
 ![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/college.png?raw=true)
-<p style="text-align: center;">Organization HomePage</p>
 
+<p style="text-align: center;">Organization HomePage</p>
 
 ![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/student_profile.png?raw=true)<p style="text-align: center;">Student Page viewed by T3,T2 users</p>
 
 ![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/college_search.png?raw=true)
+
 <p style="text-align: center;">Filtering by college in Recruiter page</p>
 
-
 ![](https://github.com/vsreddyh/schedio/blob/main/frontend/public/Bookmark.png?raw=true)
+
 <p style="text-align: center;">Bookmarks in recruiter page</p>
 
 ---

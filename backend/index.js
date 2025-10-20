@@ -7,17 +7,21 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const approute = require("./route.js");
 var MongoDBStore = require("connect-mongodb-session")(session);
-const port = process.env.PORT || 3001;
+const port = process.env.BACKEND_PORT || 3001;
 
 const { SESSION_KEY, url, FRONTEND_URL } = require("./settings/env.js");
 app.use(
   cors({
-    origin: process.env.NODE_ENV === 'production' ? 'https://schedio-coral.vercel.app' : 'http://localhost:3000',
+    origin:
+      process.env.NODE_ENV === "production"
+        ? FRONTEND_URL
+        : "http://localhost:3000",
     credentials: true,
   }),
 );
-
-app.use(express.static(path.join(__dirname, './build')));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "./build")));
+}
 
 app.use(bodyParser.json({ limit: "50mb" })); //limit limits the data which can be uploaded to server.js from frontend
 const store = new MongoDBStore({
@@ -35,18 +39,19 @@ app.use(
     store: store,
     cookie: {
       maxAge: 6 * 60 * 60 * 1000, //6 hours
-      sameSite: process.env.NODE_ENV === 'production'?"strict":"lax",
-      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       rolling: true,
     },
   }),
 );
 
-app.get('/', cors(), (req, res) => {
-  res.sendFile(path.join(__dirname, './build', 'index.html'));
-})
-
+app.get("/", cors(), (req, res) => {
+  if (process.env.NODE_ENV === "production") {
+    res.sendFile(path.join(__dirname, "./build", "index.html"));
+  }
+});
 
 app.use("/en", approute); //routing to all functions
 
@@ -61,8 +66,8 @@ app.get("/checksessionexpiry", async (req, res) => {
 });
 
 app.get("*", function (req, res) {
-  if(process.env.NODE_ENV){
-    res.sendFile(path.resolve(__dirname, './build', 'index.html'));
+  if (process.env.NODE_ENV) {
+    res.sendFile(path.resolve(__dirname, "./build", "index.html"));
   } else {
     console.log(req.path);
     res.status(404).send("This route does not exist");
@@ -72,6 +77,6 @@ app.get("*", function (req, res) {
 app.listen(port, function (req, res) {
   console.log(
     "server is running on Production:-",
-    process.env.NODE_ENV ? "false" : "true",
+    process.env.NODE_ENV == "production" ? "false" : "true",
   );
 });
