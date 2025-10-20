@@ -12,10 +12,7 @@ const port = process.env.BACKEND_PORT || 3001;
 const { SESSION_KEY, url, FRONTEND_URL } = require("./settings/env.js");
 app.use(
   cors({
-    origin:
-      process.env.NODE_ENV === "production"
-        ? FRONTEND_URL
-        : "http://localhost:3000",
+    origin: FRONTEND_URL,
     credentials: true,
   }),
 );
@@ -77,6 +74,6 @@ app.get("*", function (req, res) {
 app.listen(port, function (req, res) {
   console.log(
     "server is running on Production:-",
-    process.env.NODE_ENV == "production" ? "false" : "true",
+    process.env.NODE_ENV == "production" ? "true" : "false",
   );
 });
