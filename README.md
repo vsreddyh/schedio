@@ -96,7 +96,6 @@ Schedio provides a platform for students/employees, colleges/organizations, and 
 4. Comment/Like functionality on projects
 5. Can be added as contributors by T2 users on project uploads.
 6. Add/Edit profile picture and custom Student Description
-7. Auto generates Description on Signing up
 
 ### T2 User Features (College/ Organisation)
 
@@ -104,7 +103,7 @@ Schedio provides a platform for students/employees, colleges/organizations, and 
 2. Monthly Analytics.
 3. Upload projects for T1 users.
 4. Auto-sync skills and projects with T1 profiles.
-5. View and download T1 user profiles as PDFs.
+5. View and print T1 user profiles (print-to-PDF via the browser).
 
 ### T3 User Features (Recruiter)
 
@@ -155,11 +154,17 @@ To run the project locally, follow these steps.
    plagarismapi=your-rapidapi-key
    geminiapi=your-gemini-api-key
    url=mongodb://your-connection-url/database-name?retryWrites=true&w=majority
+   FRONTEND_URL=http://localhost:3000
+   BACKEND_PORT=3001
    ```
 
-4. Start the project:
+   The frontend also needs `REACT_APP_BACKEND_URL=http://localhost:3001`
+   (in `frontend/.env`) pointing at the backend.
+
+4. Start the project (from the `backend/` folder — the `build` script lives there
+   and builds the frontend, then serves it from Express):
    ```sh
-   npm run build && node index.js
+   cd backend && npm run build && node index.js
    ```
 
 ### Installation using Docker
