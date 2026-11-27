@@ -4,14 +4,14 @@ name: opencode-review
 # GitHub action (https://opencode.ai/docs/github/ - Pull Request Example).
 # Trigger is pull_request only: no /oc comment commands, no issue triage,
 # no schedules. Review-only: contents:read so it cannot push code; it posts
-# findings as PR comments.
+# findings as a PR comment through the issues API (hence issues:write while
+# pull-requests stays read).
 #
-# The reviewer reads back scratch files it stages in /tmp. Paths outside the
-# checkout are gated on the external_directory permission, which defaults to
-# "ask" - and nothing can answer a prompt in CI, so the job sat until its
-# timeout. The repo-root opencode.json grants /tmp/* (the CLI's matcher turns
-# "*" into ".*", so that covers nested temp dirs too); do not delete it as
-# dead config.
+# The reviewer stages scratch files in /tmp, which is outside the
+# checkout. The repo-root opencode.json explicitly allows external_directory
+# /tmp/* (the CLI's matcher turns "*" into ".*", so that covers nested temp
+# dirs too). Current defaults already allow external_directory, so this is
+# belt-and-braces against a future default change - keep it.
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
@@ -30,7 +30,7 @@ jobs:
     timeout-minutes: 10
     permissions:
       contents: read
-      pull-requests: write
+      pull-requests: read
       issues: write
     steps:
       - name: Checkout repository
