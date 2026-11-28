@@ -41,22 +41,22 @@ const AboutUs=()=>{
                     
                     </div>
                     <div className="Auteam-member">
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member 2" width="120" height="120" />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member: Hrishita" width="120" height="120" />
                       <p>Hrishita</p>
                     
                     </div>
                     <div className="Auteam-member">
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member 2" width="120" height="120" />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member: Naga Sai" width="120" height="120" />
                       <p>Naga Sai</p>
                     
                     </div>
                     <div className="Auteam-member">
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member 2" width="120" height="120" />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member: Florence" width="120" height="120" />
                       <p>Florence</p>
                     
                     </div>
                     <div className="Auteam-member">
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045"`} alt="Team Member 2" width="120" height="120" />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member: Sanjeeva" width="120" height="120" />
                       <p>Sanjeeva</p>
                     
                     </div>
@@ -67,8 +67,8 @@ const AboutUs=()=>{
                 <div className="Ausection contact-info">
                   <h3>Contact Us</h3>
                   <p>
-                    If you have any questions or feedback, we'd love to hear from you. Contact us at
-                    <a href="teamschedio@gmail.com">teamschedio@gmail.com</a>
+                    If you have any questions or feedback, we'd love to hear from you. Contact us at{' '}
+                    <a href="mailto:teamschedio@gmail.com">teamschedio@gmail.com</a>
                   </p>
                 </div>
               </div>

@@ -3,7 +3,6 @@ import './studentProjectPortfolio.css';
 //import { useNavigate } from "react-router-dom";
 import { GoLink } from 'react-icons/go';
 import axios from 'axios';
-import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function StudentProjectProfile({
     dis,
@@ -17,8 +16,7 @@ export default function StudentProjectProfile({
 
     const [skills, setskills] = useState([]);
     const [students, setstudents] = useState([]);
-    const [key, setKey] = useState(0);
-    const navigate = useNavigate();
+    const [, setKey] = useState(0);
 
     const exit = () => {
         dis();
@@ -110,9 +108,8 @@ export default function StudentProjectProfile({
     };
     useEffect(() => {
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projid]);
-    console.log(projdata);
-
     return (
         <div className='ourprojectdetails1'>
             <div className='opbuttons1'>

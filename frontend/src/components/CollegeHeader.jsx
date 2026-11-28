@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./collegemain.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faProductHunt } from "@fortawesome/free-brands-svg-icons";
 import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +11,7 @@ export default function CollegeHeader({
   handlecollegedetail,
 }) {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const [formData] = useState({
     category: "Any",
     search: "",
   });
@@ -41,8 +40,7 @@ export default function CollegeHeader({
       <div className="headersetCollege">
         <div className="logosetCollege">
           <div className="logoCollege">
-            {/* <FontAwesomeIcon icon={faProductHunt} style={{ color: "#0db1f8", }} /> */}
-            <img
+            <img alt=""
               src="../Plogo.png"
               style={{
                 width: "35px",

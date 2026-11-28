@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import Header from './Header';
-import Sider from './Sider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
 import axiosInstance from '../settings/axiosInstance';
 import './signin.css';
 import { Link, useNavigate } from 'react-router-dom';
@@ -21,12 +18,10 @@ export default function SignIn({ setUserData }) {
         event.preventDefault();
 
         try {
-            console.log(formData);
             const response = await axiosInstance.post(
                 `${process.env.REACT_APP_BACKEND_URL}/en/signin`,
                 formData
             );
-            console.log('res[ponse is', response);
             if (response.data.message === 'User Not found') {
                 setErrorMessage("User Doesn't exist");
             } else if (response.data.message === 'Wrong Password') {
@@ -41,11 +36,11 @@ export default function SignIn({ setUserData }) {
                 setUserData([response.data.user.username, 2, 1]);
                 navigate('/hrmain');
             } else {
-                console.log(response.data.user.username);
+                setErrorMessage(
+                    response.data.message || 'Login failed. Please try again.'
+                );
             }
         } catch (error) {
-            console.log('catch working');
-            console.log('Login error:', error);
             setErrorMessage('Login failed. Please check your credentials.');
         }
     };
@@ -71,8 +66,7 @@ export default function SignIn({ setUserData }) {
                 <div className='header-logo15'>
                     <div className='lll22'>
                         <div className='logo15'>
-                            {/* <FontAwesomeIcon icon={faProductHunt} style={{color: "#0db1f8",}} /> */}
-                            <img
+                            <img alt="Schedio logo"
                                 src='../Plogo.png'
                                 style={{
                                     width: '35px',
@@ -132,13 +126,10 @@ export default function SignIn({ setUserData }) {
                             type='password'
                             name='password'
                             placeholder='Password'
-                            minLength={8}
-                            pattern='(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}'
                             value={formData.password}
                             onChange={handleInputChange}
                             required
                             autoComplete='current-password'
-                            title='should atleast conatin 1 capital 1 small 1 special char 1 number total of 8 char minimum'
                         />
                         <br />
                         <button type='submit' className='signinsubmit'>

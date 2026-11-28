@@ -31,27 +31,26 @@ export default function Filters({ sendDataToParent }) {
             const data = response.data;
             setSuggestions(data);
         } catch (error) {
-            console.log('error', error);
         }
         if (inputdata === '') {
             setFormData({
                 ...formData,
-                ['college_name']: 'Any',
+                college_name: 'Any',
             });
         }
     };
     const handleSuggestionClick = (selectedSuggestion) => {
         setFormData({
             ...formData,
-            ['college_name']: selectedSuggestion,
+            college_name: selectedSuggestion,
         });
         setTerm(selectedSuggestion);
         setSuggestions([]);
-        sendDataToParent(formData);
     };
 
     useEffect(() => {
         sendDataToParent(formData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formData]);
 
     const handleToggle = () => {
@@ -59,7 +58,6 @@ export default function Filters({ sendDataToParent }) {
             ...formData,
             order: !formData.order,
         });
-        sendDataToParent(formData);
     };
     return (
         <div className='filters'>
@@ -75,9 +73,9 @@ export default function Filters({ sendDataToParent }) {
                     ></input>
                 </div>
                 <div className='suggestions'>
-                    {suggestions.map((suggestion, index) => (
+                    {suggestions.map((suggestion) => (
                         <p
-                            key={index}
+                            key={suggestion}
                             className='suggestion'
                             onClick={() => handleSuggestionClick(suggestion)}
                         >

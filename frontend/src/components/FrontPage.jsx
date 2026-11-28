@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './frontpage.css';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const FrontPage = () => {
     const [data, setdata] = useState([]);
     const getdata = async () => {
-        const response = await axios.get(
-            `${process.env.REACT_APP_BACKEND_URL}/en/count`
-        );
-        setdata(response.data);
+        try {
+            const response = await axios.get(
+                `${process.env.REACT_APP_BACKEND_URL}/en/count`
+            );
+            setdata(response.data);
+        } catch (error) {
+            setdata([]);
+        }
     };
     useEffect(() => {
         getdata();
@@ -84,6 +86,7 @@ const FrontPage = () => {
                                 {/* <FontAwesomeIcon icon={faProductHunt} style={{color: "#0db1f8"}} /> */}
                                 <img
                                     src='../Plogo.png'
+                                    alt='Schedio logo'
                                     style={{
                                         width: '35px',
                                         height: 'auto',
@@ -209,22 +212,22 @@ const FrontPage = () => {
                         <div className='fonline'>
                             <p>project</p>
                             <i className='fab fa-twitter'>
-                                <Link to='https://twitter.com/neilgogte'>
+                                <a href='https://twitter.com/neilgogte' target='_blank' rel='noreferrer'>
                                     Twitter
-                                </Link>
+                                </a>
                             </i>
                             <i className='fab fa-facebook-f'>
-                                <Link to='https://www.facebook.com/KMiT.in/'>
+                                <a href='https://www.facebook.com/KMiT.in/' target='_blank' rel='noreferrer'>
                                     Facebook
-                                </Link>
+                                </a>
                             </i>
                             <i className='fab fa-instagram'>
-                                <Link to='https://www.instagram.com/kmitofficial/?hl=en'>
+                                <a href='https://www.instagram.com/kmitofficial/?hl=en' target='_blank' rel='noreferrer'>
                                     Instagram
-                                </Link>
+                                </a>
                             </i>
                             <i className='fab fa-envelope-f'>
-                                <Link>freemovies5247@gmail.com</Link>
+                                <a href='mailto:teamschedio@gmail.com'>teamschedio@gmail.com</a>
                             </i>
                         </div>
                         <div>

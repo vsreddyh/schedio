@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./wru.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, } from "react-router-dom";
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
 export default function Category() {
@@ -11,21 +10,14 @@ export default function Category() {
     const [formData, setFormData] = useState({
         year: "Individual"
     });
-    const handle = async (event) => {
+    const handle = (event) => {
         event.preventDefault();
-        try {
-            if (formData.year === 'Individual') {
-                navigate('/signup');
-            }
-            else if (formData.year === 'Recruiter') {
-                navigate('/hrsignup');
-            }
-            else {
-                navigate('/college-signup');
-            }
-        }
-        catch (error) {
-            console.log(error);
+        if (formData.year === 'Individual') {
+            navigate('/signup');
+        } else if (formData.year === 'Recruiter') {
+            navigate('/hrsignup');
+        } else {
+            navigate('/college-signup');
         }
     };
     const handleInputChange = (event) => {
@@ -33,7 +25,6 @@ export default function Category() {
             ...formData,
             [event.target.name]: event.target.value
         });
-        console.log(event.target.value)
     };
 
     const handleLogoClick = () => {
@@ -51,8 +42,7 @@ export default function Category() {
                 <div className="header-logo9">
                     <div className="lll099">
                         <div className="logo9">
-                            {/* <FontAwesomeIcon icon={faProductHunt} style={{color: "#0db1f8"}} /> */}
-                            <img src='../Plogo.png' style={{ width: '35px', height: 'auto', paddingTop: '0px' }} onClick={handleLogoClick} />
+                            <img alt="Schedio logo" src='../Plogo.png' style={{ width: '35px', height: 'auto', paddingTop: '0px' }} onClick={handleLogoClick} />
                         </div>
                         <div className="title9" onClick={handleTitleClick}>
                             <p>Schedio</p>

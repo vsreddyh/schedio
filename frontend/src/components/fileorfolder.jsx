@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import DisplayFolders from './displayfolder';
 import DisplayFile from './displayfiles';
 
@@ -26,6 +25,7 @@ const FileOrFolder = ({ fileName, path, name, contents, fileContents, setcde, op
       setcde(null);
       setIsOpen(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openforpath, path]);
 
   const isFolder = (contents) => {

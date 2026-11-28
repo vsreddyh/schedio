@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
 import {
     faSearch,
     faUser,
-    faUserPlus,
     faBars,
-    faHeart,
-    faHouse,
 } from '@fortawesome/free-solid-svg-icons';
 import './HomeComponents.css';
 import HomePage from './HomePage.jsx';
 import StudentProfile from './StudentProfile.jsx';
 import ProjectDisplay from './ProjectDisplay.jsx';
-import { Input } from '@mui/material';
 import DomainClick from './DomainClick.jsx';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import StudentProjectProfile from './studentProjectPortfolio.jsx';
 import AboutUs from './AboutUs.jsx';
 // import { MdOutlineHome } from "react-icons/md";
-import ProjectCard from './ProjectCard.jsx';
 import './ProjectCard.css';
 export default function HomeComponents({ checkSession }) {
     const [isSiderVisible, setIsSiderVisible] = useState(false);
@@ -38,14 +32,13 @@ export default function HomeComponents({ checkSession }) {
     };
     const toggleDashboard1 = () => {
         setIsProfileVisible((prevState) => !prevState);
-        console.log(isProfileVisible);
     };
 
     const [display, setDisplay] = useState(0);
-    const [term, setTerm] = useState('');
+    const [, setTerm] = useState('');
     const [searchterm, setSearchterm] = useState('');
-    const [sugesstions, setSugesstions] = useState([]);
-    const [skillprj, setSkillprj] = useState('');
+    const [suggestions, setSugesstions] = useState([]);
+    const [, setSkillprj] = useState('');
     let { projid } = useParams();
     const [sendDataToStudent, setSendDataToStudent] = useState(null);
     const [prevdisplay, setPrevdisplay] = useState(0);
@@ -108,7 +101,7 @@ export default function HomeComponents({ checkSession }) {
                 setDisplay(prevdisplay);
             }
         } catch (error) {
-            console.error('error occured:', error);
+            console.error('error occurred:', error);
         }
     };
     const handleclick = (data) => {
@@ -119,12 +112,10 @@ export default function HomeComponents({ checkSession }) {
 
     const handleprojectprofile = async () => {
         try {
-            console.log('handleprojectprofile function called');
             if (projid) {
                 const response = await axios.get(
                     `${process.env.REACT_APP_BACKEND_URL}/en/validateurl?projid=${projid}`
                 );
-                console.log('Response from server:', response.data);
                 if (response.data === 1) {
                     setDisplay(4);
                     setSendDataToStudent(projid);
@@ -145,7 +136,7 @@ export default function HomeComponents({ checkSession }) {
     };
     const deletesession = async () => {
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${process.env.REACT_APP_BACKEND_URL}/en/deletesession`
             );
             await checkSession();
@@ -161,7 +152,7 @@ export default function HomeComponents({ checkSession }) {
             const data = response.data;
             setStudentdetail(data);
         } catch (error) {
-            console.error('error occured:', error);
+            console.error('error occurred:', error);
         }
     };
     const handlegetproject = async () => {
@@ -172,7 +163,7 @@ export default function HomeComponents({ checkSession }) {
             const data = response.data;
             setStudentproj(data);
         } catch (error) {
-            console.error('error occured:', error);
+            console.error('error occurred:', error);
         }
     };
     const handleskillprj = async (skillname) => {
@@ -186,7 +177,7 @@ export default function HomeComponents({ checkSession }) {
             setPrevdisplay(display);
             setDisplay(3);
         } catch (error) {
-            console.error('error occured:', error);
+            console.error('error occurred:', error);
         }
     };
 
@@ -200,7 +191,7 @@ export default function HomeComponents({ checkSession }) {
             setPrevdisplay(display);
             setDisplay(3);
         } catch (error) {
-            console.error('error occured:', error);
+            console.error('error occurred:', error);
         }
     };
 
@@ -216,9 +207,9 @@ export default function HomeComponents({ checkSession }) {
             setDisplay(prevdisplay);
             setSendDataToStudent(null);
         } else if (projid) {
-            console.log('got itttt');
             handleprojectprofile(projid);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projid]);
 
     useEffect(() => {
@@ -232,9 +223,7 @@ export default function HomeComponents({ checkSession }) {
                         clearInterval(intervalId);
                         alert('Session Expired. Please Login again');
                         await checkSession();
-                    } catch (error) {
-                        console.log(error);
-                    }
+                    } catch (error) {}
                 }
             } catch (error) {
                 console.error('Error checking session expiry:', error);
@@ -266,8 +255,7 @@ export default function HomeComponents({ checkSession }) {
                             </span>
                         </div>
                         <div className='logo4'>
-                            {/* <FontAwesomeIcon icon={faProductHunt} style={{ color: "#0db1f8" }} /> */}
-                            <img
+                            <img alt=""
                                 src='../Plogo.png'
                                 style={{ width: '35px', height: 'auto' }}
                                 onClick={handleLogoClick}
@@ -331,7 +319,6 @@ export default function HomeComponents({ checkSession }) {
                     onClick={() => handleOptionClick(0)}
                 >
                     <p>
-                        {/* <span><FontAwesomeIcon icon={faHouse} /></span> */}
                         Home
                     </p>
                 </div>
@@ -394,7 +381,6 @@ export default function HomeComponents({ checkSession }) {
                                 className='profileset-icon1'
                             />
 
-                            {/* <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studentdetail.photo}`} alt="" className="profileset-icon1" /> */}
                         </div>
                     </div>
                     <p>{studentdetail.student_name}</p>
@@ -454,7 +440,7 @@ export default function HomeComponents({ checkSession }) {
                 )}
                 {display === 3 && (
                     <DomainClick
-                        sugesstions={sugesstions}
+                        suggestions={suggestions}
                         handlebackClick={handlebackClick}
                         handleclick={handleclick}
                     />

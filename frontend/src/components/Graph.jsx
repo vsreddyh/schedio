@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import NothingHere from './nothinghere';
 import ProjectCard from './ProjectCard';
 const Graph = ({
@@ -19,6 +17,7 @@ const Graph = ({
 
     useEffect(() => {
         getproj();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [receivedData]);
 
     const getproj = async () => {
@@ -220,13 +219,14 @@ const Graph = ({
                 </div>
             </div>
             <div className='cprojects'>
-                {suggestions.map((suggestion, index) => (
+                {suggestions.map((suggestion) => (
                     <div
+                        key={suggestion._id}
                         onClick={() => {
                             handleclick(suggestion._id);
                         }}
                     >
-                        <ProjectCard projinfo={suggestion} index={index} />
+                        <ProjectCard projinfo={suggestion} />
                     </div>
                 ))}
                 {suggestions.length === 0 && <NothingHere />}

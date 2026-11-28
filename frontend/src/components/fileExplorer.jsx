@@ -5,7 +5,6 @@ import './fileExplorer.css';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useParams } from 'react-router-dom';
-import axiosInstance from '../settings/axiosInstance';
 import Loading from './Loading';
 
 const FileExplorer = () => {
@@ -14,25 +13,18 @@ const FileExplorer = () => {
     const [fileName, setFileName] = useState('');
     const [folderStructure, setFolderStructure] = useState(null);
     const [fileContents, setFileContents] = useState({});
-    const [file, setFile] = useState('');
-    const [fname, setFname] = useState('');
     const [cde, setcde] = useState();
     const [openforpath, setopenforpath] = useState('');
     const [codeExplain, setCodeExplain] = useState('');
-    const [display, setDisplay] = useState(0);
 
-    const [fileId, setFileId] = useState('');
-    console.log(openforpath);
     const fetchFolderStructure = async (data) => {
         try {
-            setFileId(data);
             const response = await axios.post(
                 `${process.env.REACT_APP_BACKEND_URL}/en/fexp`,
                 {
                     data,
                 }
             );
-            console.log(response.data.filename);
             setFolderStructure(response.data.folderStructure);
             setFileContents(response.data.fileContents);
             setFileName(response.data.filename);
@@ -54,8 +46,6 @@ const FileExplorer = () => {
         );
         response
             .then(function (result) {
-                console.log(result);
-                console.log(result.data.ans);
                 let codeExplainString = result.data.ans;
                 codeExplainString = codeExplainString.replace(/\n/g, '<br/>');
                 setCodeExplain(codeExplainString);
@@ -63,11 +53,9 @@ const FileExplorer = () => {
             .catch(function (error) {
                 console.error('Error: ', error);
             });
-        console.log('reponse is ', response);
     };
-    console.log('a', data);
     return (
-        <div class='febodyy'>
+        <div className='febodyy'>
             {sider && (
                 <div className='sider'>
                     {folderStructure ? (
@@ -106,7 +94,6 @@ const FileExplorer = () => {
                             Explain me!
                         </button>
                     )}
-                    {!sider && <div className='explain-block'></div>}
                 </div>
             ) : (
                 <div className='festage1'>

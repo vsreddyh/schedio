@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useEffect } from 'react';
 import ProjectCard from './ProjectCard';
@@ -17,7 +15,6 @@ export default function HomePage({
                     `${process.env.REACT_APP_BACKEND_URL}/en/getrecentprj`
                 );
                 const data = response.data;
-                console.log('Random Projects Data:', data);
                 setRandomprj(data);
             } catch (error) {
                 console.error('Error occurred:', error);
@@ -158,7 +155,7 @@ export default function HomePage({
                                 </div>
                                           
                             </div>
-                            <ProjectCard projinfo={suggestion} index={index} />
+                            <ProjectCard projinfo={suggestion} />
                         </div>
                     </div>
                 ))}

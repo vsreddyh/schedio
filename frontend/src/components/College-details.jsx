@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import './collegelogin-page.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +12,7 @@ export default function CollegeDetails({ setUserData }) {
 
     const [term1, setTerm1] = useState('');
     const [suggestions1, setSuggestions1] = useState([]);
-    const [error, seterror] = useState();
+    const [error] = useState();
     const navigate = useNavigate();
     const handleInputChange = async (event) => {
         const inputValue = event.target.value;
@@ -70,8 +69,7 @@ export default function CollegeDetails({ setUserData }) {
             <div className='content18' id='header8'>
                 <div className='header-logo8'>
                     <div className='logo8'>
-                        {/* <FontAwesomeIcon icon={faProductHunt} style={{color: "#0db1f8"}} /> */}
-                        <img
+                        <img alt=""
                             src='../Plogo.png'
                             style={{
                                 width: '35px',

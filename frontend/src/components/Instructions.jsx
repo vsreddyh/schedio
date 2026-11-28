@@ -14,7 +14,7 @@ const Instructions = () => {
 
                 <div className="TCterms">
 
-                    <p>If you want to add your Organization to our database, please follow these instructions and send the required data to <b style={{color: "#195ca2"}}>freemovies5247@gmail.com</b>:</p>
+                    <p>If you want to add your Organization to our database, please follow these instructions and send the required data to <b style={{color: "#195ca2"}}>teamschedio@gmail.com</b>:</p>
 
 
                     <h3>Organization Name:</h3>

@@ -3,11 +3,10 @@ import './new-user.css';
 import Header from './Header';
 import Sider from './Sider';
 import axios from 'axios';
-import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
-export default function Newpasword() {
+export default function Newpassword() {
     const year = new Date().getFullYear();
-    console.log('alalalalaa');
     const navigate = useNavigate();
     const params = useParams();
     const token = params.token;
@@ -33,7 +32,7 @@ export default function Newpasword() {
         if (errorMessage) {
             navigate(`/forgot-password/${errorMessage}`);
         }
-    }, [errorMessage]);
+    }, [errorMessage, navigate]);
     const [formData, setFormData] = useState({
         password: '',
         cpassword: '',

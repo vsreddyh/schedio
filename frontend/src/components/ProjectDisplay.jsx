@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import { useEffect } from 'react';
 import ProjectCard from './ProjectCard';
 export default function ProjectDisplay({
     handleskillprj,
@@ -24,7 +23,6 @@ export default function ProjectDisplay({
         );
         response
             .then(function (result) {
-                console.log(result.data);
                 setSuggestions(result.data);
             })
             .catch(function (error) {
@@ -40,7 +38,6 @@ export default function ProjectDisplay({
                     `${process.env.REACT_APP_BACKEND_URL}/en/getmostlikedprj`
                 );
                 const data = response.data;
-                console.log('Random Projects Data:', data);
                 setRandomprj(data);
             } catch (error) {
                 console.error('Error occurred:', error);
@@ -80,60 +77,60 @@ export default function ProjectDisplay({
                         id='npython'
                         className='ntechelements'
                         onClick={() => {
-                            handleskillprj('html');
+                            handleskillprj('python');
                         }}
                     >
                         <img
                             src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/800px-Python-logo-notext.svg.png'
-                            alt=''
+                            alt='Python projects'
                         />
                     </div>
                     <div
                         id='njava'
                         className='ntechelements'
                         onClick={() => {
-                            handleskillprj('html');
+                            handleskillprj('java');
                         }}
                     >
                         <img
                             src='https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/181_Java_logo_logos-512.png'
-                            alt=''
+                            alt='Java projects'
                         />
                     </div>
                     <div
                         id='ncpp'
                         className='ntechelements'
                         onClick={() => {
-                            handleskillprj('html');
+                            handleskillprj('cpp');
                         }}
                     >
                         <img
                             src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/1200px-ISO_C%2B%2B_Logo.svg.png'
-                            alt=''
+                            alt='C++ projects'
                         />
                     </div>
                     <div
                         id='nkotlin'
                         className='ntechelements'
                         onClick={() => {
-                            handleskillprj('html');
+                            handleskillprj('javascript');
                         }}
                     >
                         <img
                             src='https://www.freepnglogos.com/uploads/javascript-png/javascript-logo-transparent-logo-javascript-images-3.png'
-                            alt=''
+                            alt='JavaScript projects'
                         />
                     </div>
                     <div
                         id='nmern'
                         className='ntechelements'
                         onClick={() => {
-                            handleskillprj('html');
+                            handleskillprj('mern');
                         }}
                     >
                         <img
                             src='https://inzint.com/wp-content/uploads/2023/02/Features-of-Mern-stack-development-services-You-Should-Know-1.png'
-                            alt=''
+                            alt='MERN stack projects'
                         />
                     </div>
                     <div id='nmean' className='ntechelements'>
@@ -186,7 +183,7 @@ export default function ProjectDisplay({
                             />
                         </div>
                         <br />
-                        {suggestions !== '' && (
+                        {suggestions.length > 0 && (
                             <div className='sugessions'>
                                 {suggestions.map((suggestion, index) => (
                                     <p
@@ -225,14 +222,14 @@ export default function ProjectDisplay({
             </div>
 
             <div className='maincard'>
-                {randomprj.map((suggestion, index) => (
-                    <div key={index} className='grid-item'>
+                {randomprj.map((suggestion) => (
+                    <div key={suggestion._id} className='grid-item'>
                         <div
                             onClick={() => {
                                 handleclick(suggestion._id);
                             }}
                         >
-                            <ProjectCard projinfo={suggestion} index={index} />
+                            <ProjectCard projinfo={suggestion} />
                         </div>
                     </div>
                 ))}

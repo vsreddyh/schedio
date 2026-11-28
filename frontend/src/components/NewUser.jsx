@@ -3,7 +3,7 @@ import './new-user.css';
 import Header from './Header';
 import Sider from './Sider';
 import axios from 'axios';
-import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 export default function NewUser({ setUserData }) {
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function NewUser({ setUserData }) {
         if (errorMessage) {
             navigate(`/signup/${errorMessage}`);
         }
-    }, [errorMessage]);
+    }, [errorMessage, navigate]);
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -42,7 +42,6 @@ export default function NewUser({ setUserData }) {
     }, [email]);
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('i am here');
         const response = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}/en/newuser`,
             formData

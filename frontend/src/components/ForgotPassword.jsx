@@ -15,16 +15,12 @@ export default function ForgotPassword() {
     const [errorMessage, setErrorMessage] = useState(
         initialErrorMessage ? decodeURIComponent(initialErrorMessage) : ''
     );
-    console.log(errorMessage);
-
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('form succesful', formData);
         const response = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}/en/fpassword`,
             formData
         );
-        console.log('response is', response);
         if (response.data.message === 'User does not exist') {
             setErrorMessage('User does not exist');
         } else {

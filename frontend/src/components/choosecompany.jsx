@@ -4,9 +4,7 @@ import { useState } from 'react';
 
 import './choosecompany.css';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -71,8 +69,7 @@ export default function Company({ setUserData }) {
             <div className='content1' id='header'>
                 <div className='header-logo'>
                     <div className='logo'>
-                        {/* <FontAwesomeIcon icon={faProductHunt} style={{color: "#0db1f8"}} /> */}
-                        <img
+                        <img alt=""
                             src='../Plogo.png'
                             style={{
                                 width: '35px',

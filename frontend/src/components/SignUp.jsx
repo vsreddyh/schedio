@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import Header from './Header';
-import Sider from './Sider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
 import './signin.css';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -18,8 +15,6 @@ export default function SignUp() {
     const [errorMessage, setErrorMessage] = useState(
         initialErrorMessage ? decodeURIComponent(initialErrorMessage) : ''
     );
-    console.log(errorMessage);
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         const response = await axios.post(
@@ -53,8 +48,7 @@ export default function SignUp() {
                 <div className='header-logo15'>
                     <div className='lll22'>
                         <div className='logo15'>
-                            {/* <FontAwesomeIcon icon={faProductHunt} style={{color: "#0db1f8",}} /> */}
-                            <img
+                            <img alt=""
                                 src='../Plogo.png'
                                 style={{
                                     width: '35px',

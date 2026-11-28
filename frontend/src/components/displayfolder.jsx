@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import FileOrFolder from './fileorfolder';
 
 const DisplayFolders = ({contents,fileContents,fullPath,setcde,setopenforpath,openforpath}) => {
