@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import CollegeHeader from './CollegeHeader';
 import Graph from './Graph';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,6 +13,8 @@ import StudentDataclg from './StudentDataclg';
 
 const CollegeMain = ({ checkSession }) => {
     let { projid } = useParams();
+    const navigate = useNavigate();
+    const expiredRef = useRef(false);
 
     useEffect(() => {
         const intervalId = setInterval(async () => {
@@ -20,11 +22,15 @@ const CollegeMain = ({ checkSession }) => {
                 const response = await axios.get(
                     `${process.env.REACT_APP_BACKEND_URL}/checksessionexpiry`
                 );
-                if (response.data === 0) {
+                if (response.data === 0 && !expiredRef.current) {
+                    expiredRef.current = true;
                     try {
                         clearInterval(intervalId);
-                        alert('Session Expired. Please Login again');
                         await checkSession();
+                        navigate('/', {
+                            replace: true,
+                            state: { sessionExpired: true },
+                        });
                     } catch (error) {}
                 }
             } catch (error) {
@@ -33,7 +39,7 @@ const CollegeMain = ({ checkSession }) => {
         }, 10000);
 
         return () => clearInterval(intervalId);
-    }, [checkSession]);
+    }, [checkSession, navigate]);
 
     const [display, setDisplay] = useState(0);
     const [suggestions, setSugesstions] = useState([]);
@@ -45,7 +51,6 @@ const CollegeMain = ({ checkSession }) => {
     const toggleDashboard1 = () => {
         setIsProfileVisible((prevState) => !prevState);
     };
-    const navigate = useNavigate();
     const handlesearch = async (inputData) => {
         try {
             if (inputData !== '') {

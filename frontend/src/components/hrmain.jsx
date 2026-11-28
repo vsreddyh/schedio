@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './hr-page.css';
 import Header from './hrheader';
 import Filters from './filters';
@@ -19,6 +19,7 @@ import ProjectCard from './ProjectCard';
 
 function HRMAIN({ checkSession }) {
     const navigate = useNavigate();
+    const expiredRef = useRef(false);
     const [display, setDisplay] = useState(0);
     const [students, setStudents] = useState([]);
     const [receivedData, setReceivedData] = useState({
@@ -257,11 +258,15 @@ function HRMAIN({ checkSession }) {
                 const response = await axios.get(
                     `${process.env.REACT_APP_BACKEND_URL}/checksessionexpiry`
                 );
-                if (response.data === 0) {
+                if (response.data === 0 && !expiredRef.current) {
+                    expiredRef.current = true;
                     try {
                         clearInterval(intervalId);
-                        alert('Session Expired. Please Login again');
                         await checkSession();
+                        navigate('/', {
+                            replace: true,
+                            state: { sessionExpired: true },
+                        });
                     } catch (error) {
                     }
                 }
@@ -271,7 +276,7 @@ function HRMAIN({ checkSession }) {
         }, 10000);
 
         return () => clearInterval(intervalId);
-    }, [checkSession]);
+    }, [checkSession, navigate]);
 
     const toggleDashboard = () => {
         setIsSiderVisible((prevState) => !prevState);
@@ -418,7 +423,7 @@ function HRMAIN({ checkSession }) {
                                                 <div className='user-cardSC'>
                                                     <div className='user-card-imgSC'>
                                                         <img
-                                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${student.photo}`}
+                                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${student.photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                                             alt=''
                                                         />
                                                     </div>

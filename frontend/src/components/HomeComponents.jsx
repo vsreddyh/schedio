@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faSearch,
@@ -17,6 +17,7 @@ import AboutUs from './AboutUs.jsx';
 // import { MdOutlineHome } from "react-icons/md";
 import './ProjectCard.css';
 export default function HomeComponents({ checkSession }) {
+    const expiredRef = useRef(false);
     const [isSiderVisible, setIsSiderVisible] = useState(false);
     const [bodyGridColumn, setBodyGridColumn] = useState('span 2');
     const [studentproj, setStudentproj] = useState([]);
@@ -218,11 +219,15 @@ export default function HomeComponents({ checkSession }) {
                 const response = await axios.get(
                     `${process.env.REACT_APP_BACKEND_URL}/checksessionexpiry`
                 );
-                if (response.data === 0) {
+                if (response.data === 0 && !expiredRef.current) {
+                    expiredRef.current = true;
                     try {
                         clearInterval(intervalId);
-                        alert('Session Expired. Please Login again');
                         await checkSession();
+                        navigate('/', {
+                            replace: true,
+                            state: { sessionExpired: true },
+                        });
                     } catch (error) {}
                 }
             } catch (error) {
@@ -231,7 +236,7 @@ export default function HomeComponents({ checkSession }) {
         }, 10000);
 
         return () => clearInterval(intervalId);
-    }, [checkSession]);
+    }, [checkSession, navigate]);
 
     const handleLogoClick = () => {
         navigate('/');

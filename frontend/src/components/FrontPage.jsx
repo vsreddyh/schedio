@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './frontpage.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const FrontPage = () => {
     const [data, setdata] = useState([]);
+    const location = useLocation();
+    const [showExpired, setShowExpired] = useState(
+        Boolean(location.state && location.state.sessionExpired)
+    );
     const getdata = async () => {
         try {
             const response = await axios.get(
@@ -78,12 +82,41 @@ const FrontPage = () => {
 
     return (
         <div className='fpage1'>
+            {showExpired && (
+                <div
+                    style={{
+                        backgroundColor: '#7a2e12',
+                        color: '#ffe9d6',
+                        textAlign: 'center',
+                        padding: '10px 40px 10px 10px',
+                        position: 'relative',
+                        zIndex: 2000,
+                    }}
+                >
+                    Your session expired. Please sign in again.
+                    <button
+                        onClick={() => setShowExpired(false)}
+                        aria-label='Dismiss'
+                        style={{
+                            position: 'absolute',
+                            right: '10px',
+                            top: '8px',
+                            background: 'transparent',
+                            border: 'none',
+                            color: '#ffe9d6',
+                            fontSize: '16px',
+                            cursor: 'pointer',
+                        }}
+                    >
+                        ✕
+                    </button>
+                </div>
+            )}
             <div className='fheader'>
                 <header className='fheaderset'>
                     <div className='fheaderset1'>
                         <div className='flogo'>
                             <div className='fflogo'>
-                                {/* <FontAwesomeIcon icon={faProductHunt} style={{color: "#0db1f8"}} /> */}
                                 <img
                                     src='../Plogo.png'
                                     alt='Schedio logo'

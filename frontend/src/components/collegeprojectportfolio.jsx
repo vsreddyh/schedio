@@ -143,20 +143,32 @@ export default function StudentProjectProfile({
                         <div className='opvidname1'></div>
                         <div className='opprojectvideo1'>
                             {projdata && (
-                                <video
-                                    height='500px'
-                                    width='600px'
-                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.Video}`}
-                                    type='video/mp4'
-                                    controls
-                                />
+                                <>
+                                    <video
+                                        height='500px'
+                                        width='600px'
+                                        src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.Video}`}
+                                        onError={(e) => {
+                                            e.currentTarget.style.display = 'none';
+                                            const fallback = e.currentTarget.nextElementSibling;
+                                            if (fallback) fallback.style.display = '';
+                                        }}
+                                        type='video/mp4'
+                                        controls
+                                    />
+                                    <img
+                                        src='/Plogo.png'
+                                        alt='Project video unavailable'
+                                        style={{ display: 'none', maxWidth: '100%' }}
+                                    />
+                                </>
                             )}
                         </div>
                         {photolist.length !== 0 &&
                             photolist.map((photo, index) => (
                                 <img
                                     key={index}
-                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${photo}`}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                     alt='VS'
                                     className='clphimg'
                                 />
@@ -168,7 +180,7 @@ export default function StudentProjectProfile({
                                 <div className='oppic1'>
                                     {projdata && (
                                         <img
-                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.photo}`}
+                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                             alt='VS'
                                             className='cldpimg'
                                         />

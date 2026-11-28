@@ -103,7 +103,7 @@ export default function StudentProfile({
                         <div className='mpphoto'>
                             <img
                                 className='profile-picture'
-                                src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studentdetail.photo}`}
+                                src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studentdetail.photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                 alt='Profile'
                             />
                         </div>

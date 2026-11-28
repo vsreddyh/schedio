@@ -22,7 +22,6 @@ const FileOrFolder = ({ fileName, path, name, contents, fileContents, setcde, op
 
   useEffect(() => {
     if (!isFolder(contents) && openforpath !== `${path}/${name}`) {
-      setcde(null);
       setIsOpen(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

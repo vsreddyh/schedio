@@ -31,32 +31,32 @@ const AboutUs=()=>{
                   <h3>Meet Our Team</h3>
                   <div className="Auteam-section">
                     <div className="Auteam-member">
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member 1" width="120" height="120" />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member 1" width="120" height="120" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }} />
                       <p>Nithin</p>
                       
                     </div>
                     <div className="Auteam-member">
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member 2" width="120" height="120" />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member 2" width="120" height="120" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }} />
                       <p>Vishnu</p>
                     
                     </div>
                     <div className="Auteam-member">
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member: Hrishita" width="120" height="120" />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member: Hrishita" width="120" height="120" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }} />
                       <p>Hrishita</p>
                     
                     </div>
                     <div className="Auteam-member">
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member: Naga Sai" width="120" height="120" />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member: Naga Sai" width="120" height="120" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }} />
                       <p>Naga Sai</p>
                     
                     </div>
                     <div className="Auteam-member">
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member: Florence" width="120" height="120" />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member: Florence" width="120" height="120" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }} />
                       <p>Florence</p>
                     
                     </div>
                     <div className="Auteam-member">
-                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member: Sanjeeva" width="120" height="120" />
+                      <img src={`${process.env.REACT_APP_BACKEND_URL}/en/image/65e55060fbd8d3ee2b6f1045`} alt="Team Member: Sanjeeva" width="120" height="120" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }} />
                       <p>Sanjeeva</p>
                     
                     </div>
