@@ -160,7 +160,7 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
                                 <video
                                     height='500px'
                                     width='600px'
-                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.Video}`}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.Video}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                     type='video/mp4'
                                     controls
                                 />
@@ -169,7 +169,7 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
                         {photolist.length !== 0 &&
                             photolist.map((photo, index) => (
                                 <img
-                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${photo}`}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                     key={index}
                                     alt='VS'
                                     className='slectimage2'
@@ -182,7 +182,7 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
                                 <div className='oppic'>
                                     {projdata && (
                                         <img
-                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.photo}`}
+                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                             alt='VS'
                                             className='slectimage'
                                         />

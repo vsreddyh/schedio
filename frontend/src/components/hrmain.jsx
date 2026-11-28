@@ -252,16 +252,18 @@ function HRMAIN({ checkSession }) {
     }, [projid]);
 
     useEffect(() => {
+        let expired = false;
         const intervalId = setInterval(async () => {
             try {
                 const response = await axios.get(
                     `${process.env.REACT_APP_BACKEND_URL}/checksessionexpiry`
                 );
-                if (response.data === 0) {
+                if (response.data === 0 && !expired) {
+                    expired = true;
                     try {
                         clearInterval(intervalId);
-                        alert('Session Expired. Please Login again');
                         await checkSession();
+                        navigate('/', { replace: true });
                     } catch (error) {
                     }
                 }
@@ -271,7 +273,7 @@ function HRMAIN({ checkSession }) {
         }, 10000);
 
         return () => clearInterval(intervalId);
-    }, [checkSession]);
+    }, [checkSession, navigate]);
 
     const toggleDashboard = () => {
         setIsSiderVisible((prevState) => !prevState);
@@ -418,7 +420,7 @@ function HRMAIN({ checkSession }) {
                                                 <div className='user-cardSC'>
                                                     <div className='user-card-imgSC'>
                                                         <img
-                                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${student.photo}`}
+                                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${student.photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                                             alt=''
                                                         />
                                                     </div>

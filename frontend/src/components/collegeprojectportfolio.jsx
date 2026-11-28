@@ -146,7 +146,7 @@ export default function StudentProjectProfile({
                                 <video
                                     height='500px'
                                     width='600px'
-                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.Video}`}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.Video}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                     type='video/mp4'
                                     controls
                                 />
@@ -156,7 +156,7 @@ export default function StudentProjectProfile({
                             photolist.map((photo, index) => (
                                 <img
                                     key={index}
-                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${photo}`}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                     alt='VS'
                                     className='clphimg'
                                 />
@@ -168,7 +168,7 @@ export default function StudentProjectProfile({
                                 <div className='oppic1'>
                                     {projdata && (
                                         <img
-                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.photo}`}
+                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                             alt='VS'
                                             className='cldpimg'
                                         />

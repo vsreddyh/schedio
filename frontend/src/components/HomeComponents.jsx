@@ -213,16 +213,18 @@ export default function HomeComponents({ checkSession }) {
     }, [projid]);
 
     useEffect(() => {
+        let expired = false;
         const intervalId = setInterval(async () => {
             try {
                 const response = await axios.get(
                     `${process.env.REACT_APP_BACKEND_URL}/checksessionexpiry`
                 );
-                if (response.data === 0) {
+                if (response.data === 0 && !expired) {
+                    expired = true;
                     try {
                         clearInterval(intervalId);
-                        alert('Session Expired. Please Login again');
                         await checkSession();
+                        navigate('/', { replace: true });
                     } catch (error) {}
                 }
             } catch (error) {
@@ -231,7 +233,7 @@ export default function HomeComponents({ checkSession }) {
         }, 10000);
 
         return () => clearInterval(intervalId);
-    }, [checkSession]);
+    }, [checkSession, navigate]);
 
     const handleLogoClick = () => {
         navigate('/');

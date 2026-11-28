@@ -204,7 +204,7 @@ export default function StudentProjectProfile({ dis, ...props }) {
                                 <video
                                     height='500px'
                                     width='600px'
-                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.Video}`}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.Video}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                     controls
                                 />
                             )}
@@ -212,7 +212,7 @@ export default function StudentProjectProfile({ dis, ...props }) {
                         {photolist.length !== 0 &&
                             photolist.map((photo, index) => (
                                 <img
-                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${photo}`}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                     key={index}
                                     alt='VS'
                                     className='stphimg'
@@ -225,7 +225,7 @@ export default function StudentProjectProfile({ dis, ...props }) {
                                 <div className='oppic1'>
                                     {projdata && (
                                         <img
-                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.photo}`}
+                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projdata.photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                             alt='VS'
                                             className='stdpimg'
                                         />

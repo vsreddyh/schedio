@@ -96,7 +96,7 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
                     <div className='sphoto'>
                         {studata.photo && (
                             <img
-                                src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studata.photo}`}
+                                src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studata.photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                 alt='Profile'
                             />
                         )}
@@ -162,7 +162,7 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
                         <div className='cardpart1'>
                             <img
                                 className='profile-picture1'
-                                src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${project.photo}`}
+                                src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${project.photo}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                 alt='Profile'
                             />
                             <div className='pdiscript1'>

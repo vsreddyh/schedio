@@ -13,18 +13,21 @@ import StudentDataclg from './StudentDataclg';
 
 const CollegeMain = ({ checkSession }) => {
     let { projid } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        let expired = false;
         const intervalId = setInterval(async () => {
             try {
                 const response = await axios.get(
                     `${process.env.REACT_APP_BACKEND_URL}/checksessionexpiry`
                 );
-                if (response.data === 0) {
+                if (response.data === 0 && !expired) {
+                    expired = true;
                     try {
                         clearInterval(intervalId);
-                        alert('Session Expired. Please Login again');
                         await checkSession();
+                        navigate('/', { replace: true });
                     } catch (error) {}
                 }
             } catch (error) {
@@ -33,7 +36,7 @@ const CollegeMain = ({ checkSession }) => {
         }, 10000);
 
         return () => clearInterval(intervalId);
-    }, [checkSession]);
+    }, [checkSession, navigate]);
 
     const [display, setDisplay] = useState(0);
     const [suggestions, setSugesstions] = useState([]);
@@ -45,7 +48,6 @@ const CollegeMain = ({ checkSession }) => {
     const toggleDashboard1 = () => {
         setIsProfileVisible((prevState) => !prevState);
     };
-    const navigate = useNavigate();
     const handlesearch = async (inputData) => {
         try {
             if (inputData !== '') {
