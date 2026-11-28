@@ -344,7 +344,7 @@ export default function StudentProjectProfile({ dis, ...props }) {
                                                 <div className='letcomdetails1'>
                                                     <div className='commentpic1'>
                                                         <img
-                                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/commentimage/${comment.id}`}
+                                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/commentimage/${comment.id}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                                             alt='VS'
                                                             className='stcmimg'
                                                         />

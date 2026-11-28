@@ -295,7 +295,7 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
                                                 <div className='letcomdetails'>
                                                     <div className='commentpic'>
                                                         <img
-                                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/commentimage/${comment.id}`}
+                                                            src={`${process.env.REACT_APP_BACKEND_URL}/en/commentimage/${comment.id}`} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/Plogo.png'; }}
                                                             alt='VS'
                                                             className='slectimage5'
                                                         />
