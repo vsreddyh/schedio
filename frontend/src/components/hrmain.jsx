@@ -27,7 +27,7 @@ function HRMAIN({ checkSession }) {
         sort_by: 'Upload Date',
         order: false,
     });
-    const [searchData, setSearchData] = useState({
+    const [, setSearchData] = useState({
         type: 'Project Search',
         search: '',
     });
@@ -39,7 +39,7 @@ function HRMAIN({ checkSession }) {
     const [hrdetails, setHrdetails] = useState([]);
     const [isSiderVisible, setIsSiderVisible] = useState(false);
     const [bodyGridColumn, setBodyGridColumn] = useState('span 2');
-    const [stack, setstack] = useState([[0]]);
+    const [, setstack] = useState([[0]]);
     const toggleDashboard1 = () => {
         setIsProfileVisible((prevState) => !prevState);
     };
@@ -54,7 +54,6 @@ function HRMAIN({ checkSession }) {
             `${process.env.REACT_APP_BACKEND_URL}/en/getdomainbyclick?term=${data}`
         );
         setProjects(response.data);
-        console.log('got filter data');
         setDisplay(6);
         setstack((prevStack) => {
             const newStack = [...prevStack];
@@ -66,6 +65,7 @@ function HRMAIN({ checkSession }) {
     const CategoryData = useCallback((data) => {
         updatesearchData(data);
         setCurrentPage(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const updatesearchData = (data) => {
@@ -80,7 +80,6 @@ function HRMAIN({ checkSession }) {
     };
 
     const handlestusearch = async (data) => {
-        console.log('clicked');
         try {
             const queryString = `?type=${'Student Search'}&search=${data}`;
             const response = await axios.get(
@@ -92,7 +91,6 @@ function HRMAIN({ checkSession }) {
                 newStack.push([3, data]);
                 return newStack;
             });
-            console.log(response.data);
             setStudents(response.data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -172,7 +170,6 @@ function HRMAIN({ checkSession }) {
                 newStack.push([6, inputData]);
                 return newStack;
             });
-            console.log(data);
             setProjects(data);
         } catch (error) {
             console.error('Error fetching suggestions:', error);
@@ -214,7 +211,6 @@ function HRMAIN({ checkSession }) {
             newStack.push([3, 1, 'bookmark']);
             return newStack;
         });
-        console.log(response.data);
         setStudents(response.data);
     };
 
@@ -224,7 +220,6 @@ function HRMAIN({ checkSession }) {
                 `${process.env.REACT_APP_BACKEND_URL}/en/gethrdetails`
             );
             const data = response.data;
-            console.log(data);
             setHrdetails(data);
         } catch (error) {
             console.error('error occurred:', error);
@@ -233,7 +228,7 @@ function HRMAIN({ checkSession }) {
 
     const deletesession = async () => {
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${process.env.REACT_APP_BACKEND_URL}/en/deletesession`
             );
             await checkSession();
@@ -243,16 +238,17 @@ function HRMAIN({ checkSession }) {
     };
 
     useEffect(() => {
-        if (display == 2) {
-            console.log('fetching dataaa');
+        if (display === 2) {
             fetchData();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [receivedData, currentPage]);
 
     useEffect(() => {
         if (projid) {
             fetchData();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projid]);
 
     useEffect(() => {
@@ -261,14 +257,12 @@ function HRMAIN({ checkSession }) {
                 const response = await axios.get(
                     `${process.env.REACT_APP_BACKEND_URL}/checksessionexpiry`
                 );
-                console.log('345678998765ty', response.data);
                 if (response.data === 0) {
                     try {
                         clearInterval(intervalId);
                         alert('Session Expired. Please Login again');
                         await checkSession();
                     } catch (error) {
-                        console.log(error);
                     }
                 }
             } catch (error) {
@@ -292,7 +286,6 @@ function HRMAIN({ checkSession }) {
     const stackexplore = () => {
         fetchData();
     };
-    console.log('Stack is', stack);
     return (
         <div className='body19'>
             <Header
@@ -392,8 +385,11 @@ function HRMAIN({ checkSession }) {
                                     </p>
                                 </div>
 
-                                {projects.map((suggestion, index) => (
-                                    <div key={index} className='grid-item1'>
+                                {projects.map((suggestion) => (
+                                    <div
+                                        key={suggestion._id}
+                                        className='grid-item1'
+                                    >
                                         <div>
                                             <div
                                                 onClick={() =>
@@ -402,7 +398,6 @@ function HRMAIN({ checkSession }) {
                                             >
                                                 <ProjectCard
                                                     projinfo={suggestion}
-                                                    index={index}
                                                 />
                                             </div>
                                         </div>
@@ -493,8 +488,11 @@ function HRMAIN({ checkSession }) {
                                     </p>
                                 </div>
 
-                                {projects.map((suggestion, index) => (
-                                    <div key={index} className='grid-item1'>
+                                {projects.map((suggestion) => (
+                                    <div
+                                        key={suggestion._id}
+                                        className='grid-item1'
+                                    >
                                         <div
                                             onClick={() => {
                                                 openproject(suggestion._id);
@@ -502,7 +500,6 @@ function HRMAIN({ checkSession }) {
                                         >
                                             <ProjectCard
                                                 projinfo={suggestion}
-                                                index={index}
                                             />
                                         </div>
                                     </div>

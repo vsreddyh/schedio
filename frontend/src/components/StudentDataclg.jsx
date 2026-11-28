@@ -1,19 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './sp.css';
-import { Link } from 'react-router-dom';
 import { GoLink } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom';
 import NothingHere from './nothinghere';
 
 export default function StudentDataclg({ dis, handleclick, ...props }) {
-    const navigate = useNavigate();
     const projid = props.studata;
     const [showCopyMessage, setShowCopyMessage] = useState(false);
     const exit = async () => {
         dis();
     };
-    const printDivRef = useRef(null);
     const handleDownload = async () => {
         alert(
             'Please enable background graphics in more settings for better output.'
@@ -54,7 +50,6 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
         };
         fetchprojdata();
     }, [studata]);
-    console.log(studata);
     return (
         <div className='sprofile'>
             <div className='sbuttons no-print'>
@@ -102,7 +97,7 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
                         {studata.photo && (
                             <img
                                 src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studata.photo}`}
-                                alt='Profile Picture'
+                                alt='Profile'
                             />
                         )}
                     </div>
@@ -168,7 +163,7 @@ export default function StudentDataclg({ dis, handleclick, ...props }) {
                             <img
                                 className='profile-picture1'
                                 src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${project.photo}`}
-                                alt='Profile Picture1'
+                                alt='Profile'
                             />
                             <div className='pdiscript1'>
                                 <p>{project.Description}</p>

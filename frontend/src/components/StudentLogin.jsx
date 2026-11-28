@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import './collegelogin-page.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -11,26 +10,8 @@ export default function StudentLogin({ setUserData }) {
     const year = new Date().getFullYear();
 
     const [term, setTerm] = useState('');
-    const [suggestions, setSuggestions] = useState([]);
     const [error, seterror] = useState();
     const navigate = useNavigate();
-    const handleInputChange = async (event) => {
-        const inputValue = event.target.value;
-        setTerm(inputValue);
-        if (inputValue.length === 0) {
-            setSuggestions([]);
-            return;
-        }
-        try {
-            const response = await axios.get(
-                `${process.env.REACT_APP_BACKEND_URL}/en/departments?term=${term}`
-            );
-            const data = response.data;
-            setSuggestions(data);
-        } catch (error) {
-            console.error('Error fetching autocomplete data:', error);
-        }
-    };
     const submit = async (event) => {
         event.preventDefault();
         try {
@@ -39,7 +20,6 @@ export default function StudentLogin({ setUserData }) {
                 `${process.env.REACT_APP_BACKEND_URL}/en/departments`,
                 { department: departmentvalue }
             );
-            console.log(response);
             if (response.data.message === 'user saved') {
                 setUserData([response.data.email, 0, 0, departmentvalue]);
                 navigate('/college-details');
@@ -68,8 +48,7 @@ export default function StudentLogin({ setUserData }) {
             <div className='content18' id='header8'>
                 <div className='header-logo8'>
                     <div className='logo8'>
-                        {/* <FontAwesomeIcon icon={faProductHunt} style={{color: "#0db1f8"}} /> */}
-                        <img
+                        <img alt=""
                             src='../Plogo.png'
                             style={{
                                 width: '35px',

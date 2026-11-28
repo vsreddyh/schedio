@@ -8,7 +8,7 @@ import './collegemain.css';
 import FiltersCollege from './FiltersCollege';
 import DomainClick from './DomainClick';
 import Collegeprojectportfolio from './collegeprojectportfolio';
-import { Link, useParams, useNavigate, Navigate } from 'react-router-dom';
+import { useParams, useNavigate, } from 'react-router-dom';
 import StudentDataclg from './StudentDataclg';
 
 const CollegeMain = ({ checkSession }) => {
@@ -25,9 +25,7 @@ const CollegeMain = ({ checkSession }) => {
                         clearInterval(intervalId);
                         alert('Session Expired. Please Login again');
                         await checkSession();
-                    } catch (error) {
-                        console.log(error);
-                    }
+                    } catch (error) {}
                 }
             } catch (error) {
                 console.error('Error checking session expiry:', error);
@@ -38,7 +36,7 @@ const CollegeMain = ({ checkSession }) => {
     }, [checkSession]);
 
     const [display, setDisplay] = useState(0);
-    const [sugesstions, setSugesstions] = useState([]);
+    const [suggestions, setSugesstions] = useState([]);
     const [sendDataToStudent, setSendDataToStudent] = useState(null);
     const [collegedetail, setCollegedetail] = useState([]);
     const [isProfileVisible, setIsProfileVisible] = useState(false);
@@ -69,7 +67,7 @@ const CollegeMain = ({ checkSession }) => {
     };
     const deletesession = async () => {
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${process.env.REACT_APP_BACKEND_URL}/en/deletesession`
             );
             await checkSession();
@@ -154,7 +152,7 @@ const CollegeMain = ({ checkSession }) => {
             const data = response.data;
             setCollegedetail(data);
         } catch (error) {
-            console.error('error occured:', error);
+            console.error('error occurred:', error);
         }
     };
     const fetchData = async () => {
@@ -165,7 +163,7 @@ const CollegeMain = ({ checkSession }) => {
                 );
                 if (response.data === 1) {
                     handleclick(projid);
-                } else if (response.data == 2) {
+                } else if (response.data === 2) {
                     handlestuclick(projid);
                 } else {
                     navigate('clgmain');
@@ -185,8 +183,8 @@ const CollegeMain = ({ checkSession }) => {
     };
     useEffect(() => {
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projid]);
-    console.log(display, stack);
     return (
         <div className='body1'>
             <CollegeHeader
@@ -246,7 +244,7 @@ const CollegeMain = ({ checkSession }) => {
                     <DomainClick
                         handleclick={handleclick}
                         handlebackClick={killpage}
-                        sugesstions={sugesstions}
+                        suggestions={suggestions}
                     />
                 )}
                 {display === 2 && (

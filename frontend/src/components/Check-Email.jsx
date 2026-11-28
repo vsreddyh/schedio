@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Header from "./Header";
 
 
-export default function () {
+export default function CheckEmail() {
 
     const params = useParams();
     const token = params.mailid;

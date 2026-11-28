@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './ProjectPortfolio.css';
-import { useNavigate } from 'react-router-dom';
 import { GoLink } from 'react-icons/go';
 import axios from 'axios';
 
@@ -16,7 +15,6 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
     const [studname, setstudname] = useState('');
 
     const exit = async () => {
-        console.log('yo');
         dis();
     };
     const share = async () => {
@@ -35,7 +33,7 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
     };
     const AddComment = async (event) => {
         event.preventDefault();
-        const response = await axios.post(
+        await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}/en/addcomment`,
             { commentdata, projid }
         );
@@ -124,9 +122,8 @@ export default function ProjectPortfolio({ dis, openstuinfo, ...props }) {
     useEffect(() => {
         getstudentdetails();
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projid]);
-    console.log(dotclick, studname);
-
     return (
         <div className='ourprojectdetails'>
             <div className='opbuttons'>

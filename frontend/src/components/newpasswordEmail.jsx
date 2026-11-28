@@ -3,9 +3,9 @@ import './new-user.css';
 import Header from './Header';
 import Sider from './Sider';
 import axios from 'axios';
-import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
-export default function Newpasword_email({ setUserData }) {
+export default function NewpasswordEmail({ setUserData }) {
     const year = new Date().getFullYear();
     const navigate = useNavigate();
     const params = useParams();
@@ -19,7 +19,7 @@ export default function Newpasword_email({ setUserData }) {
                 .post(
                     `${process.env.REACT_APP_BACKEND_URL}/en/validate-token/${token}`
                 )
-                .catch((error) => console.log(error));
+                .catch(() => {});
 
             if (response.data.message === 'Invalid token') {
                 setErrorMessage(encodeURIComponent('Invalid Token'));
@@ -35,7 +35,7 @@ export default function Newpasword_email({ setUserData }) {
         if (errorMessage) {
             navigate(`/college-signup/${errorMessage}`);
         }
-    }, [errorMessage]);
+    }, [errorMessage, navigate]);
     const [formData, setFormData] = useState({
         password: '',
         cpassword: '',
@@ -45,12 +45,10 @@ export default function Newpasword_email({ setUserData }) {
     }, [email]);
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('input data is', formData);
         const response = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}/en/mailpass`,
             formData
         );
-        console.log('output is', response.data);
         if (response.data.message === 'Passwords are not same') {
             seterror('Passwords are not same');
         } else if (response.data.message === 'college has been registered') {

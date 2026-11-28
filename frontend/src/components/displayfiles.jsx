@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import { useEffect } from 'react';
 
 const DisplayFile = ({fileContents,fullPath,setcde}) => {
-    console.log(fullPath)
-    setcde(fileContents[fullPath])
+    useEffect(() => {
+        setcde(fileContents[fullPath]);
+    }, [fileContents, fullPath, setcde]);
     return (
       null
     );

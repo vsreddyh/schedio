@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './sp.css';
-import { Link } from 'react-router-dom';
 import { GoLink } from 'react-icons/go';
-import { useNavigate } from 'react-router-dom';
 import NothingHere from './nothinghere';
 
 export default function StudentData({
@@ -17,7 +15,6 @@ export default function StudentData({
     const [bookmark, setbookmark] = useState(0);
     const [showCopyMessage, setShowCopyMessage] = useState(false);
     const exit = async () => {
-        console.log('yo');
         dis();
     };
     const handleDownload = async () => {
@@ -91,7 +88,6 @@ export default function StudentData({
         };
         fetchprojdata();
     }, [studata]);
-    console.log(studata);
     return (
         <div className='sprofile'>
             <div className='sbuttons no-print'>
@@ -151,7 +147,7 @@ export default function StudentData({
                         {studata.photo && (
                             <img
                                 src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studata.photo}`}
-                                alt='Profile Picture'
+                                alt='Profile'
                             />
                         )}
                     </div>
@@ -217,7 +213,7 @@ export default function StudentData({
                             <img
                                 className='profile-picture1'
                                 src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${project.photo}`}
-                                alt='Profile Picture1'
+                                alt='Profile'
                             />
                             <div className='pdiscript1'>
                                 <p>{project.Description}</p>

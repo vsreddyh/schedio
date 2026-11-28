@@ -33,20 +33,22 @@ app.use(
     secret: SESSION_KEY,
     resave: false,
     saveUninitialized: false,
+    rolling: true,
     store: store,
     cookie: {
       maxAge: 6 * 60 * 60 * 1000, //6 hours
       sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      rolling: true,
     },
   }),
 );
 
-app.get("/", cors(), (req, res) => {
+app.get("/", (req, res) => {
   if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "./build", "index.html"));
+  } else {
+    res.json({ status: "ok" });
   }
 });
 
@@ -54,24 +56,27 @@ app.use("/en", approute); //routing to all functions
 
 //checks if session is expired
 app.get("/checksessionexpiry", async (req, res) => {
-  a = req.session.loggedInemail;
-  if (a !== undefined) {
-    res.json(1);
-  } else {
-    res.json(req.session);
+  try {
+    const loggedInEmail = req.session ? req.session.loggedInemail : undefined;
+    if (loggedInEmail !== undefined) {
+      res.json(1);
+    } else {
+      res.json(0);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to check session" });
   }
 });
 
 app.get("*", function (req, res) {
-  if (process.env.NODE_ENV) {
+  if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "./build", "index.html"));
   } else {
-    console.log(req.path);
     res.status(404).send("This route does not exist");
   }
 });
 
-app.listen(port, function (req, res) {
+app.listen(port, function () {
   console.log(
     "server is running on Production:-",
     process.env.NODE_ENV == "production" ? "true" : "false",

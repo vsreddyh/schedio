@@ -1,18 +1,12 @@
 import React, { useState, useCallback } from "react";
 import "./ProjectUpload.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faProductHunt } from "@fortawesome/free-brands-svg-icons";
 import {
-  faSearch,
-  faUser,
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import Header from "./hrheader";
-import Filters from "./filters";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import Uploadsucess from "./uploadsucess";
-import uploadpending from "./uploadpending";
+import Uploadsuccess from "./uploadsuccess";
 import Uploadpending from "./uploadpending";
 
 export default function ProjectUploadForm() {
@@ -20,25 +14,15 @@ export default function ProjectUploadForm() {
   const [video, setVideo] = useState(null);
   const [file, setFile] = useState(null);
   const [profilePhoto, setProfilePhoto] = useState(null);
-  const [photoname, setPhotoName] = useState("");
+  const [photoname] = useState("");
   const [videoname, setVideoName] = useState("");
   const [filename, setFileName] = useState("");
   const [pphotoname, setProfilePhotoName] = useState("");
-  const [totalSize, setTotalSize] = useState(0);
-  const [fileSize, setFileSize] = useState(0);
+    const [fileSize, setFileSize] = useState(0);
   const [videoSize, setVideoSize] = useState(0);
   const [profilePhotoSize, setProfilePhotoSize] = useState(0);
-  const [percent, setPercent] = useState(0);
-  const [formData, setFormData] = useState({
-    category: "Any",
-    search: "",
-  });
-  const FilterData = useCallback((data) => {}, []);
-
-  const CategoryData = useCallback((data) => {}, []);
-  const navigate = useNavigate();
-
-  const handleSubmit = (event) => {
+    const CategoryData = useCallback((data) => {}, []);
+    const handleSubmit = (event) => {
     event.preventDefault();
     saveDetails();
   };
@@ -46,20 +30,18 @@ export default function ProjectUploadForm() {
   const [teams, setTeams] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [teamInputValue, setTeamInputValue] = useState("");
-  const [sugesstions2, setSugesstions2] = useState([]);
-  const [sugesstions3, setSugesstions3] = useState([]);
+  const [suggestions2, setSugesstions2] = useState([]);
+  const [suggestions3, setSugesstions3] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [domain, setDomain] = useState("");
-  const [plagarismValue, setPlagarismValue] = useState(0);
-  const [plagarismErrorMessage, setPlagarismErrorMessage] = useState("");
+  const [plagiarismValue, setPlagiarismValue] = useState(0);
+  const [plagiarismErrorMessage, setPlagiarismErrorMessage] = useState("");
   const [display, setDisplay] = useState(0);
 
   const handleInputChange = async (event) => {
     const inputValue = event.target.value;
     setInputValue(inputValue);
-    console.log(inputValue);
-
     if (inputValue.trim() === "") {
       setSugesstions2([]);
       return;
@@ -72,7 +54,6 @@ export default function ProjectUploadForm() {
         );
         const data = response.data;
         setSugesstions2(data);
-        console.log(data);
       } catch (error) {
         console.error("Error fetching suggestions:", error);
       }
@@ -88,7 +69,6 @@ export default function ProjectUploadForm() {
       return;
     } else {
       try {
-        console.log(teamInputValue, teams);
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/en/getteam?term=${encodeURIComponent(
             teamInputValue,
@@ -96,27 +76,23 @@ export default function ProjectUploadForm() {
         );
         const data = response.data;
         setSugesstions3(data);
-      } catch (error) {
-        console.log("Error fetching suggestions:", error);
-      }
+      } catch (error) {}
     }
   };
 
-  const handleKeyDown = (sugesstion) => {
-    addLanguage(sugesstion.trim());
+  const handleKeyDown = (suggestion) => {
+    addLanguage(suggestion.trim());
     setInputValue("");
     setSugesstions2([]);
   };
-  const handleTeamKeyDown = (sugesstion) => {
-    console.log(sugesstion);
-    addTeamMember(sugesstion);
+  const handleTeamKeyDown = (suggestion) => {
+    addTeamMember(suggestion);
     setTeamInputValue("");
     setSugesstions3([]);
   };
 
   const addLanguage = (newLanguage) => {
     setLanguages([...languages, newLanguage]);
-    console.log(newLanguage);
   };
 
   const addTeamMember = (newTeamMember) => {
@@ -177,7 +153,6 @@ export default function ProjectUploadForm() {
   function handlePhotoChange(event) {
     const selectedPhoto = event.target.files[0];
 
-    console.log("photo");
     if (selectedPhoto) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -191,29 +166,6 @@ export default function ProjectUploadForm() {
     }
   }
 
-  function adjustSelectSize() {
-    const selectElement = document.getElementById("cars");
-    const selectedOption = selectElement.options[selectElement.selectedIndex];
-
-    const width = getTextWidth(selectedOption.text) + 40;
-
-    selectElement.style.width = width + "px";
-  }
-
-  function getTextWidth(text) {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-    context.font = getComputedStyle(document.body).font;
-    const metrics = context.measureText(text);
-    return metrics.width;
-  }
-  const save = (event) => {
-    setFormData({
-      ...formData,
-      category: event.target.value,
-    });
-    adjustSelectSize();
-  };
   function handlechange(event) {
     const selectedFile = event.target.files[0];
     setFileSize(selectedFile.size / (1024 * 1024));
@@ -226,47 +178,48 @@ export default function ProjectUploadForm() {
       let temp1 = event.target.value;
       const zipname = temp1.replace("C:\\fakepath\\", "");
       setFileName(zipname);
-      console.log(filename);
       alert("file uploaded");
     } else {
       alert("please select a valid .zip file");
     }
   }
-  const handlePlagarism = async () => {
-    setPlagarismValue(2);
-    setPlagarismErrorMessage("Running Plagarism Test Please Wait");
-    console.log(description);
-    setPercent(100);
-    if (description.length !== 0) {
+  const handlePlagiarism = async () => {
+    if (description.length === 0) {
+      setPlagiarismValue(0);
+      setPlagiarismErrorMessage("Please enter a description first");
+      return;
+    }
+    setPlagiarismValue(2);
+    setPlagiarismErrorMessage("Running Plagiarism Test Please Wait");
+    try {
       const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/en/checkPlagiarism`,
         { textToCheck: description },
       );
-      console.log(response);
-      setPercent(response.data);
-    }
-
-    console.log("percent is ", percent);
-    if (percent < 30) {
-      setPlagarismValue(3);
-      setPlagarismErrorMessage("No Plagarised Content Found");
-    } else {
-      setPlagarismValue(1);
-      setPlagarismErrorMessage("Plagarised Content Found");
+      const score = response.data;
+      if (score < 30) {
+        setPlagiarismValue(3);
+        setPlagiarismErrorMessage("No Plagiarised Content Found");
+      } else {
+        setPlagiarismValue(1);
+        setPlagiarismErrorMessage("Plagiarised Content Found");
+      }
+    } catch (error) {
+      setPlagiarismValue(0);
+      setPlagiarismErrorMessage("Plagiarism check failed, please retry");
     }
   };
 
   async function saveDetails() {
-    console.log(photos.length);
     try {
       if (fileSize + videoSize + profilePhotoSize > 4) {
         alert("size exceeded");
-      } else if (plagarismValue === 0) {
-        alert("Please run Plagarism Check");
-      } else if (plagarismValue === 2) {
-        alert("Checking Plagrism Wait");
-      } else if (plagarismValue === 1) {
-        alert("Your Description is Plagarised. It cannot be Submitted");
+      } else if (plagiarismValue === 0) {
+        alert("Please run Plagiarism Check");
+      } else if (plagiarismValue === 2) {
+        alert("Checking Plagiarism Wait");
+      } else if (plagiarismValue === 1) {
+        alert("Your Description is Plagiarised. It cannot be Submitted");
       } else if (videoname.length === 0) {
         alert("video required!");
       } else if (languages.length === 0) {
@@ -278,7 +231,7 @@ export default function ProjectUploadForm() {
       } else if (pphotoname.length === 0) {
         alert("profile photo required");
       } else {
-        const response = await axios
+        await axios
           .post(`${process.env.REACT_APP_BACKEND_URL}/en/uploadDetails`, {
             videoname: videoname,
             photoname: photoname,
@@ -295,10 +248,7 @@ export default function ProjectUploadForm() {
           })
 
           .then((response) => {
-            console.log(response);
-            console.log("successfully uploaded.");
             setDisplay(2);
-            console.log("response: ", response.data.message);
             if (
               response.data.message === "Project details saved successfully"
             ) {
@@ -306,15 +256,12 @@ export default function ProjectUploadForm() {
             }
           })
           .catch((error) => {
-            console.log("Error uploading details:", error);
             alert("File size too large");
           });
       }
     } catch (error) {
-      console.log("hi");
       alert("File size too large");
 
-      console.log("Error uploading details:", error);
     }
   }
 
@@ -425,11 +372,11 @@ export default function ProjectUploadForm() {
                 <button
                   className="plag"
                   type="button"
-                  onClick={() => handlePlagarism()}
+                  onClick={() => handlePlagiarism()}
                 >
-                  Run Plagarism Test
+                  Run Plagiarism Test
                 </button>
-                <p>{plagarismErrorMessage}</p>
+                <p>{plagiarismErrorMessage}</p>
               </div>
 
               <div className="lang">
@@ -457,13 +404,13 @@ export default function ProjectUploadForm() {
                   </div>
                 </div>
                 <div id="suggestions">
-                  {sugesstions2.map((sugesstion, index) => (
+                  {suggestions2.map((suggestion) => (
                     <div
-                      key={index}
+                      key={suggestion}
                       className="skills"
-                      onClick={() => handleKeyDown(sugesstion)}
+                      onClick={() => handleKeyDown(suggestion)}
                     >
-                      <p>{sugesstion}</p>
+                      <p>{suggestion}</p>
                     </div>
                   ))}
                 </div>
@@ -514,13 +461,13 @@ export default function ProjectUploadForm() {
                     onChange={handleTeamInputChange}
                   />
                   <div id="suggestions">
-                    {sugesstions3.map((sugesstion, index) => (
+                    {suggestions3.map((suggestion) => (
                       <div
-                        key={index}
+                        key={suggestion._id || suggestion.student_name}
                         className="team_member"
-                        onClick={() => handleTeamKeyDown(sugesstion)}
+                        onClick={() => handleTeamKeyDown(suggestion)}
                       >
-                        <p>{sugesstion.student_name}</p>
+                        <p>{suggestion.student_name}</p>
                       </div>
                     ))}
                   </div>
@@ -536,7 +483,7 @@ export default function ProjectUploadForm() {
         </div>
       )}
       {display === 2 && <Uploadpending />}
-      {display === 1 && <Uploadsucess />}
+      {display === 1 && <Uploadsuccess />}
     </div>
   );
 }

@@ -1,17 +1,17 @@
 import React from "react";
 import "./ProjectCard.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faComment, faShare } from '@fortawesome/free-regular-svg-icons';
+import { faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
 import { faShareNodes } from '@fortawesome/free-solid-svg-icons';
 
 
-export default function ProjectCard({ projinfo, index }) {
+export default function ProjectCard({ projinfo }) {
     return (
 
-        <div key={index} className="project-cardPC">
+        <div className="project-cardPC">
             <div className="cardpartPC">
                 <div className="profile-sectionPC">
-                    <img className="profile-picturePC" src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projinfo.photo}`} alt="Profile Picture" />
+                    <img className="profile-picturePC" src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${projinfo.photo}`} alt="Profile" />
                     <div className="getlifedude">
                         {<div><FontAwesomeIcon icon={faHeart} style={{ color: "#436f91" }} /></div>}
                         {<div><FontAwesomeIcon icon={faComment} style={{ color: "#436f91" }} /></div>}
@@ -28,7 +28,7 @@ export default function ProjectCard({ projinfo, index }) {
                     <div className="langcontPC">
                         <div className="langPC">
                             <div className="notlikethis">{projinfo.Skills && projinfo.Skills.map((skill)=>(
-                                <div className="huh">#{skill}</div>
+                                <div className="huh" key={skill}>#{skill}</div>
                             ))}</div>
                         </div>
                     </div>

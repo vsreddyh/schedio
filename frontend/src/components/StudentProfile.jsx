@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faUser, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import NothingHere from './nothinghere';
 import ProjectCard from './ProjectCard';
@@ -22,13 +22,11 @@ export default function StudentProfile({
             const reader = new FileReader();
             reader.onloadend = async () => {
                 const base64data = reader.result.split(',')[1];
-                console.log(base64data);
-
                 let temp = event.target.value;
                 const profilePhotoName = temp.replace('C:\\fakepath\\', '');
 
                 try {
-                    const response = await axios.post(
+                    await axios.post(
                         `${process.env.REACT_APP_BACKEND_URL}/en/uploadProfilePhoto`,
                         {
                             profilePhoto: base64data,
@@ -36,8 +34,7 @@ export default function StudentProfile({
                             userId: studentdetail._id,
                         }
                     );
-                    console.log('Photo saved successfully');
-                    const ppid = response.data.fileId;
+                    handlestudentdetail();
                 } catch (error) {
                     console.error('Error uploading photo:', error);
                 }
@@ -62,10 +59,9 @@ export default function StudentProfile({
     };
 
     const handleStudentDescriptionSave = async () => {
-        console.log('Edited College Name:', studentDescription);
         setEditMode(false);
         try {
-            const response = await axios.post(
+            await axios.post(
                 `${process.env.REACT_APP_BACKEND_URL}/en/uploadDescription`,
                 {
                     studentDescription: studentDescription,
@@ -75,14 +71,14 @@ export default function StudentProfile({
                 }
             );
         } catch (error) {
-            console.error('Error uploading photo:', error);
+            console.error('Error saving description:', error);
         }
         handlestudentdetail();
     };
     useEffect(() => {
-        setStudentDescription(studentdetail.student_description);
-        setStudentField(studentdetail.student_field);
-        setStudentOrganization(studentdetail.student_organization);
+        setStudentDescription(studentdetail.Description || '');
+        setStudentField(studentdetail.field_name || '');
+        setStudentOrganization(studentdetail.college_name || '');
     }, [studentdetail]);
     return (
         <div className='mprofile'>
@@ -108,7 +104,7 @@ export default function StudentProfile({
                             <img
                                 className='profile-picture'
                                 src={`${process.env.REACT_APP_BACKEND_URL}/en/image/${studentdetail.photo}`}
-                                alt='Profile Picture'
+                                alt='Profile'
                             />
                         </div>
                         <div className='mpdetails'>
@@ -211,16 +207,13 @@ export default function StudentProfile({
                 </div>
                 <div className='mlkmj'>
                     {studentproj &&
-                        studentproj.map((suggestion, index) => (
+                        studentproj.map((suggestion) => (
                             <div
-                                key={index}
+                                key={suggestion._id}
                                 className='grid-item'
                                 onClick={() => handleclick(suggestion._id)}
                             >
-                                <ProjectCard
-                                    projinfo={suggestion}
-                                    index={index}
-                                />
+                                <ProjectCard projinfo={suggestion} />
                             </div>
                         ))}
                     {studentproj.length === 0 && <NothingHere />}

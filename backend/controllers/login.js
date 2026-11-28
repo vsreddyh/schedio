@@ -37,7 +37,7 @@ const getsignupCollege = async (req, res) => {
         res.json(suggestions1);
     } catch (err) {
         console.error('Error retrieving colleges:', err);
-        res.status(500).json({ error: 'Error in retriveing colleges' });
+        res.status(500).json({ error: 'Error in retrieving colleges' });
     }
 };
 
@@ -62,13 +62,15 @@ const checkSessionEndpoint = async (req, res) => {
     }
 };
 
-//colege send mailer
+// college send mailer
 const signup_college = async (req, res) => {
     const CollegeName = req.body.serverCollegeName;
     try {
         // Find the document based on the provided college name
         const result = await college.findOne({ college_name: CollegeName });
-        //console.log(result.password)
+        if (!result) {
+            return res.status(404).json({ error: 'College not found' });
+        }
         if (result.password !== undefined) {
             // User already has a password
             res.json({
@@ -92,8 +94,8 @@ const signup_college = async (req, res) => {
             let MailGenerator = new Mailgen({
                 theme: 'default',
                 product: {
-                    name: 'PROJECT PALACE',
-                    link: 'https://mailgen.js/',
+                    name: 'Schedio',
+                    link: process.env.FRONTEND_URL || 'https://schedio-coral.vercel.app',
                 },
             });
             let response = {
@@ -119,10 +121,8 @@ const signup_college = async (req, res) => {
                 subject: 'Your OTP for Verification',
                 html: mail,
             };
-            transporter.sendMail(message);
+            await transporter.sendMail(message);
             res.json({ message: 'Mail Sent', mail: username });
-        } else {
-            res.status(404).json({ error: 'College not found' });
         }
     } catch (error) {
         console.error('Error retrieving data from MongoDB:', error);
@@ -169,8 +169,8 @@ const signup = async (req, res) => {
             let MailGenerator = new Mailgen({
                 theme: 'default',
                 product: {
-                    name: 'PROJECT PALACE', //change based on website name
-                    link: 'https://mailgen.js/', //add website link after hosting
+                    name: 'Schedio', //change based on website name
+                    link: process.env.FRONTEND_URL || 'https://schedio-coral.vercel.app', //add website link after hosting
                 },
             });
             let response = {
@@ -240,8 +240,8 @@ const hrsignup = async (req, res) => {
             let MailGenerator = new Mailgen({
                 theme: 'default',
                 product: {
-                    name: 'PROJECT PALACE',
-                    link: 'https://mailgen.js/',
+                    name: 'Schedio',
+                    link: process.env.FRONTEND_URL || 'https://schedio-coral.vercel.app',
                 },
             });
             let response = {
@@ -267,7 +267,7 @@ const hrsignup = async (req, res) => {
                 subject: 'Your OTP for Verification',
                 html: mail,
             };
-            transporter.sendMail(message);
+            await transporter.sendMail(message);
             res.json({ message: 'Mail Sent', mail: username });
         }
     }
@@ -294,11 +294,17 @@ const signin = async (req, res) => {
 
     async function signin(req, res) {
         const { username, password } = req.body;
+        if (!username || !password) {
+            return res.json({ message: 'Missing credentials' });
+        }
         const colleges = await college.findOne({ email_address: username });
         var userPassword = await checkStudent(username);
+        if (userPassword === 'NULL') {
+            return res.json({ message: 'User Not found' });
+        }
         bcrypt.compare(password, userPassword[0], (err, result) => {
-            if (userPassword === 'NULL') {
-                res.json({ message: 'User Not found' });
+            if (err) {
+                return res.json({ message: 'Login failed' });
             } else if (result) {
                 req.session.loggedInemail = username;
                 req.session.typeofuser = userPassword[1];
@@ -335,7 +341,7 @@ const validate_token = function (req, res) {
     });
 };
 
-//college registartion
+// college registration
 const mailpass = async (req, res) => {
     const { mail, password, cpassword } = req.body;
     const fromdb = await college.findOne({ email_address: mail });
@@ -446,8 +452,8 @@ const fpassword = async (req, res) => {
             let MailGenerator = new Mailgen({
                 theme: 'default',
                 product: {
-                    name: 'PROJECT PALACE',
-                    link: 'https://mailgen.js/',
+                    name: 'Schedio',
+                    link: process.env.FRONTEND_URL || 'https://schedio-coral.vercel.app',
                 },
             });
             let response = {
@@ -475,7 +481,7 @@ const fpassword = async (req, res) => {
                 subject: 'Your OTP for Verification',
                 html: mail,
             };
-            transporter.sendMail(message);
+            await transporter.sendMail(message);
             res.json({ message: 'Mail Sent' });
         }
     }
@@ -504,6 +510,9 @@ const newp = async (req, res) => {
         res.json({ message: 'Passwords are not same' });
     } else {
         let user = await checkStudent(mail);
+        if (!user) {
+            return res.json({ message: 'User does not exist' });
+        }
         bcrypt.hash(password, 8, async (err, hash) => {
             user.password = hash;
             await user.save();
@@ -551,7 +560,7 @@ const getCollegeDetails = async (req, res) => {
         res.json(suggestions1);
     } catch (err) {
         console.error('Error retrieving colleges:', err);
-        res.status(500).json({ error: 'Error in retriveing colleges' });
+        res.status(500).json({ error: 'Error in retrieving colleges' });
     }
 };
 
@@ -573,7 +582,6 @@ const collegeDetails = async (req, res) => {
                 likes: [],
                 photo: new mongoose.Types.ObjectId('65e55060fbd8d3ee2b6f1045'),
                 Description: `Hi I am ${req.session.username} from ${req.session.fourth} ${req.session.third} department`,
-                versionKey: false,
             });
             await student.save();
             req.session.status = 1;
@@ -601,7 +609,7 @@ const getCompanyDetails = async (req, res) => {
         res.json(suggestions1);
     } catch (err) {
         console.error('Error retrieving colleges:', err);
-        res.status(500).json({ error: 'Error in retriveing colleges' });
+        res.status(500).json({ error: 'Error in retrieving colleges' });
     }
 };
 
@@ -618,7 +626,6 @@ const companyDetails = async (req, res) => {
             password: req.session.password,
             company_name: req.session.third,
             photo: new mongoose.Types.ObjectId('65e55060fbd8d3ee2b6f1045'),
-            versionKey: false,
         });
         await Recruiter.save();
         const company = await college
@@ -641,8 +648,7 @@ const companyDetails = async (req, res) => {
 
 //displaying projects in home page after clicking
 const homepage = async (req, res) => {
-    const { term } = req.query;
-    console.log(term);
+    res.json([]);
 };
 
 //suggest skills
@@ -652,8 +658,8 @@ const getSkill = async (req, res) => {
         if (term1.trim() === '') {
             res.json([]);
         } else {
-            const languages = req.query.languages;
-            const listoflanguages = languages.split(',');
+            const languages = req.query.languages || '';
+            const listoflanguages = languages ? languages.split(',') : [];
             const a = languages.length + 8;
             const escapedSearchString = term1.replace(
                 /[!@%^*()_\-=\[\]{}|;':",.<>\/?~`+&#+]/g,
@@ -666,19 +672,14 @@ const getSkill = async (req, res) => {
                 .limit(a)
                 .sort({ skill_name: 1 });
             let suggestions2 = Skills.map((Skill) => Skill.skill_name);
-            for (let i = 0; i < suggestions2.length; i++) {
-                if (listoflanguages.includes(suggestions2[i])) {
-                    console.log(suggestions2[i]);
-                    suggestions2.splice(i, 1);
-                    i--;
-                }
-            }
-            suggestions2.sort((a, b) => a.length - b.length);
-            res.json(suggestions2.slice(0, 5));
+            const filtered = suggestions2.filter((s) => !listoflanguages.includes(s));
+            filtered.sort((a, b) => a.length - b.length);
+            res.json(filtered.slice(0, 5));
+            return;
         }
     } catch (err) {
-        console.error('Error retrieving colleges:', err);
-        res.status(500).json({ error: 'Error in retriveing colleges' });
+        console.error('Error retrieving skills:', err);
+        res.status(500).json({ error: 'Error in retrieving skills' });
     }
 };
 
@@ -706,15 +707,23 @@ const getteam = async (req, res) => {
 };
 
 const deletesession = async (req, res) => {
-    req.session.destroy();
-    res.json('success');
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to logout' });
+        }
+        res.json('success');
+    });
 };
 
 const getcount = async (req, res) => {
-    const a = await Student.countDocuments();
-    const b = await college.countDocuments();
-    const c = await recruiter.countDocuments();
-    res.json([a, b, c]);
+    try {
+        const a = await Student.countDocuments();
+        const b = await college.countDocuments();
+        const c = await recruiter.countDocuments();
+        res.json([a, b, c]);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch counts' });
+    }
 };
 module.exports = {
     signin,

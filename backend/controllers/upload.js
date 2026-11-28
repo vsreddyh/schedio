@@ -1,27 +1,25 @@
-const express = require('express');
-const cors = require('cors');
-const { MongoClient, GridFSBucket } = require('mongodb');
-const bodyParser = require('body-parser');
-const retry = require('retry'); // Importing the retry library
-const AdmZip = require('adm-zip');
 const mongoose = require('mongoose');
 const axios = require('axios');
-const app = express();
-app.use(cors());
-app.use(bodyParser.json({ limit: '50mb' }));
+const retry = require('retry'); // Importing the retry library
+const AdmZip = require('adm-zip');
 const {
     projects,
     Student,
     url,
     geminiapi,
     plagarismapi,
+    plagiarismapi,
 } = require('../settings/env.js');
-const { ObjectId } = require('mongodb');
-const {GoogleGenAI} = require('@google/genai');
+const { MongoClient, GridFSBucket, ObjectId } = require('mongodb');
+const { GoogleGenAI } = require('@google/genai');
+
+const RAPIDAPI_HOST =
+    'plagiarism-checker-and-auto-citation-generator-multi-lingual.p.rapidapi.com';
+const RAPIDAPI_URL = `https://${RAPIDAPI_HOST}/plagiarism`;
 
 
 const mongoURI = url;
-const databaseName = 'hackathon';
+const databaseName = process.env.DB_NAME || 'hackathon';
 
 // Create a MongoClient without the poolSize option
 const client = new MongoClient(mongoURI);
@@ -42,7 +40,6 @@ async function connectWithRetry() {
             try {
                 await client.connect();
                 db = client.db(databaseName);
-                console.log('MongoDB connected successfully');
                 resolve();
             } catch (err) {
                 if (operation.retry(err)) {
@@ -79,12 +76,20 @@ const details = async (req, res) => {
             profilePhoto,
             teams,
         } = req.body;
+        if (!title || !description || !domain) {
+            return res
+                .status(400)
+                .json({ error: 'Title, description and domain are required' });
+        }
+        const teamList = Array.isArray(teams) ? teams : [];
+        const languageList = Array.isArray(languages) ? languages : [];
+        const photoList = Array.isArray(photos) ? photos : [];
         let photoIds = [];
         let videoId;
         let profilePhotoId;
         let fileId;
 
-        let updatedTeams = teams.map((student) => {
+        let updatedTeams = teamList.map((student) => {
             return {
                 id: new mongoose.Types.ObjectId(student._id),
                 stuname: student.student_name,
@@ -105,10 +110,6 @@ const details = async (req, res) => {
                         console.error(`Error uploading ${name}:`, error);
                         reject(error);
                     } else {
-                        console.log(
-                            `${name} uploaded successfully, stored under id:`,
-                            fileId
-                        );
                         resolve(fileId);
                     }
                 });
@@ -117,10 +118,11 @@ const details = async (req, res) => {
             return fileId;
         };
 
-        const uploadPhotoPromises = photos.map(async (photo, i) => {
+        const uploadPhotoPromises = photoList.map(async (photo, i) => {
             const photoId = await uploadFile(photo, `photo_${i}`);
             photoIds.push(photoId);
         });
+        await Promise.all(uploadPhotoPromises);
 
         videoId = videoname ? await uploadFile(video, videoname) : null;
         profilePhotoId = profilePhoto
@@ -131,7 +133,7 @@ const details = async (req, res) => {
         // Save project details to MongoDB
         const newproj = new projects({
             Domain: domain,
-            Skills: languages,
+            Skills: languageList,
             College: req.session.loggedInCollege,
             Project_Name: title.charAt(0).toUpperCase() + title.slice(1),
             Likes: 0,
@@ -142,11 +144,9 @@ const details = async (req, res) => {
             Students: updatedTeams,
             photos: photoIds,
             File: fileId,
-            versionkey: false,
         });
 
         await newproj.save();
-        console.log('Project details saved successfully');
         const updateStudentSkills = async (
             studentId,
             newSkills,
@@ -161,12 +161,12 @@ const details = async (req, res) => {
                 });
 
                 if (student) {
-                    const existingSkills = new Set(student.skills);
+                    const existingSkills = new Set(student.skills || []);
 
                     newSkills.forEach((skill) => existingSkills.add(skill)); // Add new skills avoiding duplicates
 
                     const updatedDomains = Array.from(
-                        new Set([...student.Domains, domain])
+                        new Set([...(student.Domains || []), domain])
                     ); // Add new domain avoiding duplicates
 
                     await studentsCollection.updateOne(
@@ -176,18 +176,18 @@ const details = async (req, res) => {
                             $set: {
                                 skills: [...existingSkills],
 
-                                projects: [...student.projects, projectId],
+                                projects: [
+                                    ...(student.projects || []),
+                                    projectId,
+                                ],
 
                                 Domains: updatedDomains,
                             },
                         }
                     );
 
-                    console.log(
-                        `Skills, projects, and domain updated for student with ID: ${studentId}`
-                    );
                 } else {
-                    console.log(`Student with ID ${studentId} not found`);
+                    console.error(`Student with ID ${studentId} not found`);
                 }
             } catch (error) {
                 console.error(
@@ -197,15 +197,11 @@ const details = async (req, res) => {
             }
         };
 
-        connectWithRetry().catch((error) => {
-            console.error('MongoDB connection error:', error);
-        });
-
         const projectId = new mongoose.Types.ObjectId(newproj._id);
 
         // Update skills for students
         for (const studentId of studentIds) {
-            await updateStudentSkills(studentId, languages, domain, projectId);
+            await updateStudentSkills(studentId, languageList, domain, projectId);
         }
 
         res.status(200).json({
@@ -219,10 +215,7 @@ const details = async (req, res) => {
 };
 
 const getFile = async (req, res) => {
-    console.log('hellllo');
-    console.log(req.body.data);
     const fileId = req.body.data;
-    console.log('Fetching file:', fileId);
     try {
         if (!db) {
             throw new Error('MongoDB connection not established.');
@@ -238,7 +231,6 @@ const getFile = async (req, res) => {
 
         // Store the filename in a variable
         const filename = fileDocument.filename;
-        console.log('Filename:', filename);
 
         const downloadStream = bucket.openDownloadStream(new ObjectId(fileId));
 
@@ -246,7 +238,6 @@ const getFile = async (req, res) => {
         downloadStream.on('data', (chunk) => {
             data.push(chunk);
         });
-        console.log(data);
 
         downloadStream.on('end', async () => {
             try {
@@ -257,62 +248,11 @@ const getFile = async (req, res) => {
                 const fileContents = {};
                 zipEntries.forEach((zipEntry) => {
                     const textFileExtensions = [
-                        '.txt',
-                        '.csv',
-                        '.json',
-                        '.xml',
-                        '.yml',
-                        '.md',
-                        '.html',
-                        '.js',
-                        '.py',
-                        '.cpp',
-                        '.java',
-                        '.c',
-                        '.cs',
-                        '.php',
-                        '.rb',
-                        '.go',
-                        '.rs',
-                        '.swift',
-                        '.kt',
-                        '.ts',
-                        '.jsx',
-                        '.tsx',
-                        '.css',
-                        '.scss',
-                        '-html',
-                        '.sass',
-                        '.less',
-                        '.bson',
-                        '.bytes',
-                        '.bind',
-                        '.disposition',
-                        '.type',
-                        '.cookie',
-                        '.signature',
-                        '.debug',
-                        '.property',
-                        '.eslintrc',
-                        '.github',
-                        '.nycrc',
-                        '.md',
-                        '.d.ts',
-                        '.d.ts.map',
-                        '.js',
-                        '.LICENSE',
-                        '.json',
-                        '.md',
-                        '.test',
-                        '.json',
-                        '.depd',
-                        '.destroy',
-                        '.first',
-                        '.url',
-                        '.html',
-                        '.etag',
-                        '.express',
-                        '.handler',
+                        '.txt', '.csv', '.json', '.xml', '.yml', '.md',
+                        '.html', '.js', '.jsx', '.ts', '.tsx', '.css',
+                        '.scss', '.sass', '.less', '.py', '.cpp', '.c',
+                        '.cs', '.java', '.php', '.rb', '.go', '.rs',
+                        '.swift', '.kt', '.d.ts', '.LICENSE',
                     ];
                     if (
                         textFileExtensions.some((ext) =>
@@ -324,7 +264,6 @@ const getFile = async (req, res) => {
                         fileContents[zipEntry.entryName] = contents;
                     }
                 });
-                console.log('success');
                 res.status(200).json({
                     filename,
                     folderStructure,
@@ -370,31 +309,20 @@ function getFolderStructure(zipEntries) {
 }
 
 const explainCode = async (req, res) => {
+  try {
+    if (!req.body || !req.body.data) {
+      return res.status(400).json({ error: 'Missing code to explain' });
+    }
+    if (!geminiapi) {
+      return res.status(500).json({ error: 'Code explanation is not configured' });
+    }
     const code = "Use only normal text. Don't use markdown. Explain the following code:-  " + req.body.data;
 
     const ai = new GoogleGenAI({ apiKey: geminiapi });
     const model = 'gemini-2.5-flash';
     const result = await ai.models.generateContent({
       model,
-      contents: [
-        {
-            role: 'user',
-            parts: [
-                {
-                    text: "const mongoose = require('mongoose');const express = require('express');const path = require('path');const jwt = require('jsonwebtoken');const bcrypt = require('bcryptjs');const app = express();const bodyParser = require('body-parser');const session = require('express-session');const Mailgen = require('mailgen');const nodemailer = require('nodemailer');const { EMAIL, PASSWORD, JWT_SECRET, SESSION_KEY, Student, college, Department, recruiter, skills } = require('../settings/env.js');require('dotenv').config();app.use(express.static('../build'));app.use(bodyParser.json());// college suggestionsconst getsignupCollege = async (req, res) => {    try {        const term1 = req.query.term;        const regex1 = new RegExp(term1, 'i');        const colleges = await college.find({ college_name: regex1 }).select('college_name').limit(10);        const suggestions1 = colleges.map(college => college.college_name);        res.json(suggestions1);    }    catch (err) {        console.error('Error retrieving colleges:', err);        res.status(500).json({ error: 'Error in retriveing colleges' });    }}//SESSION_CHECKERconst checkSessionEndpoint = async (req, res) => {    if (req.session.loggedInemail) { //if exists condition will be true        res.json([req.session.loggedInemail, req.session.typeofuser, req.session.status, req.session.third, req.session.fourth]);        // typeof user 0 is student        //1 is college        //2 is hr        //status is 0 or 1 depending if the user completed all sign up procedure    } else {        // If no session null will be returned        res.json(null)    }}//colege send mailerconst signup_college = async (req, res) => {    const CollegeName = req.body.serverCollegeName;    try {        // Find the document based on the provided college name        const result = await college.findOne({ college_name: CollegeName });        //console.log(result.password)        if (result.password !== undefined) {            // User already has a password            res.json({ message: \"User already registered\", CollegeName: \"null\" });        }        else if (result) {            const username = result.email_address;            //mail has found            const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '10m' });            let config = {                service: 'gmail',                auth: {                    user: EMAIL,                    pass: PASSWORD,                },            };            let transporter = nodemailer.createTransport(config);            let MailGenerator = new Mailgen({                theme: \"default\",                product: {                    name: \"PROJECT PALACE\",                    link: 'https://mailgen.js/'                },            });            let response = {                body: {                    name: CollegeName,                    intro: \"Please click on the following link to set your password:\",                    action: {                        instructions: \"Click the button below to set your password:\",                        button: {                            color: \"#22BC66\",                            text: \"Set your password\",                            link: `https://schedio-coral.vercel.app/set-password/ne/${token}`                        }                    },                    outro: \"If you did not request to set a password, no further action is required on your part.\",                },            };            let mail = MailGenerator.generate(response);            let message = {                from: EMAIL,                to: username,                subject: \"Your OTP for Verification\",                html: mail,            };            transporter.sendMail(message)            res.json({ message: \"Mail Sent\", mail: username });        } else {            res.status(404).json({ error: 'College not found' });        }    }    catch (error) {        console.error('Error retrieving data from MongoDB:', error);        res.status(500).json({ error: 'Internal server error' });    }}",
-                },
-            ],
-        },
-        {
-            role: 'model',
-            parts: [
-                {
-                    text: "This is a Node.js Express application that uses MongoDB as a database to store data. It includes email verification, user sessions, and various routes for user registration, authentication, and data retrieval. Here's a breakdown of the code:\n\n1. **Importing Modules**:\n   - The necessary modules are imported, including `mongoose` for MongoDB connectivity, `express` for the web framework, `path` for file path manipulation, `jwt` for JSON Web Tokens, `bcrypt` for password hashing, `bodyParser` for parsing request bodies, and `express-session` for managing user sessions.\n\n2. **Express App Setup**:\n   - The Express app is configured to handle JSON requests and serve static files from the `../build` directory.\n\n3. **Database Connection**:\n   - Mongoose is used to connect to the MongoDB database. The connection is established using the `mongoose.connect()` method, ensuring that a connection is established before proceeding.\n\n4. **College Name Suggestions**:\n   - A route `getsignupCollege` is defined to handle requests for college name suggestions. It takes a `term` parameter in the query string and searches for colleges with names similar to the `term` using a regular expression. The results are limited to 10 suggestions and returned as an array of college names.\n\n5. **Session Checking**:\n   - The `checkSessionEndpoint` route checks if a user has an active session. It checks the `req.session.loggedInemail` property and returns an array containing various session details, including the user's email, user type, status, and other optional values. If no session exists, it returns `null`.\n\n6. **College Sign Up Mailer**:\n   - The `signup_college` route is used to send an email for college sign up. It takes the college name as a request body parameter. If a college with that name is found in the database, an email is sent to the college's email address containing a link for setting a password. A JSON response is sent back, indicating the status of the operation.\n\nThis script combines MongoDB, Express, and various Node.js modules to provide a backend for user registration, session management, and email verification, specifically for colleges. The routes and functions are designed to handle college-related operations like name suggestions, email verification, and password setup. The integration of JWT, bcrypt, and email functionality ensures secure and efficient user authentication and account setup processes.",
-                },
-            ],
-        },
-        { role: 'user', parts: [{ text: code }] },
-      ],
+      contents: [{ role: 'user', parts: [{ text: code }] }],
       generationConfig: {
         temperature: 1,
         topK: 1,
@@ -411,20 +339,28 @@ const explainCode = async (req, res) => {
     }); 
 
     res.status(200).json({ ans: result.text });
+  } catch (error) {
+    console.error('Error explaining code:', error.message);
+    res.status(500).json({ error: 'Failed to explain code' });
+  }
 };
 
 const checkPlagarism = async (req, res) => {
-    //const { textToCheck } = req.body.textToCheck;
-    console.log(req.body.textToCheck);
     const textToCheck = req.body.textToCheck;
+    if (!textToCheck) {
+        return res.status(400).json({ error: 'Missing text to check' });
+    }
+    const rapidApiKey = plagiarismapi || plagarismapi;
+    if (!rapidApiKey) {
+        return res.status(500).json({ error: 'Plagiarism check is not configured' });
+    }
     const options = {
         method: 'POST',
-        url: 'https://plagiarism-checker-and-auto-citation-generator-multi-lingual.p.rapidapi.com/plagiarism',
+        url: RAPIDAPI_URL,
         headers: {
             'content-type': 'application/json',
-            'X-RapidAPI-Key': plagarismapi,
-            'X-RapidAPI-Host':
-                'plagiarism-checker-and-auto-citation-generator-multi-lingual.p.rapidapi.com',
+            'X-RapidAPI-Key': rapidApiKey,
+            'X-RapidAPI-Host': RAPIDAPI_HOST,
         },
         data: {
             text: textToCheck,
@@ -437,23 +373,15 @@ const checkPlagarism = async (req, res) => {
     try {
         const response = await axios.request(options);
         const answer = response.data.percentPlagiarism;
-        console.log(answer);
         res.json(answer);
     } catch (error) {
-        console.error(error);
+        console.error('Plagiarism check failed:', error.message);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-const Grid = require('gridfs-stream');
-Grid.mongo = mongoose.mongo;
-
-// Assuming you have a Mongoose connection established
-const conn = mongoose.connection;
-db = client.db(databaseName);
-const gfs = Grid(db);
+const checkPlagiarism = checkPlagarism;
 
 const getPhoto = async (req, res) => {
-    console.log(req.body);
     try {
         const photoId = req.body.photoId; // Your photoId
         const bucket = new GridFSBucket(db);
@@ -472,7 +400,9 @@ const getPhoto = async (req, res) => {
         }
 
         // Set appropriate content type
-        res.set('Content-Type', file.contentType);
+        if (file.contentType) {
+            res.set('Content-Type', file.contentType);
+        }
 
         // Read output to browser
 
@@ -484,9 +414,20 @@ const getPhoto = async (req, res) => {
     }
 };
 const uploadProfilePhoto = async (req, res) => {
+  try {
     const { profilePhoto, pphotoname, userId } = req.body;
-    console.log(userId);
-    const buffer = Buffer.from(profilePhoto, 'base64');
+    if (!profilePhoto || !pphotoname || !userId) {
+      return res.status(400).json({ success: false, message: 'Missing photo data' });
+    }
+    if (!ObjectId.isValid(userId)) {
+      return res.status(400).json({ success: false, message: 'Invalid user id' });
+    }
+    let buffer;
+    try {
+      buffer = Buffer.from(profilePhoto, 'base64');
+    } catch (e) {
+      return res.status(400).json({ success: false, message: 'Invalid photo encoding' });
+    }
     const bucket = new GridFSBucket(db);
 
     // Adjust the content type based on your actual content type
@@ -501,10 +442,6 @@ const uploadProfilePhoto = async (req, res) => {
                 console.error(`Error uploading ${pphotoname}:`, error);
                 reject(error);
             } else {
-                console.log(
-                    `${pphotoname} uploaded successfully, stored under id:`,
-                    fileId
-                );
                 resolve(fileId);
             }
         });
@@ -524,59 +461,37 @@ const uploadProfilePhoto = async (req, res) => {
     } else {
         res.status(404).json({ success: false, message: 'Student not found.' });
     }
+  } catch (error) {
+    console.error('Error uploading profile photo:', error.message);
+    res.status(500).json({ success: false, message: 'Failed to upload photo' });
+  }
 };
 
 const updateDescription = async (req, res) => {
-    const { studentDescription, studentorganization, studentfield, userId } =
-        req.body;
-    console.log(userId);
-
-    // Connect to MongoDB
-    const client = new MongoClient(url);
-    await client.connect();
-
     try {
-        const db = client.db('hackathon');
-        const studentsCollection = db.collection('students');
-
-        // Find the document with the provided userId
-        const query = { _id: new ObjectId(userId) };
-        const existingStudent = await studentsCollection.findOne(query);
-
-        if (existingStudent) {
-            // Check if the document contains a description field
-            if (!existingStudent.Description) {
-                // If description field is not present, create it
-                await studentsCollection.updateOne(query, {
-                    $set: { Description: studentDescription },
-                });
-            } else {
-                // If description field is present, update its value
-                await studentsCollection.updateOne(query, {
-                    $set: { Description: studentDescription },
-                });
-            }
-            if (studentorganization !== '') {
-                await studentsCollection.updateOne(query, {
-                    $set: { college: studentorganization },
-                });
-            }
-            if (studentfield !== '') {
-                await studentsCollection.updateOne(query, {
-                    $set: { field_name: studentfield },
-                });
-            }
-            console.log('Description saved succesfully');
-            res.status(200).send('Description updated successfully.');
-        } else {
-            res.status(404).send('Student not found.');
+        const { studentDescription, studentorganization, studentfield, userId } =
+            req.body;
+        if (!userId || !ObjectId.isValid(userId)) {
+            return res.status(400).send('Invalid user id.');
         }
+        const student = await Student.findById(userId);
+        if (!student) {
+            return res.status(404).send('Student not found.');
+        }
+        if (studentDescription !== undefined) {
+            student.Description = studentDescription;
+        }
+        if (studentorganization) {
+            student.college_name = studentorganization;
+        }
+        if (studentfield) {
+            student.field_name = studentfield;
+        }
+        await student.save();
+        res.status(200).send('Description updated successfully.');
     } catch (error) {
-        console.error('Error updating description:', error);
+        console.error('Error updating description:', error.message);
         res.status(500).send('An error occurred while updating description.');
-    } finally {
-        // Close the MongoDB connection
-        await client.close();
     }
 };
 
@@ -585,6 +500,7 @@ module.exports = {
     getFile,
     explainCode,
     checkPlagarism,
+    checkPlagiarism,
     getPhoto,
     uploadProfilePhoto,
     updateDescription,

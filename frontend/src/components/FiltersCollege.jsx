@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./collegemain.css";
-import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -11,26 +10,12 @@ export default function FiltersCollege({ sendDataToParent }) {
         sort_by: 'Upload Date',
         order: false
     });
-    const [term, setTerm] = useState("");
-    const [suggestions, setSuggestions] = useState([]);
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData({
             ...formData,
             [name]: value
         });
-    };
-    const handleChange1 = async (event) => {
-        const inputdata = event.target.value;
-        setTerm(inputdata);
-    };
-    const handleSuggestionClick = (selectedSuggestion) => {
-      /*  setFormData({
-            ...formData,
-            ["college_name"]: selectedSuggestion
-        });
-        setTerm(selectedSuggestion);
-        setSuggestions([]);*/
     };
 
 

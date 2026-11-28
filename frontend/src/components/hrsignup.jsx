@@ -15,8 +15,6 @@ export default function HrSignUp() {
     const [errorMessage, setErrorMessage] = useState(
         initialErrorMessage ? decodeURIComponent(initialErrorMessage) : ''
     );
-    console.log(errorMessage);
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         const response = await axios.post(

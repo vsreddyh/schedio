@@ -6,9 +6,9 @@ import SignIn from "./components/SignIn";
 import CheckEmail from "./components/Check-Email";
 import ForgotPassword from "./components/ForgotPassword";
 import NewUser from "./components/NewUser";
-import Newpasword from "./components/Newpassword";
+import Newpassword from "./components/Newpassword";
 import CollegeLogin from "./components/CollegeLogin";
-import Newpasword_email from "./components/newpassword_email";
+import NewpasswordEmail from "./components/newpasswordEmail";
 import StudentLogin from "./components/StudentLogin";
 import CollegeDetails from "./components/College-details";
 import Category from "./components/wru";
@@ -50,7 +50,6 @@ export default function App() {
       setLoading(false);
     }
   };
-  console.log(userData);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -146,7 +145,7 @@ export default function App() {
           element={<ForgotPassword />}
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/set-password/np/:token" element={<Newpasword />} />
+        <Route path="/set-password/np/:token" element={<Newpassword />} />
         <Route
           path="/set-password/nu/:token"
           element={
@@ -163,7 +162,7 @@ export default function App() {
             userData ? (
               <Navigate to="/" />
             ) : (
-              <Newpasword_email setUserData={setUserData} />
+              <NewpasswordEmail setUserData={setUserData} />
             )
           }
         />

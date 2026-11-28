@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './collegelogin-page.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faProductHunt } from '@fortawesome/free-brands-svg-icons';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +8,6 @@ import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 export default function CollegeLogin() {
     const year = new Date().getFullYear();
     const navigate = useNavigate();
-    console.log(useParams);
     const { errorMessage: initialErrorMessage } = useParams();
     const [errorMessage, setErrorMessage] = useState(
         initialErrorMessage ? decodeURIComponent(initialErrorMessage) : ''
@@ -56,7 +54,6 @@ export default function CollegeLogin() {
                 navigate(`/Check-email/${mailid}`);
             }
         } catch (error) {
-            console.log(error);
         }
     };
 
@@ -73,8 +70,7 @@ export default function CollegeLogin() {
             <div className='content18' id='header8'>
                 <div className='header-logo8'>
                     <div className='logo8'>
-                        {/* <FontAwesomeIcon icon={faProductHunt} style={{ color: "#0db1f8" }} /> */}
-                        <img
+                        <img alt=""
                             src='../Plogo.png'
                             style={{
                                 width: '35px',

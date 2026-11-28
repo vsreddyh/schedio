@@ -1,7 +1,12 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-url=process.env.url
-mongoose.connect(url);
+const url = process.env.url || process.env.MONGODB_URL;
+if (!url) {
+    console.error('Missing MongoDB connection string (env: url)');
+}
+mongoose.connect(url).catch((err) => {
+    console.error('MongoDB connection error:', err.message);
+});
 
 const loginSchema = new mongoose.Schema({
     student_name : String,
@@ -61,13 +66,14 @@ const projects = mongoose.model('project',projectschema);
 const skills=mongoose.model('skill',skillSchema);
 
 module.exports = {
-    EMAIL : process.env.EMAIL,
-    PASSWORD : process.env.PASSWORD,
-    JWT_SECRET :  process.env.JWT_SECRET,
-    SESSION_KEY : process.env.SESSION_KEY,
-    FRONTEND_URL : process.env.FRONTEND_URL,
-    Student:Student,
-    plagarismapi: process.env.plagarismapi,
+    EMAIL: process.env.EMAIL,
+    PASSWORD: process.env.PASSWORD,
+    JWT_SECRET: process.env.JWT_SECRET,
+    SESSION_KEY: process.env.SESSION_KEY,
+    FRONTEND_URL: process.env.FRONTEND_URL,
+    Student: Student,
+    plagarismapi: process.env.plagarismapi, // deprecated typo, kept for compat
+    plagiarismapi: process.env.plagarismapi || process.env.plagiarismapi,
     geminiapi: process.env.geminiapi,
     college:college,
     Department:Department,
