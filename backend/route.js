@@ -64,8 +64,7 @@ router.get("/getcollegedetails",getCollDetails);
 router.get("/getsearchbycollege",getSearchProjectscollege);
 router.post("/explainCode",explainCode);
 router.get("/count",getcount)
-router.post("/checkPlagiarism",checkPlagarism);
-router.post("/checkPlagiarism",checkPlagiarism); // correctly spelled alias
+router.post("/checkPlagiarism",checkPlagiarism); // canonical spelling (checkPlagarism kept as function alias)
 router.post("/getPhoto",getPhoto)
 router.get("/getnoofprj",getNoofprojects);
 router.get("/hrmainsearch",hrmainsearch);
