@@ -10,7 +10,7 @@ const {
     plagarismapi,
     plagiarismapi,
 } = require('../settings/env.js');
-const { ObjectId } = require('mongodb');
+const { MongoClient, GridFSBucket, ObjectId } = require('mongodb');
 const { GoogleGenAI } = require('@google/genai');
 
 const RAPIDAPI_HOST =
