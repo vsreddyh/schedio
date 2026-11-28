@@ -198,7 +198,12 @@ const signup = async (req, res) => {
                 subject: 'Your OTP for Verification',
                 html: mail,
             };
-            await transporter.sendMail(message); //sending mail
+            try {
+                await transporter.sendMail(message); //sending mail
+            } catch (mailError) {
+                console.error('Failed to send mail:', mailError.message);
+                return res.status(502).json({ error: 'Failed to send email' });
+            }
             res.json({ message: 'Mail Sent', mail: username });
         }
     }
@@ -267,7 +272,12 @@ const hrsignup = async (req, res) => {
                 subject: 'Your OTP for Verification',
                 html: mail,
             };
-            await transporter.sendMail(message);
+            try {
+                await transporter.sendMail(message);
+            } catch (mailError) {
+                console.error('Failed to send mail:', mailError.message);
+                return res.status(502).json({ error: 'Failed to send email' });
+            }
             res.json({ message: 'Mail Sent', mail: username });
         }
     }
@@ -481,7 +491,12 @@ const fpassword = async (req, res) => {
                 subject: 'Your OTP for Verification',
                 html: mail,
             };
-            await transporter.sendMail(message);
+            try {
+                await transporter.sendMail(message);
+            } catch (mailError) {
+                console.error('Failed to send mail:', mailError.message);
+                return res.status(502).json({ error: 'Failed to send email' });
+            }
             res.json({ message: 'Mail Sent' });
         }
     }
