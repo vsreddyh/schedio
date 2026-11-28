@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import CollegeHeader from './CollegeHeader';
 import Graph from './Graph';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,20 +14,23 @@ import StudentDataclg from './StudentDataclg';
 const CollegeMain = ({ checkSession }) => {
     let { projid } = useParams();
     const navigate = useNavigate();
+    const expiredRef = useRef(false);
 
     useEffect(() => {
-        let expired = false;
         const intervalId = setInterval(async () => {
             try {
                 const response = await axios.get(
                     `${process.env.REACT_APP_BACKEND_URL}/checksessionexpiry`
                 );
-                if (response.data === 0 && !expired) {
-                    expired = true;
+                if (response.data === 0 && !expiredRef.current) {
+                    expiredRef.current = true;
                     try {
                         clearInterval(intervalId);
                         await checkSession();
-                        navigate('/', { replace: true });
+                        navigate('/', {
+                            replace: true,
+                            state: { sessionExpired: true },
+                        });
                     } catch (error) {}
                 }
             } catch (error) {

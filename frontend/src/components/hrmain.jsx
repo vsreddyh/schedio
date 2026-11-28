@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import './hr-page.css';
 import Header from './hrheader';
 import Filters from './filters';
@@ -19,6 +19,7 @@ import ProjectCard from './ProjectCard';
 
 function HRMAIN({ checkSession }) {
     const navigate = useNavigate();
+    const expiredRef = useRef(false);
     const [display, setDisplay] = useState(0);
     const [students, setStudents] = useState([]);
     const [receivedData, setReceivedData] = useState({
@@ -252,18 +253,20 @@ function HRMAIN({ checkSession }) {
     }, [projid]);
 
     useEffect(() => {
-        let expired = false;
         const intervalId = setInterval(async () => {
             try {
                 const response = await axios.get(
                     `${process.env.REACT_APP_BACKEND_URL}/checksessionexpiry`
                 );
-                if (response.data === 0 && !expired) {
-                    expired = true;
+                if (response.data === 0 && !expiredRef.current) {
+                    expiredRef.current = true;
                     try {
                         clearInterval(intervalId);
                         await checkSession();
-                        navigate('/', { replace: true });
+                        navigate('/', {
+                            replace: true,
+                            state: { sessionExpired: true },
+                        });
                     } catch (error) {
                     }
                 }
