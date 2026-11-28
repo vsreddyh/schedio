@@ -121,7 +121,12 @@ const signup_college = async (req, res) => {
                 subject: 'Your OTP for Verification',
                 html: mail,
             };
-            await transporter.sendMail(message);
+            try {
+                await transporter.sendMail(message);
+            } catch (mailError) {
+                console.error('Failed to send mail:', mailError.message);
+                return res.status(502).json({ error: 'Failed to send email' });
+            }
             res.json({ message: 'Mail Sent', mail: username });
         }
     } catch (error) {
@@ -207,7 +212,12 @@ const signup = async (req, res) => {
             res.json({ message: 'Mail Sent', mail: username });
         }
     }
-    create(req, res);
+    create(req, res).catch((err) => {
+        console.error('Unhandled error in mail flow:', err && err.message);
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    });
 };
 
 //hr LINK-MAILER
@@ -281,7 +291,12 @@ const hrsignup = async (req, res) => {
             res.json({ message: 'Mail Sent', mail: username });
         }
     }
-    create(req, res);
+    create(req, res).catch((err) => {
+        console.error('Unhandled error in mail flow:', err && err.message);
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    });
 };
 
 //LOGIN
@@ -500,7 +515,12 @@ const fpassword = async (req, res) => {
             res.json({ message: 'Mail Sent' });
         }
     }
-    create(req, res);
+    create(req, res).catch((err) => {
+        console.error('Unhandled error in mail flow:', err && err.message);
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    });
 };
 
 //new-password
